@@ -1,103 +1,243 @@
-import Image from "next/image";
+'use client';
 
-export default function Home() {
+import { useEffect, useRef, useState } from 'react';
+import NextImage from 'next/image';
+import { useRouter } from 'next/navigation';
+
+type Pin = {
+  id: string;
+  xRatio: number;
+  yRatio: number;
+  video: string;
+};
+
+const pins: Pin[] = [
+  { id: 'pin1', xRatio: 0.3, yRatio: 0.38, video: '/videos/video1.mp4' },
+  { id: 'pin2', xRatio: 0.65, yRatio: 0.25, video: '/videos/video2.mp4' },
+  { id: 'pin3', xRatio: 0.75, yRatio: 0.7, video: '/videos/video3.mp4' },
+  { id: 'pin4', xRatio: 0.14, yRatio: 0.83, video: '/videos/video4.mp4' },
+];
+
+export default function CanvasImageGrid() {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const maskCanvasRef = useRef<HTMLCanvasElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const router = useRouter();
+
+  const [modalSrc, setModalSrc] = useState<string | null>(null);
+  const [isClosing, setIsClosing] = useState(false);
+  const [mouse, setMouse] = useState({ x: -9999, y: -9999 });
+  const [radius, setRadius] = useState(400); // 초기 반경
+
+  const [drawState, setDrawState] = useState({
+    offsetX: 0,
+    offsetY: 0,
+    drawWidth: 0,
+    drawHeight: 0,
+  });
+
+  const drawCanvas = () => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    const image = new Image();
+    image.src = '/images/home-map.png';
+    image.onload = () => {
+      const vw = window.innerWidth;
+      const vh = window.innerHeight;
+      canvas.width = vw;
+      canvas.height = vh;
+
+      const imgRatio = image.width / image.height;
+      const winRatio = vw / vh;
+
+      let drawWidth = vw;
+      let drawHeight = vh;
+      let offsetX = 0;
+      let offsetY = 0;
+
+      if (winRatio > imgRatio) {
+        drawHeight = vw / imgRatio;
+        offsetY = (vh - drawHeight) / 2;
+      } else {
+        drawWidth = vh * imgRatio;
+        offsetX = (vw - drawWidth) / 2;
+      }
+
+      ctx.clearRect(0, 0, vw, vh);
+      ctx.drawImage(image, offsetX, offsetY, drawWidth, drawHeight);
+
+      const rows = 5;
+      const cols = 8;
+      const cellWidth = drawWidth / cols;
+      const cellHeight = drawHeight / rows;
+
+      ctx.strokeStyle = '#92F90E';
+      ctx.lineWidth = 1;
+
+      for (let r = 0; r <= rows; r++) {
+        const y = offsetY + r * cellHeight;
+        ctx.beginPath();
+        ctx.moveTo(offsetX, y);
+        ctx.lineTo(offsetX + drawWidth, y);
+        ctx.stroke();
+      }
+      for (let c = 0; c <= cols; c++) {
+        const x = offsetX + c * cellWidth;
+        ctx.beginPath();
+        ctx.moveTo(x, offsetY);
+        ctx.lineTo(x, offsetY + drawHeight);
+        ctx.stroke();
+      }
+
+      setDrawState({ offsetX, offsetY, drawWidth, drawHeight });
+    };
+  };
+
+  useEffect(() => {
+    drawCanvas();
+    window.addEventListener('resize', drawCanvas);
+    return () => window.removeEventListener('resize', drawCanvas);
+  }, []);
+
+  // 마스크 마우스 추적 및 휠 반경 조절
+  useEffect(() => {
+    const canvas = maskCanvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    const resize = () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    };
+    resize();
+
+    const handleMouseMove = (e: MouseEvent) => {
+      setMouse({ x: e.clientX, y: e.clientY });
+    };
+
+    const handleWheel = (e: WheelEvent) => {
+      e.preventDefault();
+      setRadius((prev) => {
+        const next = prev - e.deltaY * 0.1;
+        return Math.max(80, Math.min(500, next)); // 최소 50, 최대 400
+      });
+    };
+
+    window.addEventListener('resize', resize);
+    window.addEventListener('mousemove', handleMouseMove);
+    window.addEventListener('wheel', handleWheel, { passive: false });
+
+    const draw = () => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = 'rgba(0, 0, 0, 0.9)';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+    
+      // 🔽 페더 효과 추가
+      ctx.save();
+      ctx.globalCompositeOperation = 'destination-out';
+      
+      const gradient = ctx.createRadialGradient(mouse.x, mouse.y, 0, mouse.x, mouse.y, radius);
+      gradient.addColorStop(0.0, 'rgba(0, 0, 0, 1)');  // 중심 완전 삭제
+      gradient.addColorStop(0.6, 'rgba(0, 0, 0, 0)');  // 빠르게 페이드아웃
+      
+      ctx.fillStyle = gradient;
+      ctx.beginPath();
+      ctx.arc(mouse.x, mouse.y, radius, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.restore();
+    
+      requestAnimationFrame(draw);
+    };
+
+    draw();
+
+    return () => {
+      window.removeEventListener('resize', resize);
+      window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('wheel', handleWheel);
+    };
+  }, [mouse, radius]);
+
+  const closeModal = () => {
+    setIsClosing(true);
+    setTimeout(() => {
+      setModalSrc(null);
+      setIsClosing(false);
+    }, 300);
+  };
+
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+    <>
+      <canvas ref={canvasRef} className="fixed top-0 left-0 w-full h-full z-0" />
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+      <div ref={containerRef} className="fixed top-0 left-0 w-full h-full z-10 pointer-events-none">
+        {pins.map((pin) => {
+          const { offsetX, offsetY, drawWidth, drawHeight } = drawState;
+          const left = offsetX + pin.xRatio * drawWidth;
+          const top = offsetY + pin.yRatio * drawHeight;
+          return (
+            <div
+              key={pin.id}
+              className="absolute w-10 h-10 cursor-pointer pointer-events-auto"
+              style={{ left, top, transform: 'translate(-50%, -100%)' }}
+              onClick={() => setModalSrc(pin.video)}
+            >
+              <NextImage src="/images/pin.png" alt="pin" width={40} height={40} />
+            </div>
+          );
+        })}
+
+        {/* WORKS 버튼 */}
+        {(() => {
+          const { offsetX, offsetY, drawWidth, drawHeight } = drawState;
+          const cellWidth = drawWidth / 8;
+          const cellHeight = drawHeight / 5;
+          const left = offsetX + 3 * cellWidth;
+          const top = offsetY + 2 * cellHeight;
+
+          return (
+            <div
+              className="absolute z-20 pointer-events-auto cursor-pointer bg-[#92F90E]
+                         text-white font-bold flex items-center justify-center"
+              style={{
+                left,
+                top,
+                width: cellWidth * 2,
+                height: cellHeight * 1,
+              }}
+              onClick={() => router.push('/diagram')}
+            >
+              <span className="text-4xl">WORKS →</span>
+            </div>
+          );
+        })()}
+      </div>
+
+      <canvas ref={maskCanvasRef} className="fixed top-0 left-0 w-full h-full z-50 pointer-events-none" />
+
+      {modalSrc && (
+        <div
+          className={`fixed inset-0 z-50 flex justify-center items-center 
+                      bg-[rgba(0,0,0,0.5)] backdrop-blur-sm transition-opacity duration-300 
+                      ${isClosing ? 'animate-fadeOut' : 'animate-fadeIn'}`}
+          onClick={closeModal}
+        >
+          <div
+            className={`relative z-60 transition-transform duration-300 
+                        ${isClosing ? 'animate-scaleOut' : 'animate-scaleIn'}`}
+            onClick={(e) => e.stopPropagation()}
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+            <video src={modalSrc} controls autoPlay className="w-[80vw] max-w-[900px] rounded shadow-lg" />
+            <button className="absolute top-4 right-4 text-white text-3xl" onClick={closeModal}>
+              &times;
+            </button>
+          </div>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+      )}
+    </>
   );
 }
