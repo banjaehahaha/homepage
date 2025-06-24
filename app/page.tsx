@@ -1,169 +1,243 @@
 'use client';
 
-import { useEffect, useRef, useState, useMemo } from 'react';
-import { motion } from 'framer-motion';
+import { useEffect, useRef, useState } from 'react';
+import NextImage from 'next/image';
+import { useRouter } from 'next/navigation';
 
-interface Node {
+type Pin = {
   id: string;
-  type: string;
-  label: string;
-  px: number; // 0~1
-  py: number;
-}
+  xRatio: number;
+  yRatio: number;
+  video: string;
+};
 
-interface Link {
-  source: string;
-  target: string;
-}
+const pins: Pin[] = [
+  { id: 'pin1', xRatio: 0.3, yRatio: 0.38, video: '/videos/video1.mp4' },
+  { id: 'pin2', xRatio: 0.65, yRatio: 0.25, video: '/videos/video2.mp4' },
+  { id: 'pin3', xRatio: 0.75, yRatio: 0.7, video: '/videos/video3.mp4' },
+  { id: 'pin4', xRatio: 0.14, yRatio: 0.83, video: '/videos/video4.mp4' },
+];
 
-export default function MediaDiagramMotion() {
-  const [nodes, setNodes] = useState<Node[]>([]);
-  const [links, setLinks] = useState<Link[]>([]);
-  const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
-  const [hoveredNodeId, setHoveredNodeId] = useState<string | null>(null);
+export default function CanvasImageGrid() {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const maskCanvasRef = useRef<HTMLCanvasElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
+  const router = useRouter();
 
-  const THUMB_WIDTH = 112;
-  const THUMB_HEIGHT = 112;
+  const [modalSrc, setModalSrc] = useState<string | null>(null);
+  const [isClosing, setIsClosing] = useState(false);
+  const [mouse, setMouse] = useState({ x: -9999, y: -9999 });
+  const [radius, setRadius] = useState(400); // 초기 반경
+
+  const [drawState, setDrawState] = useState({
+    offsetX: 0,
+    offsetY: 0,
+    drawWidth: 0,
+    drawHeight: 0,
+  });
+
+  const drawCanvas = () => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    const image = new Image();
+    image.src = '/images/home-map.png';
+    image.onload = () => {
+      const vw = window.innerWidth;
+      const vh = window.innerHeight;
+      canvas.width = vw;
+      canvas.height = vh;
+
+      const imgRatio = image.width / image.height;
+      const winRatio = vw / vh;
+
+      let drawWidth = vw;
+      let drawHeight = vh;
+      let offsetX = 0;
+      let offsetY = 0;
+
+      if (winRatio > imgRatio) {
+        drawHeight = vw / imgRatio;
+        offsetY = (vh - drawHeight) / 2;
+      } else {
+        drawWidth = vh * imgRatio;
+        offsetX = (vw - drawWidth) / 2;
+      }
+
+      ctx.clearRect(0, 0, vw, vh);
+      ctx.drawImage(image, offsetX, offsetY, drawWidth, drawHeight);
+
+      const rows = 5;
+      const cols = 8;
+      const cellWidth = drawWidth / cols;
+      const cellHeight = drawHeight / rows;
+
+      ctx.strokeStyle = '#92F90E';
+      ctx.lineWidth = 1;
+
+      for (let r = 0; r <= rows; r++) {
+        const y = offsetY + r * cellHeight;
+        ctx.beginPath();
+        ctx.moveTo(offsetX, y);
+        ctx.lineTo(offsetX + drawWidth, y);
+        ctx.stroke();
+      }
+      for (let c = 0; c <= cols; c++) {
+        const x = offsetX + c * cellWidth;
+        ctx.beginPath();
+        ctx.moveTo(x, offsetY);
+        ctx.lineTo(x, offsetY + drawHeight);
+        ctx.stroke();
+      }
+
+      setDrawState({ offsetX, offsetY, drawWidth, drawHeight });
+    };
+  };
 
   useEffect(() => {
-    const updateDimensions = () => {
-      setDimensions({
-        width: window.innerWidth,
-        height: window.innerHeight,
+    drawCanvas();
+    window.addEventListener('resize', drawCanvas);
+    return () => window.removeEventListener('resize', drawCanvas);
+  }, []);
+
+  // 마스크 마우스 추적 및 휠 반경 조절
+  useEffect(() => {
+    const canvas = maskCanvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    const resize = () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    };
+    resize();
+
+    const handleMouseMove = (e: MouseEvent) => {
+      setMouse({ x: e.clientX, y: e.clientY });
+    };
+
+    const handleWheel = (e: WheelEvent) => {
+      e.preventDefault();
+      setRadius((prev) => {
+        const next = prev - e.deltaY * 0.1;
+        return Math.max(80, Math.min(500, next)); // 최소 50, 최대 400
       });
     };
 
-    updateDimensions();
-    window.addEventListener('resize', updateDimensions);
-    return () => window.removeEventListener('resize', updateDimensions);
-  }, []);
+    window.addEventListener('resize', resize);
+    window.addEventListener('mousemove', handleMouseMove);
+    window.addEventListener('wheel', handleWheel, { passive: false });
 
-  useEffect(() => {
-    Promise.all([
-      fetch('/data/Nodes.json').then((res) => res.json()),
-      fetch('/data/links.json').then((res) => res.json()),
-    ]).then(([rawNodes, links]) => {
-      setNodes(rawNodes);
-      setLinks(links);
-    });
-  }, []);
+    const draw = () => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = 'rgba(0, 0, 0, 0.9)';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+    
+      // 🔽 페더 효과 추가
+      ctx.save();
+      ctx.globalCompositeOperation = 'destination-out';
+      
+      const gradient = ctx.createRadialGradient(mouse.x, mouse.y, 0, mouse.x, mouse.y, radius);
+      gradient.addColorStop(0.0, 'rgba(0, 0, 0, 1)');  // 중심 완전 삭제
+      gradient.addColorStop(0.6, 'rgba(0, 0, 0, 0)');  // 빠르게 페이드아웃
+      
+      ctx.fillStyle = gradient;
+      ctx.beginPath();
+      ctx.arc(mouse.x, mouse.y, radius, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.restore();
+    
+      requestAnimationFrame(draw);
+    };
 
-  const nodeMap = useMemo(() => {
-    return new Map(nodes.map(n => [n.id, n]));
-  }, [nodes]);
+    draw();
 
-  const connectedNodeIds = useMemo(() => {
-    const set = new Set<string>();
-    if (hoveredNodeId) {
-      set.add(hoveredNodeId);
-      links.forEach(link => {
-        if (link.source === hoveredNodeId) set.add(link.target);
-        if (link.target === hoveredNodeId) set.add(link.source);
-      });
-    }
-    return set;
-  }, [hoveredNodeId, links]);
+    return () => {
+      window.removeEventListener('resize', resize);
+      window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('wheel', handleWheel);
+    };
+  }, [mouse, radius]);
 
-  const getStyle = (node: Node) => ({
-    position: 'absolute',
-    left: node.px * dimensions.width - THUMB_WIDTH / 2,
-    top: node.py * dimensions.height - THUMB_HEIGHT / 2,
-    opacity: !hoveredNodeId || connectedNodeIds.has(node.id) ? 1 : 0.1,
-  });
-
-  const handleDrag = (node: Node, info: any) => {
-    const containerRect = containerRef.current?.getBoundingClientRect();
-    if (!containerRect) return;
-
-    const newPx = (info.point.x - containerRect.left) / dimensions.width;
-    const newPy = (info.point.y - containerRect.top) / dimensions.height;
-
-    setNodes(prev =>
-      prev.map(n => (n.id === node.id ? { ...n, px: newPx, py: newPy } : n))
-    );
+  const closeModal = () => {
+    setIsClosing(true);
+    setTimeout(() => {
+      setModalSrc(null);
+      setIsClosing(false);
+    }, 300);
   };
 
   return (
-    <div
-      ref={containerRef}
-      className="relative w-full h-screen overflow-hidden bg-black"
-    >
-      {/* 🔗 링크 그리기 */}
-      <svg
-        className="absolute top-0 left-0 w-full h-full pointer-events-none"
-        viewBox={`0 0 ${dimensions.width} ${dimensions.height}`}
-      >
-        {links.map((link, idx) => {
-          const source = nodeMap.get(link.source);
-          const target = nodeMap.get(link.target);
-          if (!source || !target) return null;
+    <>
+      <canvas ref={canvasRef} className="fixed top-0 left-0 w-full h-full z-0" />
 
-          const isConnected =
-            hoveredNodeId && (link.source === hoveredNodeId || link.target === hoveredNodeId);
-
+      <div ref={containerRef} className="fixed top-0 left-0 w-full h-full z-10 pointer-events-none">
+        {pins.map((pin) => {
+          const { offsetX, offsetY, drawWidth, drawHeight } = drawState;
+          const left = offsetX + pin.xRatio * drawWidth;
+          const top = offsetY + pin.yRatio * drawHeight;
           return (
-            <line
-              key={idx}
-              x1={source.px * dimensions.width}
-              y1={source.py * dimensions.height}
-              x2={target.px * dimensions.width}
-              y2={target.py * dimensions.height}
-              stroke={isConnected ? '#92F90E' : '#ffffff'}
-              strokeWidth={1}
-              strokeDasharray={isConnected ? '' : '4 2'}
-              style={{ opacity: hoveredNodeId ? (isConnected ? 1 : 0.1) : 1 }}
-            />
+            <div
+              key={pin.id}
+              className="absolute w-10 h-10 cursor-pointer pointer-events-auto"
+              style={{ left, top, transform: 'translate(-50%, -100%)' }}
+              onClick={() => setModalSrc(pin.video)}
+            >
+              <NextImage src="/images/pin.png" alt="pin" width={40} height={40} />
+            </div>
           );
         })}
-      </svg>
 
-      {/* 🟩 매체 노드 */}
-      {nodes.filter(n => n.type === 'media').map((node) => (
-        <motion.div
-          key={node.id}
-          drag
-          dragMomentum={false}
-          layout={false}
-          className="absolute z-10 bg-green-600 text-white px-4 py-2 rounded shadow-lg text-sm"
-          onMouseEnter={() => setHoveredNodeId(node.id)}
-          onMouseLeave={() => setHoveredNodeId(null)}
-          style={getStyle(node)}
-          onDrag={(e, info) => handleDrag(node, info)}
-        >
-          [{node.label}]
-        </motion.div>
-      ))}
+        {/* WORKS 버튼 */}
+        {(() => {
+          const { offsetX, offsetY, drawWidth, drawHeight } = drawState;
+          const cellWidth = drawWidth / 8;
+          const cellHeight = drawHeight / 5;
+          const left = offsetX + 3 * cellWidth;
+          const top = offsetY + 2 * cellHeight;
 
-      {/* 🟦 프로젝트 노드 */}
-      {nodes.filter(n => n.type === 'project').map((node) => (
-        <motion.div
-          key={node.id}
-          drag
-          dragMomentum={false}
-          layout={false}
-          className="absolute z-10 text-white text-xs"
-          onMouseEnter={() => setHoveredNodeId(node.id)}
-          onMouseLeave={() => setHoveredNodeId(null)}
-          style={getStyle(node)}
-          onDrag={(e, info) => handleDrag(node, info)}
+          return (
+            <div
+              className="absolute z-20 pointer-events-auto cursor-pointer bg-[#92F90E]
+                         text-white font-bold flex items-center justify-center"
+              style={{
+                left,
+                top,
+                width: cellWidth * 2,
+                height: cellHeight * 1,
+              }}
+              onClick={() => router.push('/diagram')}
+            >
+              <span className="text-4xl">WORKS →</span>
+            </div>
+          );
+        })()}
+      </div>
+
+      <canvas ref={maskCanvasRef} className="fixed top-0 left-0 w-full h-full z-50 pointer-events-none" />
+
+      {modalSrc && (
+        <div
+          className={`fixed inset-0 z-50 flex justify-center items-center 
+                      bg-[rgba(0,0,0,0.5)] backdrop-blur-sm transition-opacity duration-300 
+                      ${isClosing ? 'animate-fadeOut' : 'animate-fadeIn'}`}
+          onClick={closeModal}
         >
-          <div className="flex items-center">
-            <span className="text-6xl font-light">（</span>
-            <img
-              src={`/images/${node.id}_thumbnail.png`}
-              alt={node.label}
-              width={THUMB_WIDTH}
-              height={THUMB_HEIGHT}
-              className="pointer-events-none w-28 h-auto object-contain"
-            />
-            <span className="text-6xl font-light">）</span>
+          <div
+            className={`relative z-60 transition-transform duration-300 
+                        ${isClosing ? 'animate-scaleOut' : 'animate-scaleIn'}`}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <video src={modalSrc} controls autoPlay className="w-[80vw] max-w-[900px] rounded shadow-lg" />
+            <button className="absolute top-4 right-4 text-white text-3xl" onClick={closeModal}>
+              &times;
+            </button>
           </div>
-          <div className="mt-2 text-sm font-light text-center max-w-[200px]">
-            {node.label}
-          </div>
-        </motion.div>
-      ))}
-    </div>
+        </div>
+      )}
+    </>
   );
 }

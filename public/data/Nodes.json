@@ -4,154 +4,229 @@
     "type": "project",
     "label": "IMAGINE HOME, SWEET HOME",
     "img": "imagine-home_thumbnail.png",
-    "px": 0.15, "py": 0.25
-  },
-  {
-    "id": "baton-touch",
-    "type": "project",
-    "label": "Baton Touch Dystopia",
-    "img": "baton-touch_thumbnail.png",
-    "px": 0.70, "py": 0.50
+    "years": [2024], 
+    "order": 5,   
+    "keywords": ["Korean division", "Diaspora", "AI"],
+    "px": 0.5, "py": 0.33
   },
   {
     "id": "chromakeys",
     "type": "project",
     "label": "Chromakeys of 96 years and 8 months",
     "img": "chromakeys_thumbnail.png",
-    "px": 0.40, "py": 0.20
-  },
-  {
-    "id": "alazon",
-    "type": "project",
-    "label": "Alazon, Agroikos, Bomolochos",
-    "img": "alazon_thumbnail.png",
-    "px": 0.50, "py": 0.40
-  },
-  {
-    "id": "wagalbong-prototype",
-    "type": "project",
-    "label": "Wagalbongjoseonbeom_Prototype",
-    "img": "wagalbong-prototype_thumbnail.png",
-    "px": 0.70, "py": 0.30
-  },
-  {
-    "id": "make-home",
-    "type": "project",
-    "label": "MAKE HOME, SWEET HOME",
-    "img": "make-home_thumbnail.png",
-    "px": 0.50, "py": 0.35
-  },
-  {
-    "id": "play-home",
-    "type": "project",
-    "label": "PLAY HOME, SWEET HOME",
-    "img": "play-home_thumbnail.png",
-    "px": 0.60, "py": 0.60
+    "years": [2024], 
+    "order": 4,   
+    "keywords": ["Korean division", "Diaspora", "Technology"],
+    "px": 0.55, "py": 0.75
   },
   {
     "id": "manwoldae",
     "type": "project",
     "label": "Division Cartography-Manwoldae",
     "img": "manwoldae_thumbnail.png",
-    "px": 0.50, "py": 0.70
+    "years": [2024], 
+    "order": 3,   
+    "keywords": ["Korean division", "Technology"],
+    "px": 0.33, "py": 0.85
   },
   {
-    "id": "wagalbong-beta",
+    "id": "baton-touch",
     "type": "project",
-    "label": "Wagalbongjoseonbeom2_Beta Test",
-    "img": "wagalbong-beta_thumbnail.png",
-    "px": 0.20, "py": 0.50
+    "label": "Baton Touch Dystopia",
+    "img": "baton-touch_thumbnail.png",
+    "years": [2024], 
+    "order": 2,   
+    "keywords": ["Korean division", "AI"],
+    "px": 0.63, "py": 0.42
   },
   {
-    "id": "border-paper",
+    "id": "make-home",
     "type": "project",
-    "label": "A Border Made with Paper",
-    "img": "border-paper_thumbnail.png",
-    "px": 0.30, "py": 0.50
-  },
-  {
-    "id": "dol-bu-chae",
-    "type": "project",
-    "label": "Dol-Bu-Chae Investor Relations",
-    "img": "dol-bu-chae_thumbnail.png",
-    "px": 0.10, "py": 0.20
+    "label": "MAKE HOME, SWEET HOME",
+    "img": "make-home_thumbnail.png",
+    "years": [2024], 
+    "order": 1,   
+    "keywords": ["Korean division", "AI"],
+    "px": 0.77, "py": 0.37
   },
   {
     "id": "publiced-stage",
     "type": "project",
     "label": "Publiced Stage",
     "img": "publiced-stage_thumbnail.png",
-    "px": 0.20, "py": 0.40
+    "years": [2023], 
+    "order": 2,   
+    "keywords": ["Diaspora"],
+    "px": 0.14, "py": 0.40
   },
   {
-    "id": "bleached-stage",
+    "id": "play-home",
     "type": "project",
-    "label": "Bleached Stage",
-    "img": "bleached-stage_thumbnail.png",
-    "px": 0.50, "py": 0.70
+    "label": "PLAY HOME, SWEET HOME",
+    "img": "play-home_thumbnail.png",
+    "years": [2023], 
+    "order": 1,   
+    "keywords": ["Korean division", "Technology"],
+    "px": 0.63, "py": 0.18
   },
   {
-    "id": "shirts",
+    "id": "dol-bu-chae",
     "type": "project",
-    "label": "Shirts and Shirts",
-    "img": "shirts_thumbnail.png",
-    "px": 0.80, "py": 0.40
+    "label": "Dol-Bu-Chae Investor Relations",
+    "img": "dol-bu-chae_thumbnail.png",
+    "years": [2022], 
+    "order": 1,   
+    "keywords": ["Korean division", "Logistics"],
+    "px": 0.35, "py": 0.21
   },
   {
-    "id": "overtime",
+    "id": "wagalbong-beta",
     "type": "project",
-    "label": "Give Me Overtime Pay",
-    "img": "overtime_thumbnail.png",
-    "px": 0.10, "py": 0.80
+    "label": "Wagalbongjoseonbeom2_Beta Test",
+    "img": "wagalbong-beta_thumbnail.png",
+    "years": [2021], 
+    "order": 3,   
+    "keywords": ["Korean division", "Game"],
+    "px": 0.68, "py": 0.62
   },
   {
-    "id": "equal-relationship",
+    "id": "wagalbong-prototype",
     "type": "project",
-    "label": "An Equal Relationship",
-    "img": "equal-relationship_thumbnail.png",
-    "px": 0.30, "py": 0.80
+    "label": "Wagalbongjoseonbeom_Prototype",
+    "img": "wagalbong-prototype_thumbnail.png",
+    "years": [2021], 
+    "order": 2,   
+    "keywords": ["Korean division", "Game"],
+    "px": 0.51, "py": 0.55
+  },
+  {
+    "id": "border-paper",
+    "type": "project",
+    "label": "A Border Made with Paper",
+    "img": "border-paper_thumbnail.png",
+    "years": [2021], 
+    "order": 1,   
+    "keywords": ["Diaspora"],
+    "px": 0.42, "py": 0.68
   },
   {
     "id": "people-move",
     "type": "project",
     "label": "The People Move the World Also Can Stop It",
     "img": "people-move_thumbnail.png",
-    "px": 0.70, "py": 0.20
+    "years": [2020], 
+    "order": 1,   
+    "keywords": ["Labor", "Logistics"],
+    "px": 0.28, "py": 0.40
   },
+  {
+    "id": "bleached-stage",
+    "type": "project",
+    "label": "Bleached Stage",
+    "img": "bleached-stage_thumbnail.png",
+    "years": [2019], 
+    "order": 1,   
+    "keywords": ["Diaspora"],
+    "px": 0.23, "py": 0.18
+  },
+  {
+    "id": "alazon",
+    "type": "project",
+    "label": "Alazon, Agroikos, Bomolochos",
+    "img": "alazon_thumbnail.png",
+    "years": [2018], 
+    "order": 1,   
+    "keywords": ["Korean division", "Logistics"],
+    "px": 0.30, "py": 0.63
+  },
+  {
+    "id": "overtime",
+    "type": "project",
+    "label": "Give Me Overtime Pay",
+    "img": "overtime_thumbnail.png",
+    "years": [2017, 2020], 
+    "order": 1,   
+    "keywords": ["Labor"],
+    "px": 0.85, "py": 0.64
+  },
+  {
+    "id": "shirts",
+    "type": "project",
+    "label": "Shirts and Shirts",
+    "img": "shirts_thumbnail.png",
+    "years": [2016], 
+    "order": 2,   
+    "keywords": ["Labor", "Logistics"],
+    "px": 0.16, "py": 0.71
+  },
+  {
+    "id": "equal-relationship",
+    "type": "project",
+    "label": "An Equal Relationship",
+    "img": "equal-relationship_thumbnail.png",
+    "years": [2016, 2017], 
+    "order": 1,   
+    "keywords": ["Labor"],
+    "px": 0.37, "py": 0.45
+  },
+
+
+
+
   {
     "id": "installation",
     "type": "media",
-    "label": "installation",
-    "px": 0.80, "py": 0.10
+    "label": "Installation",
+    "px": 0.16, "py": 0.9,
+    "years": [], 
+    "keywords": []
   },
   {
     "id": "performance",
     "type": "media",
-    "label": "performance",
-    "px": 0.15, "py": 0.10
+    "label": "Performance",
+    "px": 0.45, "py": 0.10,
+    "years": [], 
+    "keywords": []
   },
   {
     "id": "print",
     "type": "media",
-    "label": "print",
-    "px": 0.90, "py": 0.90
+    "label": "Print",
+    "px": 0.55, "py": 0.90,
+    "years": [], 
+    "keywords": []
   },
   {
     "id": "video",
     "type": "media",
-    "label": "video",
-    "px": 0.20, "py": 0.85
+    "label": "Video",
+    "px": 0.20, "py": 0.3,
+    "years": [], 
+    "keywords": []
   },
   {
     "id": "game",
     "type": "media",
-    "label": "game",
-    "px": 0.76, "py": 0.50
+    "label": "Game",
+    "px": 0.85, "py": 0.2,
+    "years": [], 
+    "keywords": []
   },
   {
     "id": "workshop",
     "type": "media",
-    "label": "workshop",
-    "px": 0.50, "py": 0.90
+    "label": "Workshop",
+    "px": 0.9, "py": 0.5,
+    "years": [], 
+    "keywords": []
+  },
+  {
+    "id": "audience participation",
+    "type": "media",
+    "label": "Audience participation",
+    "px": 0.85, "py": 0.85,
+    "years": [], 
+    "keywords": []
   }
 ]
