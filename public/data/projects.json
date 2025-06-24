@@ -1,0 +1,134 @@
+[
+  {
+    "id": "imagine-home",
+    "type": "project",
+    "title_en": "IMAGINE HOME, SWEET HOME",
+    "media": ["performance", "audience participation"]
+  },
+  {
+    "id": "make-home",
+    "type": "project",
+    "title_en": "MAKE HOME, SWEET HOME",
+    "media": ["performance", "audience participation"]
+  },
+  {
+    "id": "play-home",
+    "type": "project",
+    "title_en": "PLAY HOME, SWEET HOME",
+    "media": ["performance"]
+  },
+  {
+    "id": "baton-touch",
+    "type": "project",
+    "title_en": "Baton Touch Dystopia",
+    "media": ["game", "installation", "workshop", "audience participation"]
+  },
+  {
+    "id": "chromakeys",
+    "type": "project",
+    "title_en": "Chromakeys of 96 years and 8 months",
+    "media": ["game", "installation", "audience participation"]
+  },
+  {
+    "id": "manwoldae",
+    "type": "project",
+    "title_en": "Division Cartography-Manwoldae",
+    "media": ["print", "installation"]
+  },
+  {
+    "id": "alazon",
+    "type": "project",
+    "title_en": "Alazon, Agroikos, Bomolochos",
+    "media": [
+      "video",
+      "print",
+      "installation"
+    ]
+  },
+  {
+    "id": "wagalbong-prototype",
+    "type": "project",
+    "title_en": "Wagalbong-Prototype",
+    "media": [
+      "installation",
+      "game",
+      "audience participation"
+    ]
+  },
+  {
+    "id": "wagalbong-beta",
+    "type": "project",
+    "title_en": "Wagalbongjoseonbeom2_Beta Test",
+    "media": [
+      "installation",
+      "game",
+      "audience participation"
+    ]
+  },
+  {
+    "id": "border-paper",
+    "type": "project",
+    "title_en": "A Border Made with Paper",
+    "media": [
+      "installation",
+      "performance",
+      "audience participation"
+    ]
+  },
+  {
+    "id": "dol-bu-chae",
+    "type": "project",
+    "title_en": "Dol-Bu-Chae Investor Relations",
+    "media": [
+      "performance"
+    ]
+  },
+  {
+    "id": "people-move",
+    "type": "project",
+    "title_en": "The People Move the World Also Can Stop It",
+    "media": [
+      "video", "installation", "print"
+    ]
+  },
+  {
+    "id": "publiced-stage",
+    "type": "project",
+    "title_en": "Publiced Stage",
+    "media": [
+      "video"
+    ]
+  },
+  {
+    "id": "bleached-stage",
+    "type": "project",
+    "title_en": "Bleached Stage",
+    "media": [
+      "video"
+    ]
+  },
+  {
+    "id": "shirts",
+    "type": "project",
+    "title_en": "Shirts and Shirts",
+    "media": [
+      "installation", "print"
+    ]
+  },
+  {
+    "id": "overtime",
+    "type": "project",
+    "title_en": "Give Me Overtime Pay",
+    "media": [
+      "performance", "audience participation"
+    ]
+  },
+  {
+    "id": "equal-relationship",
+    "type": "project",
+    "title_en": "An Equal Relationship",
+    "media": [
+      "performance", "installation", "audience participation"
+    ]
+  }
+]
