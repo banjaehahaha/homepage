@@ -4,154 +4,154 @@
     "type": "project",
     "label": "IMAGINE HOME, SWEET HOME",
     "img": "imagine-home_thumbnail.png",
-    "px": 100, "py": 200
+    "px": 0.15, "py": 0.25
   },
   {
     "id": "baton-touch",
     "type": "project",
     "label": "Baton Touch Dystopia",
     "img": "baton-touch_thumbnail.png",
-    "px": 300, "py": 250
+    "px": 0.70, "py": 0.50
   },
   {
     "id": "chromakeys",
     "type": "project",
     "label": "Chromakeys of 96 years and 8 months",
     "img": "chromakeys_thumbnail.png",
-    "px": 400, "py": 200
+    "px": 0.40, "py": 0.20
   },
   {
     "id": "alazon",
     "type": "project",
     "label": "Alazon, Agroikos, Bomolochos",
     "img": "alazon_thumbnail.png",
-    "px": 500, "py": 400
+    "px": 0.50, "py": 0.40
   },
   {
     "id": "wagalbong-prototype",
     "type": "project",
     "label": "Wagalbongjoseonbeom_Prototype",
     "img": "wagalbong-prototype_thumbnail.png",
-    "px": 700, "py": 300
+    "px": 0.70, "py": 0.30
   },
   {
     "id": "make-home",
     "type": "project",
     "label": "MAKE HOME, SWEET HOME",
     "img": "make-home_thumbnail.png",
-    "px": 500, "py": 350
+    "px": 0.50, "py": 0.35
   },
   {
     "id": "play-home",
     "type": "project",
     "label": "PLAY HOME, SWEET HOME",
     "img": "play-home_thumbnail.png",
-    "px": 600, "py": 600
+    "px": 0.60, "py": 0.60
   },
   {
     "id": "manwoldae",
     "type": "project",
     "label": "Division Cartography-Manwoldae",
     "img": "manwoldae_thumbnail.png",
-    "px": 500, "py": 500
+    "px": 0.50, "py": 0.70
   },
   {
     "id": "wagalbong-beta",
     "type": "project",
     "label": "Wagalbongjoseonbeom2_Beta Test",
     "img": "wagalbong-beta_thumbnail.png",
-    "px": 200, "py": 500
+    "px": 0.20, "py": 0.50
   },
   {
     "id": "border-paper",
     "type": "project",
     "label": "A Border Made with Paper",
     "img": "border-paper_thumbnail.png",
-    "px": 300, "py": 500
+    "px": 0.30, "py": 0.50
   },
   {
     "id": "dol-bu-chae",
     "type": "project",
     "label": "Dol-Bu-Chae Investor Relations",
     "img": "dol-bu-chae_thumbnail.png",
-    "px": 100, "py": 200
+    "px": 0.10, "py": 0.20
   },
   {
     "id": "publiced-stage",
     "type": "project",
     "label": "Publiced Stage",
     "img": "publiced-stage_thumbnail.png",
-    "px": 200, "py": 400
+    "px": 0.20, "py": 0.40
   },
   {
     "id": "bleached-stage",
     "type": "project",
     "label": "Bleached Stage",
     "img": "bleached-stage_thumbnail.png",
-    "px": 500, "py": 700
+    "px": 0.50, "py": 0.70
   },
   {
     "id": "shirts",
     "type": "project",
     "label": "Shirts and Shirts",
     "img": "shirts_thumbnail.png",
-    "px": 800, "py": 400
+    "px": 0.80, "py": 0.40
   },
   {
     "id": "overtime",
     "type": "project",
     "label": "Give Me Overtime Pay",
     "img": "overtime_thumbnail.png",
-    "px": 100, "py": 800
+    "px": 0.10, "py": 0.80
   },
   {
     "id": "equal-relationship",
     "type": "project",
     "label": "An Equal Relationship",
     "img": "equal-relationship_thumbnail.png",
-    "px": 300, "py": 800
+    "px": 0.30, "py": 0.80
   },
   {
     "id": "people-move",
     "type": "project",
     "label": "The People Move the World Also Can Stop It",
     "img": "people-move_thumbnail.png",
-    "px": 700, "py": 200
+    "px": 0.70, "py": 0.20
   },
   {
     "id": "installation",
     "type": "media",
     "label": "installation",
-    "px": 800, "py": 200
+    "px": 0.80, "py": 0.10
   },
   {
     "id": "performance",
     "type": "media",
     "label": "performance",
-    "px": 200, "py": 200
+    "px": 0.15, "py": 0.10
   },
   {
     "id": "print",
     "type": "media",
     "label": "print",
-    "px": 800, "py": 800
+    "px": 0.90, "py": 0.90
   },
   {
     "id": "video",
     "type": "media",
     "label": "video",
-    "px": 200, "py": 800
+    "px": 0.20, "py": 0.85
   },
   {
     "id": "game",
     "type": "media",
     "label": "game",
-    "px": 500, "py": 100
+    "px": 0.76, "py": 0.50
   },
   {
     "id": "workshop",
     "type": "media",
     "label": "workshop",
-    "px": 500, "py": 900
+    "px": 0.50, "py": 0.90
   }
 ]
