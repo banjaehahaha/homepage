@@ -2,6 +2,13 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useRouter } from 'next/navigation';
 
+type ReviewPdf = {
+  title: string;
+  pdfUrl: string;
+  author: string;
+};
+
+
 type ProjectData = {
   id: string;
   title_en: string;
@@ -9,14 +16,113 @@ type ProjectData = {
   year: string;
   caption: string;
   description: string;
-  image: string;
+  description_ko: string;
+  description_en: string;
+  images: string;
+  videos?: string[];
+  youtube?: string | string[];
+  reviewPdfUrl?: ReviewPdf[];
+  
 };
+
+function DescriptionWithReadMore({
+  ko, en, maxLength = 160
+}: {
+  ko: string;
+  en: string;
+  maxLength?: number;
+}) {
+  if (!ko && !en) return null;
+  const [lang, setLang] = useState<'ko' | 'en'>('en');
+  const [expanded, setExpanded] = useState(false);
+  const desc = lang === 'ko' ? ko : en;
+  // HTML태그 제거 후 길이 판단
+  const plain = desc?.replace(/<[^>]*>/g, '') ?? '';
+  const isLong = plain.length > maxLength;
+  const langSelector = en && ko ? (
+    <div style={{ marginBottom: 10 }}>
+      <button
+        onClick={() => setLang('en')}
+        style={{
+          fontWeight: lang === 'en' ? 'bold' : 400,
+          textDecoration: lang === 'en' ? 'underline' : 'none',
+          marginRight: 10,
+        }}
+      >
+        English
+      </button>
+      <button
+        onClick={() => setLang('ko')}
+        style={{
+          fontWeight: lang === 'ko' ? 'bold' : 400,
+          textDecoration: lang === 'ko' ? 'underline' : 'none',
+        }}
+      >
+        한국어
+      </button>
+    </div>
+  ) : null;
+  const shortHTML = plain.slice(0, maxLength) + "...";
+  return (
+    <div style={{ fontSize: 16, margin: "20px 0" }}>
+      <div style={{ marginBottom: 10, display: 'flex', gap: 16 }}>
+        <span
+          onClick={() => setLang('en')}
+          style={{
+            cursor: "pointer",
+            textDecoration: lang === "en" ? "underline" : "none",
+            fontWeight: lang === "en" ? 700 : 400,
+            fontSize: 16
+          }}
+        >
+          English
+        </span>
+        <span
+          onClick={() => setLang('ko')}
+          style={{
+            cursor: "pointer",
+            textDecoration: lang === "ko" ? "underline" : "none",
+            fontWeight: lang === "ko" ? 700 : 400,
+            fontSize: 16
+          }}
+        >
+          한국어
+        </span>
+      </div>
+      {!expanded && isLong ? (
+        <>
+          <div style={{ whiteSpace: 'pre-line' }}>{shortHTML}</div>
+          <button
+            onClick={() => setExpanded(true)}
+            style={{
+              color: "#92F90E",
+              fontWeight: 600,
+              fontSize: 15,
+              marginTop: 4,
+              background: "none",
+              border: "none",
+              cursor: "pointer",
+              padding: 0
+            }}
+          >Read more</button>
+        </>
+      ) : (
+        <div
+          style={{ whiteSpace: 'pre-line' }}
+          dangerouslySetInnerHTML={{ __html: desc }}
+        />
+      )}
+    </div>
+  );
+}
 
 
 export default function ProjectModal({ id }: { id: string }) {
   const router = useRouter();
   const innerRef = useRef<HTMLDivElement>(null);
   const [data, setData] = useState<ProjectData | null>(null);
+  const [zoomIdx, setZoomIdx] = useState<number | null>(null);
+  
 
   useEffect(() => {
     fetch("/data/projects.json")
@@ -71,7 +177,7 @@ export default function ProjectModal({ id }: { id: string }) {
       ref={innerRef}
       style={{
         background: "#222",
-        borderRadius: 20,
+        borderRadius: 10,
         minWidth: "90vw",
         minHeight: "80vh",
         maxWidth: "90vw",
@@ -107,27 +213,214 @@ export default function ProjectModal({ id }: { id: string }) {
       </button>
 
       {/* 좌: 텍스트, 우: 이미지 */}
-      <div style={{ flex: 1, paddingRight: 24, minWidth: 0 }}>
+      <div style={{ 
+        flex: 1, 
+        minWidth: 0,
+        maxHeight: "100%",
+        overflowY: "auto",
+        padding: "40px 36px 40px 40px",
+        whiteSpace: 'pre-line'
+        }}>
         <h2 style={{ fontWeight: 700, fontSize: 28 }}>{data.title_en}</h2>
         <h2 style={{ fontWeight: 700, fontSize: 28 }}>{data.title_ko}</h2>
-        <h2 style={{ fontWeight: 700, fontSize: 28 }}>{data.year}</h2>
+        <h4>{data.year}</h4>
         <p style={{ color: "#aaa", fontSize: 18, margin: "12px 0" }}>{data.caption}</p>
-        <div style={{ fontSize: 16, margin: "20px 0" }}>{data.description}</div>
-      </div>
-      <div style={{ flex: 1, minWidth: 0, display: "flex", alignItems: "center", justifyContent: "center" }}>
-        <img
-          src={data.image}
-          alt={data.title_en}
-          style={{
-            maxWidth: "100%",
-            maxHeight: 320,
-            borderRadius: 16,
-            objectFit: "cover",
-            boxShadow: "0 2px 16px rgba(0,0,0,0.07)"
-          }}
+        <div style={{ fontSize: 16, margin: "20px 0" }}
+              dangerouslySetInnerHTML={{ __html: data.description }}></div>
+        <DescriptionWithReadMore
+          en={data.description_en}
+          ko={data.description_ko}
+          maxLength={400}
         />
-      </div>
+        {data.reviewPdfUrl && data.reviewPdfUrl.length > 0 && (
+          <div style={{ marginTop: 24 }}>
+            {data.reviewPdfUrl && Array.isArray(data.reviewPdfUrl) && data.reviewPdfUrl.length > 0 && (
+              <div style={{ marginTop: 24 }}>
+                {data.reviewPdfUrl.map((review, idx) => (
+                  <a
+                  key={idx}
+                  href={review.pdfUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{
+                    display: "block",
+                    color: "#92F90E",
+                    fontWeight: 400,
+                    fontSize: 16,
+                    marginBottom: 14,
+                    textDecoration: "none",
+                    transition: "text-decoration 0.15s",
+                  }}
+                  onMouseEnter={e => { e.currentTarget.style.background = "rgba(146, 249, 14, 0.13)"; }}
+                  onMouseLeave={e => { e.currentTarget.style.background = "transparent"; }}
+                >
+                  {review.title}
+                  {review.author && (
+                    <span style={{ fontWeight: 400, fontSize: 16, marginLeft: 7 }}> / {review.author}</span>
+                  )}
+                  <span style={{ fontWeight: 400, fontSize: 16, marginLeft: 7 }}>→</span>
+                </a>
+                ))}
+              </div>
+            )}
+
+          </div>
+        )}
+       </div>
+
+       <div style={{
+          flex: 1.5,
+          minWidth: 0,
+          display: "flex",
+          maxHeight: "80vh", // 모달 전체와 맞춤
+          overflowY: "auto", // 세로 스크롤 가능하게
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "flex-start",
+          background: "#222",
+          padding: "10px",
+          gap: "24px"
+        }}>
+          {Array.isArray(data.videos) &&
+            data.videos
+              .filter(v => typeof v === 'string') // 문자열만 사용!
+              .map((src, idx) =>
+                typeof src === 'string' && src.endsWith(".mp4") ? (
+                  <video
+                    key={`vid-${idx}`}
+                    src={src.startsWith("/") ? src : `/videos/${src}`}
+                    controls
+                    style={{
+                      width: "100%",
+                      maxWidth: "100%",
+                      borderRadius: 5,
+                      background: "#111"
+                    }}
+                    poster={data.images?.[0] ? `/images/${data.images[0]}` : undefined}
+                  >
+                    <source
+                      src={src.startsWith("/") ? src : `/videos/${src}`}
+                      type="video/mp4"
+                    />
+                    Your browser does not support the video tag.
+                  </video>
+                ) : null
+              )}
+
+              {/* 유튜브 영상 렌더링 */}
+              {data.youtube && (
+                Array.isArray(data.youtube)
+                  ? data.youtube.map((url, idx) => (
+                      <iframe
+                        key={idx}
+                        src={url}
+                        title={`YouTube video player ${idx + 1}`}
+                        frameBorder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        referrerPolicy="strict-origin-when-cross-origin"
+                        allowFullScreen
+                        style={{
+                          borderRadius: 10,
+                          background: "#111",
+                          width: "100%",
+                          maxWidth: "100%",
+                          aspectRatio: "16/9",   // 최신 브라우저면 이거 추천
+                          margin: "0 auto 24px auto",
+                          display: "block"
+                        }}
+                      />
+                    ))
+                  : (
+                      <iframe
+                        src={data.youtube}
+                        title="YouTube video player"
+                        frameBorder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        referrerPolicy="strict-origin-when-cross-origin"
+                        allowFullScreen
+                        style={{
+                          borderRadius: 10,
+                          background: "#111",
+                          width: "100%",
+                          maxWidth: "100%",
+                          aspectRatio: "16/9",   // 최신 브라우저면 이거 추천
+                          margin: "0 auto 24px auto",
+                          display: "block"
+                        }}
+                      />
+                    )
+              )}
+
+
+          {Array.isArray(data.images) && data.images.length > 0 ? (
+            data.images.map((src, idx) => (
+              <img
+                key={idx}
+                src={src.startsWith("/") ? src : `/images/${src}`}
+                alt={`${data.title_en} - ${idx + 1}`}
+                style={{
+                  width: "100%",
+                  maxWidth: "100%",
+                  height: "auto",
+                  borderRadius: 5,
+                  objectFit: "contain",
+                  background: "#111",
+                  cursor: "zoom-in"
+                }}
+                onClick={() => setZoomIdx(idx)}
+              />
+            ))
+          ) : (
+            <img
+              src={data.images ?? `/images/${data.id}_thumbnail.png`}
+              alt={data.title_en}
+              style={{
+                width: "100%",
+                maxWidth: 480,
+                height: "auto",
+                borderRadius: 20,
+                boxShadow: "0 2px 16px #0003",
+                objectFit: "contain",
+                background: "#111"
+              }}
+            />
+          )}
+        </div>
+        {/* 확대 모달 */}
+        {zoomIdx !== null && (
+              <div
+                onClick={() => setZoomIdx(null)}
+                style={{
+                  position: "fixed",
+                  inset: 0,
+                  zIndex: 9999,
+                  background: "rgba(0,0,0,0.88)",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  cursor: "zoom-out"
+                }}
+              >
+                <img
+                  src={
+                    data.images && Array.isArray(data.images)
+                      ? (data.images[zoomIdx].startsWith("/") ? data.images[zoomIdx] : `/images/${data.images[zoomIdx]}`)
+                      : (data.images ?? `/images/${data.id}_thumbnail.png`)
+                  }
+                  alt={data.title_en}
+                  style={{
+                    maxWidth: "92vw",
+                    maxHeight: "90vh",
+                    borderRadius: 18,
+                    objectFit: "contain",
+                    background: "#111"
+                  }}
+                />
+              </div>
+            )}
+
     </div>
   </div>
+
   );
 }

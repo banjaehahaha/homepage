@@ -122,7 +122,7 @@ function DiagramNode({
           {/* 썸네일 이미지 */}
           <div className="flex items-center pointer-events-none">
             <img
-              ref={el => { wrapperRefs.current[node.id] = el; }}
+              ref={el => { imageRefs.current[node.id] = el; }}
               src={`/images/${node.id}_thumbnail.png`}
               alt={node.label}
               width={THUMB_H} height={THUMB_H}
