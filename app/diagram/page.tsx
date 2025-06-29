@@ -14,5 +14,5 @@ export default function DiagramPage() {
       <MediaDiagramMotion />
       {modalId && <ProjectModal id={modalId} />}
     </>
-  );
+  ); 
 }
