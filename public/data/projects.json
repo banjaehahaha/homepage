@@ -4,42 +4,55 @@
     "type": "project",
     "title_en": "IMAGINE HOME, SWEET HOME",
     "title_ko": "이매진 홈, 스위트 홈",
+    "year": "2024",
     "media": ["performance", "audience participation"]
   },
   {
     "id": "make-home",
     "type": "project",
     "title_en": "MAKE HOME, SWEET HOME",
+    "title_ko": "메이크 홈, 스위트 홈",
+    "year": "2024",
     "media": ["performance", "audience participation"]
   },
   {
     "id": "play-home",
     "type": "project",
     "title_en": "PLAY HOME, SWEET HOME",
+    "title_ko": "플레이 홈, 스위트 홈",
+    "year": "2023",
     "media": ["performance"]
   },
   {
     "id": "baton-touch",
     "type": "project",
     "title_en": "Baton Touch Dystopia",
+    "title_ko": "바톤터치 디스토피아",
+    "year": "2024",
     "media": ["game", "installation", "workshop", "audience participation"]
   },
   {
     "id": "chromakeys",
     "type": "project",
     "title_en": "Chromakeys of 96 years and 8 months",
+    "title_ko": "96년 8개월의 크로마키",
+    "year": "2024",
     "media": ["game", "installation", "audience participation"]
   },
   {
     "id": "manwoldae",
     "type": "project",
     "title_en": "Division Cartography-Manwoldae",
+    "title_ko": "분단 카토그라피-만월대",
+    "year": "2024",
     "media": ["print", "installation"]
   },
   {
     "id": "alazon",
     "type": "project",
     "title_en": "Alazon, Agroikos, Bomolochos",
+    "title_ko": "허풍선이, 촌뜨기, 익살꾼",
+    "year": "2018",
     "media": [
       "video",
       "print",
@@ -49,7 +62,9 @@
   {
     "id": "wagalbong-prototype",
     "type": "project",
-    "title_en": "Wagalbong-Prototype",
+    "title_en": "Wagalbongjoseonbeom-Prototype",
+    "title_ko": "와갈봉조선범-프로토타입",
+    "year": "2021",
     "media": [
       "installation",
       "game",
@@ -60,6 +75,8 @@
     "id": "wagalbong-beta",
     "type": "project",
     "title_en": "Wagalbongjoseonbeom2_Beta Test",
+    "title_ko": "와갈봉조선범2_베타테스트",
+    "year": "2021",
     "media": [
       "installation",
       "game",
@@ -70,6 +87,8 @@
     "id": "border-paper",
     "type": "project",
     "title_en": "A Border Made with Paper",
+    "title_ko": "종이로 만든 경계",
+    "year": "2021",
     "media": [
       "installation",
       "performance",
@@ -80,6 +99,8 @@
     "id": "dol-bu-chae",
     "type": "project",
     "title_en": "Dol-Bu-Chae Investor Relations",
+    "title_ko": "돌부채 투자설명회",
+    "year": "2022",
     "media": [
       "performance"
     ]
@@ -88,6 +109,8 @@
     "id": "people-move",
     "type": "project",
     "title_en": "The People Move the World Also Can Stop It",
+    "title_ko": "세상을 움직이는 사람들은 세상을 멈출 수도 있다",
+    "year": "2020",
     "media": [
       "video", "installation", "print"
     ]
@@ -96,6 +119,8 @@
     "id": "publiced-stage",
     "type": "project",
     "title_en": "Publiced Stage",
+    "title_ko": "공공된 무대",
+    "year": "2023",
     "media": [
       "video"
     ]
@@ -104,6 +129,7 @@
     "id": "bleached-stage",
     "type": "project",
     "title_en": "Bleached Stage",
+    "title_ko": "표백된 무대",
     "media": [
       "video"
     ]
@@ -112,6 +138,7 @@
     "id": "shirts",
     "type": "project",
     "title_en": "Shirts and Shirts",
+    "title_ko": "셔츠와 셔츠",
     "media": [
       "installation", "print"
     ]
@@ -120,6 +147,7 @@
     "id": "overtime",
     "type": "project",
     "title_en": "Give Me Overtime Pay",
+    "title_ko": "야근수당 주세요",
     "media": [
       "performance", "audience participation"
     ]
@@ -128,6 +156,7 @@
     "id": "equal-relationship",
     "type": "project",
     "title_en": "An Equal Relationship",
+    "title_ko": "평등한 관계",
     "media": [
       "performance", "installation", "audience participation"
     ]

@@ -6,6 +6,7 @@ type ProjectData = {
   id: string;
   title_en: string;
   title_ko: string;
+  year: string;
   caption: string;
   description: string;
   image: string;
@@ -112,6 +113,7 @@ export default function ProjectModal({ params }: { params: { id: string } }) {
         <div style={{ flex: 1, paddingRight: 24, minWidth: 0 }}>
           <h2 style={{ fontWeight: 700, fontSize: 28 }}>{data.title_en}</h2>
           <h2 style={{ fontWeight: 700, fontSize: 28 }}>{data.title_ko}</h2>
+          <h2 style={{ fontWeight: 700, fontSize: 28 }}>{data.year}</h2>
           <p style={{ color: "#aaa", fontSize: 18, margin: "12px 0" }}>{data.caption}</p>
           <div style={{ fontSize: 16, margin: "20px 0" }}>{data.description}</div>
         </div>
