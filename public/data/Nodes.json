@@ -15,7 +15,7 @@
     "label": "Chromakeys of 96 years and 8 months",
     "img": "chromakeys_thumbnail.png",
     "years": [2024], 
-    "order": 4,   
+    "order": 4,    
     "keywords": ["Korean division", "Diaspora", "Technology"],
     "px": 0.55, "py": 0.75
   },
@@ -192,7 +192,7 @@
   {
     "id": "print",
     "type": "media",
-    "label": "Print",
+    "label": "Print-based Media",
     "px": 0.55, "py": 0.90,
     "years": [], 
     "keywords": []
@@ -224,9 +224,18 @@
   {
     "id": "audience participation",
     "type": "media",
-    "label": "Audience participation",
+    "label": "Participatory Project",
     "px": 0.85, "py": 0.85,
     "years": [], 
+    "keywords": []
+  },
+  {
+    "id": "upcoming-event",
+    "type": "upcoming",
+    "label": "📅 Upcoming Events",
+    "px": 0.7,
+    "py": 0.1,
+    "years": [],
     "keywords": []
   }
 ]
