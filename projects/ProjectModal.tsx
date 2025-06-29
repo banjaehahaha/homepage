@@ -19,14 +19,6 @@ export default function ProjectModal({ id }: { id: string }) {
   const innerRef = useRef<HTMLDivElement>(null);
   const [data, setData] = useState<ProjectData | null>(null);
 
-  // 임시: id로 데이터 불러오기(실제로는 fetch나 context 등으로)
-  const project = {
-    title: '프로젝트 제목',
-    caption: '여기는 캡션',
-    description: `상세 설명, id: ${id}`,
-    image: `/images/${id}_full.png`,
-  };
-
   useEffect(() => {
     fetch("/data/projects.json")
       .then(res => res.json())
