@@ -1,9 +1,5 @@
 import ProjectModal from "@/projects/ProjectModal";
 
-interface PageProps {
-  params: { id: string }
-}
-
-export default function Page({ params }: PageProps) {
+export default function Page({ params }: any) {
   return <ProjectModal id={params.id} />;
 }
