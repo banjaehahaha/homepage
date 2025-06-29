@@ -352,11 +352,24 @@ export default function MediaDiagram() {
     Promise.all([
         fetch('/data/Nodes.json').then(r=>r.json()),
         fetch('/data/links.json').then(r=>r.json()),
-      ]).then(([N, L]) => {
+        fetch('/data/projects.json').then(r => r.json()),
+      ]).then(([N, L, P]) => {
         setLinks(L);
-        setNodes(N);
+
+            // id로 매핑
+          const projectMediaMap: Record<string, string[]> = {};
+          P.forEach((proj: any) => { projectMediaMap[proj.id] = proj.media; });
+
+          // 각 project 노드에 media 필드 추가
+          const mergedNodes = N.map((n: any) =>
+            n.type === 'project'
+              ? { ...n, media: projectMediaMap[n.id] || [] }
+              : n
+          );
+          setNodes(mergedNodes);
+
         const map: Record<string,{px:number,py:number}> = {};
-        N.forEach(n => {
+        (N as any[]).forEach(n => {
           map[n.id] = { px: n.px, py: n.py };
         });
         initialPositions.current = map;
@@ -665,113 +678,88 @@ export default function MediaDiagram() {
 
 
 
-function MobilePortfolio() {
-  // 1. 프로젝트(매체) 목록
-  const [mediaList, setMediaList] = useState<string[]>([]);
-  // 2. 노드(카드) 데이터
-  const [nodes, setNodes] = useState<Node[]>([]);
-  // 3. 선택된 매체, 키워드
-  const [selectedMedia, setSelectedMedia] = useState<string>('All');
-  const [selectedKeywords, setSelectedKeywords] = useState<Set<string>>(new Set());
-  const tabRef = useRef<HTMLDivElement>(null);
-  const [canScrollLeft, setCanScrollLeft] = useState(false);
-  const [canScrollRight, setCanScrollRight] = useState(false);
-  const [mediaIdLabelMap, setMediaIdLabelMap] = useState<{ [key: string]: string }>({});
+function MobilePortfolio({ nodes, links }: { nodes: Node[]; links: Link[] }) {
+ // 미디어 아이디-라벨 매핑
+ const mediaIdLabelMap = useMemo(() => {
+  const map: { [key: string]: string } = {};
+  nodes.filter(n => n.type === "media").forEach(n => { map[n.id] = n.label; });
+  return map;
+}, [nodes]);
 
+// 매체 리스트 (중복제거, All 포함)
+const mediaList = useMemo(() => {
+  const medias = nodes.filter(n => n.type === "project").flatMap(n => n.media || []);
+  return ["All", ...Array.from(new Set(medias))];
+}, [nodes]);
 
-  const updateScroll = () => {
-    if (!tabRef.current) return;
-    setCanScrollLeft(tabRef.current.scrollLeft > 2);
-    setCanScrollRight(
-      tabRef.current.scrollLeft + tabRef.current.offsetWidth <
-        tabRef.current.scrollWidth - 2
-    );
+// 필터 관련 상태
+const [selectedMedia, setSelectedMedia] = useState<string>('All');
+const [selectedKeywords, setSelectedKeywords] = useState<Set<string>>(new Set());
+const tabRef = useRef<HTMLDivElement>(null);
+const [canScrollLeft, setCanScrollLeft] = useState(false);
+const [canScrollRight, setCanScrollRight] = useState(false);
+
+// 스크롤 체크
+const updateScroll = () => {
+  if (!tabRef.current) return;
+  setCanScrollLeft(tabRef.current.scrollLeft > 2);
+  setCanScrollRight(
+    tabRef.current.scrollLeft + tabRef.current.offsetWidth <
+      tabRef.current.scrollWidth - 2
+  );
+};
+
+useEffect(() => {
+  updateScroll();
+  const el = tabRef.current;
+  if (!el) return;
+  el.addEventListener("scroll", updateScroll);
+  window.addEventListener("resize", updateScroll);
+  return () => {
+    el.removeEventListener("scroll", updateScroll);
+    window.removeEventListener("resize", updateScroll);
   };
-  
-  useEffect(() => {
-    updateScroll();
-    const el = tabRef.current;
-    if (!el) return;
-    el.addEventListener("scroll", updateScroll);
-    window.addEventListener("resize", updateScroll);
-    return () => {
-      el.removeEventListener("scroll", updateScroll);
-      window.removeEventListener("resize", updateScroll);
-    };
-  }, []);
-  
+}, []);
 
-  useEffect(() => {
-    Promise.all([
-      fetch('/data/Nodes.json').then(r => r.json()),
-      fetch('/data/projects.json').then(r => r.json())
-    ]).then(([nodesRaw, projectsRaw]) => {
+useEffect(() => {
+  if (mediaList.length > 0 && !selectedMedia) {
+    setSelectedMedia(mediaList[0]);
+  }
+}, [mediaList, selectedMedia]);
 
-      const mediaNodes = nodesRaw.filter((n: any) => n.type === 'media');
-      const map: { [key: string]: string } = {};
-      mediaNodes.forEach((n: any) => { map[n.id] = n.label; });
-      setMediaIdLabelMap(map);
-
-      // id로 매핑
-      const projectMediaMap: Record<string, string[]> = {};
-      projectsRaw.forEach(p => { projectMediaMap[p.id] = p.media; });
-      const mergedNodes = nodesRaw.map((n: any) =>
-        n.type === 'project'
-          ? { ...n, media: projectMediaMap[n.id] || [] }
-          : n
-      );
-      setNodes(mergedNodes);
-              // mediaList도 여기서 추출 (중복 없이)
-              const medias = projectsRaw.flatMap(p => p.media || []);
-              const uniqueMediaIds = Array.from(new Set(medias));
-              setMediaList(['All', ...uniqueMediaIds]);
-        setSelectedMedia('All');
-    });
-  }, []);
-
-  useEffect(() => {
-    if (mediaList.length > 0 && !selectedMedia) {
-      setSelectedMedia(mediaList[0]);
-    }
-  }, [mediaList, selectedMedia]);
-
-  // 3. 키워드 리스트 (선택된 매체로 필터링)
-  const keywordList = useMemo(() => {
-    return Array.from(new Set(
-      nodes
-        .filter(n =>
-          n.type === 'project' &&
-          (
-            selectedMedia === 'All' ||
-            (n.media && Array.isArray(n.media) && n.media.includes(selectedMedia))
-          )
-        )
-        .flatMap(n => n.keywords || [])
-    )).sort();
-  }, [nodes, selectedMedia]);
-  
-
-  // 4. 필터된 노드 (선택된 매체/키워드 반영)
-  const filteredNodes = useMemo(() => {
-    return nodes.filter(n =>
-      n.type === 'project' &&
-      (
-        selectedMedia === 'All' ||
+// 키워드 리스트 (선택된 매체로 필터)
+const keywordList = useMemo(() => {
+  return Array.from(new Set(
+    nodes
+      .filter(n =>
+        n.type === 'project' &&
         (
-          n.media && Array.isArray(n.media) &&
-          n.media.includes(selectedMedia)
+          selectedMedia === 'All' ||
+          (n.media && Array.isArray(n.media) && n.media.includes(selectedMedia))
         )
-      ) &&
-      (
-        selectedKeywords.size === 0 ||
-        Array.from(selectedKeywords).every(k => n.keywords?.includes(k))
       )
-    ).sort((a, b) => Math.min(...b.years) - Math.min(...a.years));
-  }, [nodes, selectedMedia, selectedKeywords]);
-  
+      .flatMap(n => n.keywords || [])
+  )).sort();
+}, [nodes, selectedMedia]);
 
-  // 5. 만약 Nodes.json에는 media 필드가 없다면, 
-  // projects.json과 id로 조인해서 media를 주입해야 함
+// 필터된 노드
+const filteredNodes = useMemo(() => {
+  return nodes.filter(n =>
+    n.type === 'project' &&
+    (
+      selectedMedia === 'All' ||
+      (
+        n.media && Array.isArray(n.media) &&
+        n.media.includes(selectedMedia)
+      )
+    ) &&
+    (
+      selectedKeywords.size === 0 ||
+      Array.from(selectedKeywords).every(k => n.keywords?.includes(k))
+    )
+  ).sort((a, b) => Math.min(...b.years) - Math.min(...a.years));
+}, [nodes, selectedMedia, selectedKeywords]);
+
 
   return (
       <div className="p-4 w-full min-h-screen overflow-y-auto">
@@ -805,32 +793,6 @@ function MobilePortfolio() {
           ))}
         </div>
       </div>
-
-      {/* 키워드 필터 */}
-      {/* <div className="flex gap-2 flex-wrap pt-2 pb-4">
-      <span className="text-sm font-semibold text-white whitespace-nowrap">Keywords</span>
-      <div className="flex gap-2 flex-wrap">
-        {keywordList.map(k => (
-          <button
-            key={k}
-            onClick={() => {
-              const next = new Set(selectedKeywords);
-              selectedKeywords.has(k) ? next.delete(k) : next.add(k);
-              setSelectedKeywords(next);
-            }}
-            className={`px-3 py-1 rounded-full border
-              ${selectedKeywords.has(k)
-                ? 'bg-[#92F90E] text-black border-[#92F90E]'
-                : 'bg-zinc-800 text-white border-zinc-700'}
-            `}
-          >
-            {k}
-          </button>
-        ))}
-          </div>
-      </div> */}
-
-
 
       {/* 카드 리스트 */}
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
