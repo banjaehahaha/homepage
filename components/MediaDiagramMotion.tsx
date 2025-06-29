@@ -62,7 +62,7 @@ function DiagramNode({
     return (
       <motion.div
         key={node.id}
-        ref={el => wrapperRefs.current[node.id] = el}
+        ref={el => { wrapperRefs.current[node.id] = el; }}
         onPointerDown={e => onPointerDown(e, node)}
         onMouseEnter={() => setHovered(node.id)}
         onMouseLeave={() => setHovered(null)}
@@ -99,7 +99,7 @@ function DiagramNode({
     return (
       <React.Fragment key={node.id}>
         <div
-          ref={el => wrapperRefs.current[node.id] = el}
+          ref={el => { wrapperRefs.current[node.id] = el; }}
           onPointerDown={e => onPointerDown(e, node)}
           onMouseEnter={() => setHovered(node.id)}
           onMouseLeave={() => setHovered(null)}
@@ -122,7 +122,7 @@ function DiagramNode({
           {/* 썸네일 이미지 */}
           <div className="flex items-center pointer-events-none">
             <img
-              ref={el => imageRefs.current[node.id] = el}
+              ref={el => { wrapperRefs.current[node.id] = el; }}
               src={`/images/${node.id}_thumbnail.png`}
               alt={node.label}
               width={THUMB_H} height={THUMB_H}
@@ -173,7 +173,7 @@ function DiagramNode({
     return (
       <div
         key={node.id}
-        ref={el => wrapperRefs.current[node.id] = el}
+        ref={el => { wrapperRefs.current[node.id] = el; }}
         onPointerDown={e => onPointerDown(e, node)}
         onMouseEnter={() => setHovered(node.id)}
         onMouseLeave={() => setHovered(null)}
