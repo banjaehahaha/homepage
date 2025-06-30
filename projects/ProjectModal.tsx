@@ -25,7 +25,18 @@ type WorkType = {
 type ProjectData = {
   id: string;
   works?: WorkType[];
+  // 아래처럼, 혹시 works 없이 WorkType 필드를 바로 가질 수도 있다면
+  title_en?: string;
+  title_ko?: string;
+  // ...etc, 나머지 WorkType 필드들 전부 옵셔널하게 복사해두기
 };
+
+function isProjectData(obj: any): obj is ProjectData {
+  return obj && typeof obj === 'object' && Array.isArray(obj.works);
+}
+function isWorkType(obj: any): obj is WorkType {
+  return obj && typeof obj === 'object' && ('title_en' in obj || 'title_ko' in obj);
+}
 
 function DescriptionWithReadMore({
   ko, en, maxLength = 160
@@ -125,13 +136,13 @@ export default function ProjectModal({ id }: { id: string }) {
   const router = useRouter();
 
   const innerRef = useRef<HTMLDivElement>(null);
-  const [data, setData] = useState<ProjectData | null>(null);
+  const [data, setData] = useState<ProjectData | WorkType | null>(null);
   const [zoomIdx, setZoomIdx] = useState<number | null>(null);
   const [zoomTarget, setZoomTarget] = useState<{workIdx: number, imgIdx: number} | null>(null);
-  const works =
-  data && Array.isArray(data.works) && data.works.length > 0
+  const works: WorkType[] =
+  isProjectData(data) && data.works && data.works.length > 0
     ? data.works
-    : data
+    : isWorkType(data)
     ? [data]
     : [];
 
@@ -217,7 +228,7 @@ export default function ProjectModal({ id }: { id: string }) {
         overflowY: "hidden", 
       }}
     >
-        {works.map((work, idx) => (
+    {works.map((work, idx) => (
     <div
       key={idx}
       style={{
@@ -423,19 +434,19 @@ export default function ProjectModal({ id }: { id: string }) {
             />
           ))
         ) : (
-          <img
-            src={work.images?.[0] ?? `/images/${data.id}_thumbnail.png`}
-            alt={work.title_en}
-            style={{
-              width: "100%",
-              maxWidth: 480,
-              height: "auto",
-              borderRadius: 5,
-              objectFit: "contain",
-              background: "#111",
-              boxSizing: "border-box", 
-            }}
-          />
+              <img
+                src={work.images?.[0]}
+                alt={work.title_en}
+                style={{
+                  width: "100%",
+                  maxWidth: 480,
+                  height: "auto",
+                  borderRadius: 5,
+                  objectFit: "contain",
+                  background: "#111",
+                  boxSizing: "border-box",
+                }}
+              />
         )}
               <button
         onClick={() => router.back()}
