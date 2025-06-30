@@ -56,7 +56,7 @@
         "pdfUrl": "/pdfs/MHSH_Handout_2.pdf"
       }
     ],
-    "youtube": "https://www.youtube.com/embed/CxoKWmZBcSw?si=01MRikFIWVKYbDyb&controls=0",
+    "videos": ["https://www.youtube.com/embed/CxoKWmZBcSw?si=01MRikFIWVKYbDyb&controls=0"],
     "images": [
       "/images/make-home_1.jpg",
       "/images/make-home_2.jpg",
@@ -117,10 +117,26 @@
     "title_en": "Baton Touch Dystopia",
     "title_ko": "바톤터치 디스토피아",
     "year": "2024",
-    "caption": "Audience participatory game using AI image generator\nVariable installation\nCommissioned by the Dreams of Apocalypse―Dystopic Images of Modern City and ‘Neo’ Seoul and Pyongyang Seminar, Amado Art Space, 2024\nCourtesy of the artist",
-    "description": "작품 설명",
+    "caption": "Audience participatory game using AI image generator\nVariable installation\nCommissioned by <i>the Dreams of Apocalypse―Dystopic Images of Modern City and ‘Neo’ Seoul and Pyongyang</i> Seminar, Amado Art Space, 2024\nCourtesy of the artist",
+    "description": "<b>Workshop</b>\n<b>Date:</b> May 18, 2024<br><b>Location:</b> AmadoLab<br><b>Number of Participants:</b> 22 in total<br><b>Hosts:</b> Curator Hyewon Lee, Writer Aim Han (co-translators of Noir Urbanisms: Dystopic Images of the Modern City)<br>",
     "description_en": "Barton Touch Dystopia is a participatory workshop developed as part of the seminar, Dreams of Apocalypse: Dystopic Images of Modern City and ‘Neo’ Seoul and Pyongyang, a preparatory program for this exhibition.\n\nIn this workshop, Jaeha Ban engaged with seminar participants to generate new cityscapes by juxtaposing the dystopian visions of Seoul (South Korea) and Pyongyang (North Korea).\n\nThe workshop framework involves presenting participants with dystopian images of both cities, which they then reverse-engineer using an AI image generation program. This methodology parallels “reverse design” or “reverse engineering” techniques used in computer science and engineering, where shape information from an existing object is obtained to recreate or manufacture a new design.\n\nIn this context, the artist emphasizes the interpretation and reproduction of these images from individual perspectives rather than focusing solely on the significance of the original.\n\nThe images subjected to reverse-engineering reflect dystopian themes that emerged from the cities’ attempts to project utopian ideals.\n\nThe artist explores two historical events that illustrate the peculiar isomorphism between South and North Korea: the 1988 Seoul Olympics and the World Festival of Youth and Students in Pyongyang. The 1988 Seoul Olympics symbolized South Korea's effort to showcase its economic progress and promising future after periods of devastation caused by colonialism and war. In contrast, the World Festival of Youth and Students in Pyongyang was designed as a significant event to counter the Seoul Olympics and present an idealized socialist utopia.\n\nHowever, as is generally known, both events, laden with utopian aspirations, led to tragic outcomes. In Seoul, over 200 slums were demolished to enhance the city’s appearance for international visitors, displacing over 700,000 people and causing significant casualties and property damage. Pyongyang also endured the “Arduous March,” a period reportedly marked by severe food shortages and cannibalism, which resulted from large-scale construction projects that far exceeded the country’s annual budget.\n\nThe artist proposes the concept of Pa-sang-ryok, a term developed by sociologist Hongjung Kim through the lens of Walter Benjamin’s philosophy. Unlike imagination, which fabricates reality from fiction, Pa-sang-ryok involves generating new possibilities through the destruction of existing images. Participants build upon an existing image, sequentially contributing words and scenarios as if passing a baton. These provided keywords are either accumulated or omitted to form a collective image. This reverse-engineering process uncovers the language underlying images that have been distributed like memes, as well as the various social and urban influences that have shaped their dissemination.\n\nIn this exhibition, Jaeha Ban has re-engineered her work into a web game. Visitors can explore the conceptual intentions and narrative background of the work through a game prologue and create their own AI-generated images by entering keywords.",
     "description_ko": "〈바톤터치 디스토피아〉는 본 전시의 사전 연구 프로그램으로 진행된 세미나, 〈파멸의 꿈–현대 도시의 디스토피아적 이미지들 그리고 ‘네오’ 서울과 평양〉의 일환으로 만들어진 관객 참여형 워크숍이다. 반재하는 세미나 참여자들과 함께 디스토피아적으로 재현되는 서울(남한)과 평양(북한)의 이미지를 가로질러 새로운 도시 이미지를 생성해 보는 워크샵을 진행했다.\n\n기본적인 워크샵의 구조는 다음과 같다. 작가가 서울과 평양의 디스토피아적인 이미지를 참여자들에게 제시하고, AI 이미지 생성 프로그램을 활용하여 역으로 그 이미지를 만들어보는 것이다. 이는 마치 컴퓨터 혹은 공학 분야에서 활용되는 ‘역설계’ 혹은 ‘역공학’의 방식을 닮아있다. 그것은 설계 데이터가 존재하지 않는 대상을 제작하기 위해, 대상의 형상 정보를 획득하여 대상에 대한 도면을 만드는 방법이다. 즉, 이미 제작된 것을 재설계 하는 것이다. 작가는 이 재설계의 과정에서 원본의 중요성 보다는 각 행위자들이 자신의 위치에서 그 원본을 어떻게 해석하고 재생산하는지에 초점을 맞춘다.\n\n역설계의 대상이 되는 이미지는 두 도시가 유토피아적인 도시 이미지를 만들고자 했던 바로 그 과정에서 파생된 디스토피아의 이미지이다. 작가는 남한과 북한의 기묘한 동형성을 보여주는 두 역사적 사건, ‘88 서울 올림픽’과 ‘평양세계청년학생축전’에 주목한다. 88 서울 올림픽은 식민과 전쟁으로 철저히 파괴되었던 남한의 눈부신 발전을 전세계에 보여줌으로써 국가의 번영과 장미빛 미래를 가시화하고자 했던 열망의 산물이었다. 한편, 그 시작부터 서울 올림픽을 견제하기 위해 계획된 평양세계청년학생축전 역시 사회주의 유토피아의 이상을 전세계에 과시하고자 했던 기념비적인 행사였다.\n\n그러나 주지하듯 유토피아적 꿈으로 가득찬 두 기획의 실행 결과는 비극적이었다. 서울의 빈민촌들이 도시 미관 상 외국인들에게 보여주기에 좋지 않다는 이유로 200 여곳에 달하는 구역이 강제철거 되고, 70만 명이 넘는 철거민들이 축출되면서 수많은 인명, 재산 피해를 낳았다. 평양 역시 국가의 연간 예산을 뛰어넘는 무리한 규모로 건설 사업을 단행한 대가는 극심한 식량난으로 인육을 먹는 지경에 이르렀다고 전해지는 ‘고난의 행군’이었다.\n\n작가는 이런 이미지들을 재구축하는 힘으로 상상력이 아닌, 파상력을 제안한다. 파상력은 사회학자 김홍중이 발터 벤야민의 사유를 경유하여 정리한 개념이다. 상상력이 부재하는 대상을 허구적으로 현존시키는 것이라면, 파상력은 기존의 이미지를 파괴함으로써 새로운 가능성을 만드는 방법이다. 참여자들은 기존의 이미지에서 출발하여 이 이미지를 만들기 위해 필요한 단어와 상황을 이어달리기 바톤을 넘기는 것처럼 차례대로 말한다. 입력된 키워드는 누적/누락되면서 공동의 이미지로 창작된다. 또한, 이런 역설계의 과정을 통해 밈처럼 유통되어 왔던 이미지들이 기반하는 언어와 그 과정에 개입된 여러 사회적/도시적 영향 관계가 드러난다.\n\n본 전시에서 반재하는 이 작품을 웹게임의 형식으로 재제작하여 선보인다. 관객은 작품의 기획 의도와 배경 서사를 게임의 프롤로그 형식으로 확인할 수 있으며, 키워드를 입력하여 직접 AI 이미지를 생성해 볼 수 있다.",
+    "videos": ["https://www.youtube.com/embed/I5ZOxg5fv3Q?si=p8vNdj3Bq-lk6jON"],
+    "images": [
+      "/images/baton-touch_1.jpg",
+      "/images/baton-touch_2.jpg",
+      "/images/baton-touch_3.jpg",
+      "/images/baton-touch_4.jpg",
+      "/images/baton-touch_5.jpg",
+      "/images/baton-touch_6.jpg",
+      "/images/baton-touch_7.jpg",
+      "/images/baton-touch_8.jpg",
+      "/images/baton-touch_9.jpg",
+      "/images/baton-touch_10.jpg",
+      "/images/baton-touch_11.jpg",
+      "/images/baton-touch_12.jpg",
+      "/images/baton-touch_13.jpg"
+    ],
     "media": ["game", "installation", "workshop", "audience participation"]
   },
   {
@@ -129,19 +145,66 @@
     "title_en": "Chromakeys of 96 years and 8 months",
     "title_ko": "96년 8개월의 크로마키",
     "year": "2024",
-    "caption": "Audience participatory game using AI image generator\nVariable installation\nCommissioned by the Dreams of Apocalypse―Dystopic Images of Modern City and ‘Neo’ Seoul and Pyongyang Seminar, Amado Art Space, 2024\nCourtesy of the artist",
-    "description": "작품 설명",
+    "caption": "Audience participatory game, PET print, profile, polyester, background stand, other mixed media\nVariable installation\nCommissioned by the SeMA EMERGING ARTISTS & CURATORS 2024, <i>The Radiant City, Dark Rapture―Dystopic Images of the Modern City</i>, Curated by Hyewon Lee\nCourtesy of the artist",
+    "description": "",
+    "description_en": "In this exhibition, Ban examines the historical event of the repatriation of Korean residents from Japan to North Korea (在日朝鮮人北送事業, hereafter referred to as the “Repatriation”) and the journalistic representations that surrounded it in her new work, Chromakeys of 96 Years and 8 Months. The Repatriation refers to the project, carried out from the mid-1950s to 1984, of returning Korean residents in Japan to North Korea through the coordinated efforts of the Democratic People’s Republic of Korea (North Korea), the General Association of Korean Residents in Japan (Chongryun), the Japanese government, the International Red Cross, etc. Ban's work features chroma key video installations and interactive games, incorporating media and propaganda images that depicted North Korea as a “paradise on earth” or “utopia,” as well as interviews with North Korean defectors who were repatriated.\n\nA key feature of Chromakeys of 96 Years and 8 Months is its use of chroma key technology as a metaphorical device for representing and reconstructing historical images. A chroma key is a technique used for compositing one image onto another in real time by removing or making a single-colored background (typically blue or green) transparent in a video, allowing an alternate image to be superimposed. In this work, the chroma key functions not merely as a composing tool but as a metaphor for the ability to actualize any image. This suggests that, just as chroma key technology allows for projecting any image onto an unvisited space, we can impose any visions—a paradise-like utopia or a hell-like dystopia—onto the unknown. Central to the work are three individuals who stood before a chroma key screen of “Unvisited Land.” These individuals are Zainichi Koreans who migrated from Japan to North Korea as part of the Repatriation, with their collective time in North Korea amounting to 96 years and 8 months.\n\nThe work underscores the crucial role that images and videos of modern cities played in convincing these individuals to make the life-altering decision to migrate to an unfamiliar land. Following the Korean War, the North Korean government, in need of labor, collaborated with the Japanese government, which sought to remove the Zainichi Koreans—perceived as an impoverished and marginalized population. Chongryun propagandists, supported by the Japanese government, traveled across Japan, using vibrant photo albums and magic lantern slide projections to depict North Korea as a “utopia,” at a time when television was still uncommon. These images predominantly showcased urban development and prosperity.[1]  With the tacit approval and backing of the Japanese government, various media—including publications, newspapers, artworks, and films—were circulated throughout Japan, portraying North Korea as an ideal society\n\nHowever, the reality faced by those repatriated to North Korea was starkly different—a dystopian existence marked by surveillance, oppression, forced labor, and famine. Unable to return to Japan, many ultimately defected to South Korea, risking their lives to escape. Their testimonies, along with historical data, reveal that the Repatriation was a deeply complex political event, entangled in North Korea’s fabrication, Japan’s political cooperation, and South Korea’s indifference. Yet Ban’s work does not frame these individuals solely as victims. Even when “deceived,” they continued to make choices in pursuit of a better life, and these decisions shaped who they are today. The work reimagines their lives through a choice-based narrative game, inviting viewers to engage with the gravity of these decisions.\n\nFurthermore, the work underscores the power of individuals to imagine utopia, even amidst dire circumstances. The artist suggests that while utopian visions throughout history may have failed to materialize, the determination and strength of those who pursued them remain significant. To highlight the individual within the broader historical context, Ban concentrates on the life of a person before and after the Repatriation. She records events through personal memories and dreams that diverged from the overarching historical intent of the Repatriation.",
+    "description_ko": "이번 전시에서 반재하는 신작, 〈96년 8개월의 크로마키〉를 통해 재일 조선인 북송사업(在日朝鮮人北送事業, 이하 ‘북송사업’)이라는 역사적 사건과 이를 둘러싼 저널리즘적 재현 이미지를 탐구한다. 북송사업은 1950년대 중후반부터 1984년까지 조선민주주의인민공화국(북한), 재일본조선인총련합회(조총련) 일본 정부, 그리고 국제적십자사 등이 협조하여 일본에 거주하던 조선적의 사람들을 북한으로 보낸 사업을 말한다. 작가는 북송 재일교포 탈북민에 대한 인터뷰와 함께, 당시의 사업 홍보물, 언론 매체 등에서, ‘지상낙원’, ‘유토피아’로 선전된 이미지를 활용한 크로마키 영상 설치 및 게임을 선보인다.\n\n〈96년 8개월의 크로마키〉는 무엇보다 ‘크로마키’라는 기술 장치를 통해 역사의 이미지를 재현하고 새로운 구축을 시도한다. 크로마키란, 영상에서 어떤 화면에 다른 화면의 이미지를 실시간으로 겹쳐서 합성하는 기술을 말한다. 주로 단일한 색의 배경(주로 파란색 혹은 초록색)에서 촬영한 영상의 배경을 제거하거나 투명하게 만들어서, 다른 영상이 그 위로 비치게 하는 방식이다. 이 작품에서 크로마키는 단순한 합성 기술이 아니라, 어떤 이미지도 실재화할 수 있는 힘에 대한 직유로 사용된다. 말하자면, 우리는 크로마키 기술처럼 가보지 않은 땅에 어떠한 이미지든 투영할 수 있다. 천국 같은 유토피아를, 혹은 지옥 같은 디스토피아를 투사할 수 있는 것이다. 본 작품은 ‘가보지 않은 땅’이라는 크로마키 앞에 섰던 세 사람의 이야기를 중심으로 전개된다. 이들은 북송사업으로 일본에서 북한으로 이주한 재일조선인들로, 그들이 북송되어 보낸 시간은 96년 8개월에 이른다. \n\n본 작품은 북송자들이 미지의 땅으로의 이주라는 일생일대의 결정을 내리도록 매혹한 트리거가 도시에 대한 이미지와 영상이었다는 사실에 주목한다. 전후, 노동력이 필요했던 북한 정부와 사회의 극빈 계층이자 불안 요소였던 재일 조선인의 퇴거를 원했던 일본 정부는 전방위적인 협력과 홍보를 통해 북송자를 모집했다. 텔레비전도 흔치 않던 시절, 조총련계 선전원들은 일본 각지의 지부와 학교, 가정을 방문하여, 총천연색 사진집과 환등기 영상으로 북한을 ‘지상낙원’으로 보여줬다. 주로 현대적인 도시의 모습과 부유한 생활상을 보여주는 이미지들이었다. 일본 정부의 묵인과 지원 하에 북한을 이상 사회로 그리는 출판물, 신문, 예술 작품, 영화가 전역에 퍼지게 된다. \n\n그러나 결국 그들이 맞닥뜨린 현실은 감시와 억압, 강제노역과 기근으로 점철된 디스토피아였다. 일본으로 돌아갈 수 없었던 이들은 결국 목숨을 건 탈북을 선택했고, 현재는 남한에서 살아가고 있다. 그들의 증언과 역사적 자료는 북송사업이 북한의 날조, 일본의 동조, 남한의 방관이 얽힌 복잡한 정치적 사건임을 보여준다. 하지만, 본 작품은 이들을 단순한 역사의 피해자로만 바라보지 않는다. 이들은 '속았다'는 상황에서도 더 나은 삶을 위해 계속해서 선택을 했고, 이러한 선택들이 쌓여 지금의 그들을 만들었다. 작품은 그런 선택의 감각을 공유하고자 그들의 생애를 선택지 게임으로 재구성한다. \n\n또한, 본 작품은 그럼에도 유토피아를 상상할 수 있는 개인의 힘에 주목한다. 작가는 역사을 거듭하며 시도된 숱한 유토피아적 기획이 실현되지 못했더라도, 그 꿈을 향해 나아갔던 개인의 의지와 힘은 여전히 의미가 있다고 본다. 그 힘을 경유하여 역사 속 개인을 드러내고자 작가는 북송사업 이전과 이후를 사는 한 개인의 삶에 초점을 맞춘다. 북송사업이라는 거대한 역사적 흐름의 목적과 다르게 전개되었던 개인적인 기억과 꿈을 통해 사건을 기록한다.\n\n관객은 전시장에 설치된 구조물과 크로마키 앞에 서서 아이패드를 통해 이들의 사적인 진실을 마주하게 된다. 이는 북송 당시 북한으로 건너가던 재일조선인들의 시선이자 동시에 우리가 더 나은 무언가를 위해 투영할 수 있는 힘의 체험이다.",
+    "videos": ["https://vimeo.com/1013940127/808565de0a"],
+      "images": [
+      "/images/chromakeys_1.jpg",
+      "/images/chromakeys_2.jpg",
+      "/images/chromakeys_3.jpg",
+      "/images/chromakeys_4.jpg",
+      "/images/chromakeys_5.png"
+    ],
     "media": ["game", "installation", "audience participation"]
   },
   {
     "id": "manwoldae",
     "type": "project",
-    "title_en": "Division Cartography-Manwoldae",
-    "title_ko": "분단 카토그라피-만월대",
-    "year": "2024",
-    "caption": "간단한 캡션",
-    "description": "작품 설명",
-    "media": ["print", "installation"]
+    "media": ["print", "installation"],
+    "works": [
+      {
+        "title_en": "Division Cartography-Manwoldae",
+        "title_ko": "분단 카토그라피-만월대",
+        "year": "2024",
+        "caption": "간단한 캡션",
+        "description": "작품 설명",
+        "images": [
+          "/images/play-home_1.jpg",
+          "/images/play-home_2.jpg",
+          "/images/play-home_3.jpg",
+          "/images/play-home_4.jpg",
+          "/images/play-home_5.jpg",
+          "/images/play-home_6.jpg",
+          "/images/play-home_7.jpg",
+          "/images/play-home_8.jpg",
+          "/images/play-home_9.jpg",
+          "/images/play-home_10.jpg",
+          "/images/play-home_11.jpg"
+        ]
+      },
+      {
+        "title_en": "Division Projection-Taedonggang Beer",
+        "title_ko": "분단 투영-대동강 맥주",
+        "year": "2024",
+        "caption": "간단한 캡션",
+        "description": "작품 설명",
+        "images": [
+          "/images/play-home_1.jpg",
+          "/images/play-home_2.jpg",
+          "/images/play-home_3.jpg",
+          "/images/play-home_4.jpg",
+          "/images/play-home_5.jpg",
+          "/images/play-home_6.jpg",
+          "/images/play-home_7.jpg",
+          "/images/play-home_8.jpg",
+          "/images/play-home_9.jpg",
+          "/images/play-home_10.jpg",
+          "/images/play-home_11.jpg"
+        ]
+      }
+    ]
   },
   {
     "id": "alazon",

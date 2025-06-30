@@ -331,7 +331,17 @@ export default function MediaDiagram() {
         setTimeout(() => setIsGridAnimating(false), 1000);
       };
       
-  
+      useEffect(() => {
+        document.body.style.overflow = "hidden";
+        document.documentElement.style.overflow = "hidden";
+        const nextEl = document.getElementById("__next");
+        if (nextEl) nextEl.style.overflow = "hidden";
+        return () => {
+          document.body.style.overflow = "";
+          document.documentElement.style.overflow = "";
+          if (nextEl) nextEl.style.overflow = "";
+        };
+      }, []);
 
   
   // 컨테이너 측정
@@ -489,11 +499,13 @@ export default function MediaDiagram() {
   return (
     <div
       ref={containerRef}
-      className="relative w-full min-h-screen"
+      className="relative w-full"
       style={{
         backgroundColor: '#333333',
         backgroundImage: "url('/images/diagram_grid.png')",
-        backgroundSize:'cover', backgroundPosition:'center', backgroundRepeat:'no-repeat'
+        backgroundSize:'cover', backgroundPosition:'center', backgroundRepeat:'no-repeat',
+        overflow: 'hidden',
+        height: '100vh',
       }}
     >
           {/* ─── 필터+CV outer wrapper ─────────────────────────── */}
