@@ -392,8 +392,20 @@
     "title_en": "A Border Made with Paper",
     "title_ko": "종이로 만든 경계",
     "year": "2021",
-    "caption": "간단한 캡션",
-    "description": "작품 설명",
+    "caption": "mixed media, dimensions variable, performance",
+    "description": "<b>Assistance:</b> An Iseul, Lim Seongsu",
+    "description_en": "Daerim-dong is a place where borders, migration, and labor intersect. Borders grant sovereignty and citizenship to people within the boundary, turn currency into a national currency, and attach the label of 'migration' to the labor of foreign nationals. Although borders appear to protect the lives of people by distinguishing between inside and outside, in reality, they protect the capital circulation system itself and serve to distinguish between 'good circulation' and 'bad circulation.' They minimize delays and seams in the distribution of goods and grant entry qualifications to those who will spend money (tourists) and those who will work (migrant workers) in the country.\n\nKorea's migrant policy does not so much respect the cultures of migrants as it emphasizes adaptation to Korean society, seeing migrants not as subjects of communication but as objects to be managed. As a result, there are aspects of the visa and naturalization systems that are disconnected from real life. In this context, job agencies provide migrants with grounds to stay in Korea, but sometimes introduce them to 'simple labor' or 'acts contrary to good morals or other social order,' which violate the Immigration Control Act. In addition, the Korean naturalization test often includes questions unrelated to life in Korea—questions even Korean nationals may not be able to answer—or imposes nationalist demands.\n\nDaerim-dong has a unique symbolism in Korea simply because it has a large population of migrants. This work grants most visitors, who are likely to be Korean nationals, the 'right to stay' at this exhibition, even though Daerim-dong is a neighborhood within Korea. Serving as a kind of immigration office or border inspection booth, visitors are given a questionnaire and, if they are Korean nationals, undergo a screening for the right to stay—an experience rarely encountered within Korea. The questionnaire is based on the Nationality Act and the naturalization test of the Republic of Korea, and visitors must answer the questions in order to receive a map of the exhibition. By responding, visitors are invited to reconsider the meaning of borders, sovereignty, movement, and exclusion.",
+    "description_ko": "대림동은 국경, 이주, 노동이 교차하는 장소이다. 국경은 경계선 안쪽의 사람들에게 주권과 시민권을 부여하고 화폐를 한 국가 내의 통화로 존재하게 만들며 타 국적 사람의 노동에 ‘이주’라는 딱지를 붙인다. 국경은 내/외부의 구별을 통해 인간의 삶을 보호할 것 같지만 실은 자본 순환 시스템 자체를 보호하며 ‘좋은 순환’과 ‘나쁜 순환’을 가려내는 역할을 한다. 상품 유통의 지연과 홈(seam)을 최소화 시키고 국내에서 돈을 쓰고 갈 사람(관광객)과 일을 할 사람(이주 노동자)에게 입국할 자격을 쥐어준다.\n\n한국의 이주자 정책은 이주자의 문화를 존중한다기 보다 한국 사회에서의 적응을 강조하고 그들을 소통의 대상이 아닌 관리의 대상으로 보고있다. 그 때문에 비자 제도나 귀화 제도에서 실생활과 괴리된 사항들이 발견되기도 한다. 이런 상황에서 직업소개소는 이주민들에게 한국에서 체류할 근거를 마련해주는데, 출입국관리법에 위반되는 ‘단순노무행위’, ‘선량한 풍속이나 그 밖의 사회질서에 반하는 행위’등을 소개시켜주기도 한다. 또한 대한민국 귀화시험에는 한국 생활과 전혀 관련없는 문제, 한국 국적의 사람도 풀지 못 할 문제가 나오거나 국가주의를 강요하는 사항도 자주 등장한다. \n\n대림동은 이주민이 많이 거주한다는 이유로 한국 내에서 독특한 상징성을 가지고 있다. 이 작업은 대림동이 한국 내의 지역임에도 불구하고 대부분이 한국 국적일 관람객들에게 이번 전시에 ‘체류’할 자격을 부여한다. 일종의 출입국사무소 또는 입국심사대의 역할로 관람객에게 질문지가 건네지고, 관람객은 한국 국적의 사람이라면 한국 내에서 경험하기 힘든 체류 자격 심사를 받게 된다. 이 질문지는 대한민국 국적법, 대한민국 귀화시험 등을 토대로 만들어지며 관람객은 질문지에 답을 해야 전시장이 표시된 지도를 받을 수 있다. 관람객은 질문지에 답을 하며 국경과 주권, 이동과 배제의 의미를 다시 생각해 볼 수 있다.",   
+    "images": [
+      "/images/border-paper_1.jpg",
+      "/images/border-paper_2.jpg",
+      "/images/border-paper_3.jpg",
+      "/images/border-paper_4.jpg",
+      "/images/border-paper_5.jpg",
+      "/images/border-paper_6.jpg",
+      "/images/border-paper_7.jpg",
+      "/images/border-paper_8.jpg"
+    ],
     "media": [
       "installation",
       "performance",
@@ -406,8 +418,19 @@
     "title_en": "Dol-Bu-Chae Investor Relations",
     "title_ko": "돌부채 투자설명회",
     "year": "2022",
-    "caption": "간단한 캡션",
-    "description": "작품 설명",
+    "caption": "Website, performance",
+    "description": "<a href=\"https://dol-bu-chae.com\" target=\"_blank\">dol-bu-chae.com</a>",
+    "reviewPdfUrl": [
+      {
+        "title": "분단 쓰기 : 반재하 웹프로젝트 〈돌부채〉 (Korean, PDF)",
+        "author": "김솔지",
+        "pdfUrl": "/pdfs/dol-bu-chae.pdf"
+      }],
+    "videos": ["https://vimeo.com/810021498"],
+    "images": [
+      "/images/dol-bu-chae_1.jpg",
+      "/images/dol-bu-chae_2.jpg"
+    ],
     "media": [
       "performance"
     ]
@@ -415,11 +438,72 @@
   {
     "id": "people-move",
     "type": "project",
-    "title_en": "The People Move the World Also Can Stop It",
-    "title_ko": "세상을 움직이는 사람들은 세상을 멈출 수도 있다",
-    "year": "2020",
-    "caption": "간단한 캡션",
-    "description": "작품 설명",
+    "works": [
+      {
+       "title_en": "The People Move the World Also Can Stop It",
+       "title_ko": "세상을 움직이는 사람들은 세상을 멈출 수도 있다",
+       "year": "2020",
+       "caption": "single channel video, color, sound\n8min 58sec",
+       "description": "<b>Cast</b>: Kim Yeon-hwi, Kim Woo-kyung<br/><b>Cinematography, Lighting, Color Grading</b>: Kim Jae-hyun<br/><b>Assistance</b>: Kim Leepark",
+       "description_en": "Distribution is at the core of modern capitalism—capital dies if its circulation stops. Yet, within capitalism, distribution remains largely invisible, even as perfectly sanitized products arrive at our doors every day.<br/><br/>Fruit embodies both temporality (seasonality) and spatiality (origin). However, advances in crop technology and logistics distort and compress these dimensions. The distortion and compression of a fruit’s time and space most clearly reveal the nature of modern distribution.<br/><br/>The boundary between commodity and non-commodity is ambiguous for fruit. Especially in Korea, only flawless fruit is treated as a commodity; a single blemish relegates it to non-commodity status. Therefore, fruit is handled more carefully than almost any other commodity. Similarly, labor power is another sphere where this boundary is blurred: if injured (work accident) or ill (sickness), labor is immediately reclassified as non-commodity.<br/><br/>A blemished fruit prompts us to imagine a hidden network of circulation behind the commodity/non-commodity divide. The four untitled photographic works depict this: apples that are cultivated as products but become non-products by rotting, falling, or being crushed are reproduced on a scale much larger than what we usually see. This is intended to make viewers sense the underlying elements beyond the surface of the blemished apple. The photo of the Suez Canal, by contrast, is neither a counterpoint nor a patch to the apple—it maintains a distance, inviting the audience to draw connections between fruit and distribution on their own.<br/><br/>In the world-sensation that emerges from linking fruit and distribution, we encounter the print work “Those Who Move the World Can Also Stop the World.” The phrase refers both to labor power, the core of capital, threatening capital through strikes, and—through the use of spray paint and markers—serves as a metaphor for how, in the logistics process, a strike from the outside (as opposed to from within) is framed by the First World as 'piracy,' a backlash of the Third World against imperial capital.<br/><br/>The print shares its title with a video work, “Those Who Move the World Can Also Stop the World,” which documents the production and distribution of apples in orchards, sorting centers, trucks, and wholesale markets. The video alternates between images of commodified apples being sorted and distributed, decommodified apples being discarded and destroyed, and the quasi-piratical acts of logistics workers. Through this, the work explores how we might intervene in the hyper-compressed space-time of capital, and whether the boundary between commodity and non-commodity is defined by capital’s power or by our own ability to declare something a non-commodity.<br/><br/>The final sculpture, \"Transformation of Territory,\" embodies the two key technologies at the heart of contemporary distribution systems: refrigeration and containerization. Refrigeration preserves freshness and extends shelf life, while containerization enables circulation through standardized forms suited for movement. The stacked pallets, boxes, and refrigerators themselves possess the property of compressing time and space—they are the moving images of modern distribution capitalism.",
+       "description_ko": "유통이란 현대 자본주의의 핵심이다. 자본은 순환을 멈추면 죽어버리기 때문이다. 하지만 자본주의 안에서 유통은 눈에 잘 보이지 않는다. 매일 우리의 집 앞으로 티끌 하나 없이 표백된 상품이 도착하는데도 말이다.\n\n과일은 제철이라는 시간성과 원산지라는 공간성을 지닌다. 하지만 작물 기술의 발달과 유통 기술의 발달로 과일은 시공간의 왜곡과 압축을 불러온다. 과일의 시공간이 왜곡되고 압축되는 것은 현대 유통의 속성을 가장 잘 드러낸다.\n\n과일은 상품과 비상품의 경계가 모호하다. 특히 한국에서는 상처 하나 없는 과일만을 상품으로 취급한다. 상처가 난 과일은 곧바로 비상품이 된다. 그러므로 유통과정에서 과일은 그 어떤 상품보다 더 조심히 다뤄진다. 과일과 유사하게 노동력도 상품과 비상품의 경계가 모호해지는 대표적인 영역이다. 노동력은 다치거나(산재) 아프면(상병) 바로 비상품으로 분류된다.\n\n상처 난 과일은 상품-비상품 이면의 유통 네트워크를 상상하게 만든다. 무제 사진 연작 4점은 이를 표현한다. 상품으로 길러져서 썩거나, 떨어지거나, 눌려서 비상품이 되어버린 사과들은 우리의 눈으로 볼 수 있는 실물보다 압도적인 크기로 재현된다. 이는 상처 난 사과라는 표면 너머 구성 요소들을 느끼게 하기 위함이다. 수에즈 운하 사진은 이와 대조되거나 봉합되는 이미지가 아니다. 상처 난 사과와 수에즈 운하는 얼마 간 간극을 두며 서로의 속성을 유추하며 관객 스스로 과일과 유통을 연결해보기를 요청한다.\n\n과일과 유통을 연결 지르며 느끼는 세계 감각 위에는 우리는 프린트 작업 ⟨세계를 움직이는 사람들은 세계를 멈출 수도 있다⟩를 마주한다. 문구는 자본의 핵심 구성요소인 노동력이 자본에 큰 위협을 주는 파업을 의미하는 동시에, 스프레이와 표식은 유통 과정에서 내부에서 파업이 아닌 외부에서 파업, 즉 제국주의적 자본에 대한 제 3세계의 반격을 ‘해적’으로 규정하는 제 1세계에 대해 은유하기도 한다.\n\n프린트 작업과 동명의 영상 작업 ⟨세계를 움직이는 사람들은 세계를 멈출 수도 있다⟩는 과수원, 분류장, 트럭, 과일 도매시장 등 사과의 생산과 유통 과정을 담았다. 영상은 사과가 분류되고 유통되는 상품화의 이미지와 버려지고 파괴되는 비상품화의 이미지, 유통노동자의 유사 해적 행위를 교차한다. 그를 통해 이미 인간을 초월한 시공간의 압축 과정에서 어떻게 개입할 수 있는지, 상품과 비상품의 경계가 자본의 힘이 아니라 우리 스스로 비상품을 선언할 수 있는지 탐구한다.\n\n마지막 조각 ⟨영토의 변형⟩은 현대 유통체계의 핵심 두 기술을 형상한다. 두 기술은 바로 냉장 기술과 컨테이너화이다. 냉장 기술은 신선도를 유지하며 상품의 수명을 늘려주고, 컨테이너화는 이동에 용이한 규격화로 상품 순환을 가능하게 한다. 파레트, 박스, 냉장고 등이 쌓인 조각은 그 자체로 시공간을 압축하는 속성을 지닌다. 현대 유통 자본주의의 무빙 이미지이기도 하다.",
+       "videos": ["https://vimeo.com/493586176"],
+       "images": [
+        "/images/people-move.jpg"
+      ]
+      },
+      {
+        "title_en": "Untitled(Squashed)",
+        "title_ko": "무제(눌린)",
+        "year": "2020",
+        "caption": "pigment print, framed, 100x100cm",
+        "description": "<b>Photography:</b> Lim Seong-su",
+        "images": [
+          "/images/people-move_squashed.jpg"
+        ]
+      },
+      {
+        "title_en": "Untitled(Fallen)",
+        "title_ko": "무제(떨어진)",
+        "year": "2020",
+        "caption": "pigment print, framed, 100x100cm",
+        "description": "<b>Photography:</b> Lim Seong-su",
+        "images": [
+          "/images/people-move_fallen.jpg"
+        ]
+      },
+      {
+        "title_en": "Untitled(Rotten)",
+        "title_ko": "무제(눌린)",
+        "year": "2020",
+        "caption": "pigment print, framed, 100x100cm",
+        "description": "<b>Photography:</b> Lim Seong-su",
+        "images": [
+          "/images/people-move_rotten.jpg"
+        ]
+      },
+      {
+        "title_en": "Transformation of Territory",
+        "title_ko": "영토의 변형",
+        "year": "2020",
+        "caption": "refrigerator, wood palette, plastic box, apple, metal lighting equipment, light, various dimensions",
+        "description": "",
+        "images": [
+          "/images/people-move_trans_1.jpg",
+          "/images/people-move_trans_2.jpg"
+        ]
+      },
+      {
+        "title_en": "Untitled(The Suez Canal)",
+        "title_ko": "무제(수에즈 운하)",
+        "year": "2020",
+        "caption": "pigment print, framed, 270x10cm",
+        "description": "",
+        "images": [
+          "/images/people-move_suez.jpg"
+        ]
+      }
+    ],
     "media": [
       "video", "installation", "print"
     ]
@@ -430,8 +514,14 @@
     "title_en": "Publiced Stage",
     "title_ko": "공공된 무대",
     "year": "2023",
-    "caption": "간단한 캡션",
-    "description": "작품 설명",
+    "caption": "2channel video, color, sound",
+    "description": "<b>Cast:</b> JIN XIANGLAN(김향란), ZHU XUN(주훈), PIAO LIANJI(박연희)\n<b>Co-director:</b> Park Keunyoung\n<b>Video Cinematography:</b> Kim Jaehyun",
+    "description_en": "The video work \"Publiced Stage\"—deliberately titled with an intentionally awkward expression to highlight the imposed nature of 'publicness'—features three Korean-Chinese (Joseonjok) individuals who have either acquired or are in the process of acquiring Korean citizenship, singing songs. They alternate between performing the South Korean national anthem and their own favorite songs. Some hesitate; others sing the anthem without a single mistake. For these individuals, the national anthem is less a song and more a test question to be memorized for the naturalization interview—a ritual necessary to gain the status of 'citizen.' In contrast, their favorite songs are acts of self-expression, performances of identity prior to any official recognition. Between the song that confers citizenship and the song that negates it, their facial expressions, gestures, and trembling change from moment to moment. Will they successfully recite the anthem and be acknowledged as citizens by the state? \"Publiced Stage\" seeks to reveal the reality of 'publicness' that has been imposed upon Korean-Chinese people, existing between the anthem and their own songs. By exposing the process through which citizenship is formed, the work lays bare the constructed and fictive nature of both national belonging and the very idea of the nation-state.",
+    "description_ko": "〈공공된 무대〉는 한국으로 귀화했거나, 귀화 예정인 중국동포 3명이 노래를 부르는 모습을 담은 영상작업이다. 그들은 애국가와 애창곡을 번갈아 부른다. 누군가는 머뭇거리기도, 또 누군가는 토씨 하나 틀리지 않고 애국가를 부른다. 그들에게 애국가는 노래라기보다 한국 국적을 취득하기 위해 암기해야할 귀화 면접시험 문제이며, ‘국민’의 자격을 얻기 위한 수행이 된다. 반면 그들이 부르는 애창곡은 어떠한가? 자격 취득 이전에 그들의 고유함을 말하는, 정체성의 수행이다. 자격을 부여하는 노래와 자격을 무화하는 노래 사이에서 그들의 표정과 몸짓, 떨림은 시시각각 변화한다. 그들은 과연 무사히 애국가를 암송하여 국가가 공인한 국민이 될 수 있을까? 〈공공된 무대〉는 우리가 중국동포에게 강요해온 ‘공공됨’의 실체를 애국가와 애창곡 사이에서 발견하고자 한다. 국적이 형성되는 과정을 노출시킴으로써 국민이라는 굴레와 국민국가라는 개념이 얼마나 허구적인지를 보여준다.",
+    "videos": ["https://vimeo.com/1097756049"],
+      "images": [
+      "/images/publiced-stage.png"
+    ],
     "media": [
       "video"
     ]
@@ -442,8 +532,14 @@
     "title_en": "Bleached Stage",
     "title_ko": "표백된 무대",
     "year": "2019",
-    "caption": "간단한 캡션",
-    "description": "작품 설명",
+    "caption": "two channel video, color, sound, 25min 52sec",
+    "description": "<b>Cast:</b> PIAO LIANJI(박연희)<br><b>Photography:</b> Kim Jae-hyun<br><b>Assistance:</b> Heo Sejun",
+    "description_en":"“Bleached Stage” is a video interview with Park Yeonhee, a Chinese Korean and head of Jogakbo, an organization of migrant women that is known for its 'good adaptation' to Korean society. Park Yeonhee was issued a 'modernized hanbok' when she worked as a producer at a TV station in Yanbian—because she is ethnically Korean-Chinese. In Korea, she attends events wearing a qipao—because she is from China.\n\nThe interview alternates between messages she wishes to convey to Koreans going to China and to Chinese coming to Korea, visualizing the positionality of a Chinese Korean straddling both cultures. Her story starts with minor personal conflicts in Korea and gradually exposes institutional conflicts, challenging the image of migrants that Koreans expected under 'multiculturalism.'\n\nWithin Korea’s migrant policy, tolerance and inclusion function as tools of liberal governance. Migrants are confined to the image of 'multiculturalism,' with their own contexts and identities erased. If they step outside this image, tolerance is withdrawn and they are considered a threat to 'us.' On a backgroundless stage, in front of a chroma key wall that can synthesize any scene, Park Yeonhee performs as both a 'Korean' and a 'Chinese,' repeating advice and revelations.",
+    "description_ko":"⟨표백된 무대⟩는 한국 사회에 ‘잘 적응’한 이주여성 운동단체 조각보의 대표이자 중국 동포인 박연희를 인터뷰 한 영상작업이다. 박연희는 연변의 방송국에서 PD로 근무하던 시절 ‘개량한복’을 지급받았다. 그가 조선족이기 때문이다. 그리고 한국에서는 ‘치파오’를 입고 행사에 참여한다. 그가 중국 출신이기 때문이다. \n\n인터뷰는 중국에 가는 한국인에게 전해 줄 이야기와 한국에 올 중국인에게 전해 줄 이야기가 교차하며, 중국과 한국 두 문화의 사이에서 중국 동포로서 점할 수 있는 발화의 위치를 가시화한다. 그의 이야기는 한국에서 겪은 개인 간의 사소한 갈등에서 시작해 제도적 갈등을 폭로하게 되는데, 이는 한국인이 ‘다문화주의’에서 기대했던 이주민의 이미지에 균열을 가한다. \n\n한국 내 이주민 정책에서만큼은 관용과 포용이 자유주의의 통치 방식으로 작동한다. 이주민의 고유성과 맥락을 지운 채  ‘다문화주의’라는 이미지에 가둬두고 그 자리를 벗어나면 관용을 철회한 후 ‘우리’를 위협하는 존재로 간주하기 때문이다. 배경 없는 무대에서, 무엇이든 합성할 수 있는 크로마 키(chroma key)벽 앞에서 박연희는 ‘한민족’이자 중국인인 다중적 역할을 수행하며 조언과 폭로를 반복한다.",
+    "videos": ["https://vimeo.com/373593475"],
+    "images": [
+    "/images/bleached-stage.jpg"
+  ],
     "media": [
       "video"
     ]
@@ -451,11 +547,68 @@
   {
     "id": "shirts",
     "type": "project",
-    "title_en": "Shirts and Shirts",
-    "title_ko": "셔츠와 셔츠",
-    "year": "2016",
-    "caption": "간단한 캡션",
-    "description": "작품 설명",
+    "works": [
+      {
+        "title_en": "Shirts and Shirts",
+        "title_ko": "셔츠와 셔츠",
+        "year": "2016",
+        "caption": "shirts, 77x45cm each",
+        "description": "",
+        "description_en": "Sometimes I buy a 9,900 KRW T-shirt or a 19,900 KRW dress from Uniqlo. As stated on the main page of the Uniqlo website, it is indeed a ‘special price.’ The quality isn’t even that bad. However, anyone who isn’t naive knows that for these products to be ‘special’ in price, someone else has to work in poor conditions, receive unfair wages, or endure excessively long hours. Thanks to the suffering of these people, I am able to purchase clothes at such low prices.\n\nGiven my own social network and the temporal and financial conditions afforded by grants, I try to produce clothing as ethically (non-violently) as possible. My process is as follows:\n\nI purchase two of the same garment from an SPA brand. I give one to a pattern expert, paying a fair wage to create a pattern. I buy thread or fabric as similar as possible to the original material. If I buy thread, I either weave it into fabric myself or pay someone else to do it. With both the fabric and the pattern, I travel to the country where the garment was originally produced. There, I find a local tailor, give them the materials and pattern, and ask them to make the garment, paying what I deem a legally fair wage (inferred through consultation).\n\nEvery step is documented with photos and video, and this is done only after receiving informed consent from all participants. The consent is formalized and shared with both parties (artist and collaborator).\n\nThe unused SPA garment and the one I produced are displayed together, along with all documentation—receipts, videos, written records—of the entire process.\n\nIn the final result, my own social and economic limitations and opportunities will be revealed. Some steps may be easy for me because of the people I know or my own skills and knowledge. However, unless I obtain cotton seeds, grow and spin the cotton, and weave it into fabric myself, I cannot fully eliminate the potential for unethical practices that may have occurred during cotton growing, thread making, or fabric production. Even while striving for ethical production, indirect violence remains—these are my social, economic, temporal, and technical limitations, and they will inevitably be embedded in both the process and the outcome.",
+        "description_ko": "나는 가끔 유니클로에서 9900원짜리 티셔츠, 혹은 19900원짜리 원피스를 구입하곤 한다. 유니클로 홈페이지 첫화면에 적혀 있는 것처럼 실로 ‘특별한 가격’이다. 심지어 품질도 그리 나쁘지 않다. 하지만 바보가 아니라면 상품 가격이 ‘특별하’기 위해 누군가가 열악한 환경에서 일하거나, 정당한 임금을 받지 못하거나, 너무 긴 노동시간에 시달린다는 것을 알 것이다. 그런 누군가들의 피해 덕분에 나는 저렴한 가격으로 옷을 구입할 수 있다. \n\n나는 내가 가진 사회적 관계망과 지원금이라는 시간적, 경제적 조건을 규칙삼아 최대한 윤리적(비폭력적)인 옷을 제작하고자 한다. 그 실천 방법은 다음과 같다.\n\nSPA브랜드에서 마음에 드는 옷 하나를 두벌 구입한다. 패턴 전문가에게 한 벌과 적당한 임금을 주고 패턴을 떠 달라고 부탁한다. 해당 소재와 가장 비슷한 실 또는 원단을 구입한다. 만약 실을 구입했다면 직물로 만들기 위해 내가 직조를 하거나 또 다른 누군가에게 임금을 주고 맡긴다. 원단과 패턴을 가지고 그 옷이 생산된 현지에 간다. 현지의 직공을 섭외해서 원단과 패턴을 주고 제작해달라고 부탁한다. 그에게 법적으로 가장 적당하다고 생각되는, (자문을 통해 유추된 가격) 임금을 지불하다. \n\n모든 과정은 사진과 동영상으로 기록된다. 이때 이 작품에 관여하게 될 모든 분들의 양해와 허락 후 이를 진행한다. 양해와 허락은 문서화되어 양쪽(작가와 참여자)에 전달된다.\n\n사용하지 않은 SPA옷과 내가 만들어낸 옷은 함께 전시된다. 작업 과정이 담긴 영수증, 영상, 글등과 같은 기록물 또한 옷과 함께 전시된다. \n\n최종 결과물 안에는 내가 가진 사회적, 경제적 한계와 기회가 드러날 것이다. 어떤 단계에서는 내가 가진 인적 자원으로 손쉽게 달성될 수 있고 또는 내가 가진 지식과 능력으로 스스로 해결될 수도 있다. 그러나 목화씨를 손에 넣어 직접 재배해 실을 엮고 직조해서 직물을 만들지 않는 이상 목화를 재배할 때, 실을 만들 때, 직물을 생산할 때 발생했을지도 모르는 비윤리성은 제거하지 못할 것이다. 결국 윤리적이고자 노력하는 와중에도 간접적인 폭력은 남아있을 것이고 그것이 내가 가진 사회, 경제, 시간, 기술적 한계일 것이며 그것들은 과정과 결과 속에 남게 될 것이다.",
+        "images": [
+        "/images/shirts_1.jpg",
+        "/images/shirts_2.jpg"
+      ]
+      },
+      {
+        "title_en": "Shirts and Shirts-Receipt",
+        "title_ko": "셔츠와 셔츠-영수증",
+        "year": "2016",
+        "caption": "pigment print, 23x7.8cm, 29.7x21cm, 19.2x8.5cm, 29.7x21cm",
+        "images": [
+          "/images/shirts_receipt.jpg"
+        ]
+      },
+      {
+        "title_en": "Shirts and Shirts-UNIQLO",
+        "title_ko": "셔츠와 셔츠-유니클로",
+        "year": "2017",
+        "caption": "pigment print, 40x70cm",
+        "images": [
+          "/images/shirts_uniqlo.jpg"
+        ]
+      },
+      {
+        "title_en": "Shirts and Shirts-Warehouse",
+        "title_ko": "셔츠와 셔츠-창고",
+        "year": "2017",
+        "caption": "pigment print, 40x70cm",
+        "images": [
+          "/images/shirts_warehouse.jpg"
+        ]
+      },
+      {
+        "title_en": "Shirts and Shirts-Wharf",
+        "title_ko": "셔츠와 셔츠-부두",
+        "year": "2017",
+        "caption": "pigment print, 70x46.5cm",
+        "description": "",
+        "images": [
+          "/images/shirts_wharf.jpg"
+        ]
+      },
+      {
+        "title_en": "Shirts and Shirts-Dongil Textilef",
+        "title_ko": "셔츠와 셔츠-동일방직",
+        "year": "2017",
+        "caption": "pigment print, 49x70cm",
+        "description": "",
+        "images": [
+          "/images/shirts_dongil.jpg"
+        ]
+      }
+    ],
     "media": [
       "installation", "print"
     ]
@@ -466,8 +619,19 @@
     "title_en": "Give Me Overtime Pay",
     "title_ko": "야근수당 주세요",
     "year": "2017, 2020",
-    "caption": "간단한 캡션",
-    "description": "작품 설명",
+    "caption": "performance, alarm clock, desk, chair",
+    "description_en":"I recently met up with a friend I hadn’t seen in a long time, and she told me about her company. At her workplace, the official end of the workday is 6 p.m., but overtime pay is only given at 9 p.m.—and it’s not 6,000 KRW per hour, but 6,000 KRW total. So, if she finishes her work at 7, she simply goes home. But if she finishes at around 8:30, she kills time for 30 minutes just to get the 6,000 KRW before leaving. The time spent waiting to receive overtime pay is not time spent on production. It’s not even time for reproduction. Nor is it time for the worker to enjoy leisure.\n\n\"Give Me My Overtime Pay\" is a performance piece that uses time as its material. Social phenomena can feel unfamiliar when viewed up close. In this work, I aim to closely observe everyday scenes of labor.\n\nParticipants are recruited for the performance. Their task is to 'do nothing.' The performance is structured in 10-minute increments: if the participant succeeds in doing nothing for each stage (a set period of time), they receive 6,000 KRW. For example, if a participant manages to do nothing for the first 10-minute stage, they receive 6,000 KRW; if they succeed in the second stage, which lasts 20 minutes, they receive another 6,000 KRW, and so on. The maximum challenge time is 3 hours—the same duration that qualifies for overtime pay at my friend’s company (from 6 p.m. to 9 p.m.). The performance space provides only one table and one chair; participants cannot leave this space. Since ‘doing nothing’ is the task, all items such as cell phones and writing utensils are strictly prohibited, and sleeping is also not allowed.",
+    "description_ko":"오랜만에 만난 친구에게서 회사 이야기를 들었다. 그 친구네 회사는 6시가 퇴근 시간인 회사다. 그런데 야근 수당은 9시가 되어야 6,000원이 지급된다. 시급으로 6,000원이 아니라. 그래서 친구는 7시쯤 일이 끝나면 그냥 퇴근하지만 8시 30분쯤 일이 끝나면 30분 동안 시간을 때우다가 6,000원을 받고 퇴근한다고 한다. 야근 수당을 받기 위해 버티는 시간은 생산의 시간이 아니다. 재생산의 시간도 아니다. 노동자가 여가를 즐기는 시간도 아니다. \n\n<야근수당 주세요>는 시간을 소재로 삼은 퍼포먼스다. 사회현상은 가까이서 들여다보면 낯설게 느껴질 때가 있다. 나는 이번 작업에서 노동의 일상적인 장면을 가까이서 관찰하려고 한다.\n\n퍼포먼스 참여자를 모집한다. 참여자가 할 것은 '아무것도 안 하기'다. 10분 단위로 단계를 설정하고 참여자가 각 단계, 즉 일정 시간 동안 아무것도 안 하기를 달성하면 6,000원을 지급하는 형식이다. 예를 들어 1단계인 10분동안 참여자가 아무것도 안 하기에 성공하면 6,000원을 지급하고 다음 단계인 2단계 20분 동안 아무것도 안 하기에 성공하면 또 6,000원을 지급한다. 야근수당이 지급되는 3시간(친구 회사 야근수당 시스템의 18시에서 21시)이 도전할 수 있는 최대 시간이다. 퍼포먼스가 진행되는 장소에는 테이블 한 개와 의자 한 개가 제공되며 참여자는 그 테이블 공간에서 벗어날 수 없다. '아무것도 안 하기'가 할 일이기 때문에 핸드폰, 필기도구 등의 물건은 일체 반입 금지이며 마찬가지로 수면도 금지된다.",
+    "videos": [
+                "https://vimeo.com/462097880",
+                "https://vimeo.com/462098122",
+                "https://vimeo.com/462098305"],
+    "images": [
+          "/images/overtime_1.jpg",
+          "/images/overtime_2.jpg",
+          "/images/overtime_3.jpg",
+          "/images/overtime_4.jpg"
+    ],
     "media": [
       "performance", "audience participation"
     ]
@@ -478,8 +642,17 @@
     "title_en": "An Equal Relationship",
     "title_ko": "평등한 관계",
     "year": "2016, 2017",
-    "caption": "간단한 캡션",
-    "description": "작품 설명",
+    "caption": "performance",
+    "description_en":"In a capitalist society, employees sell their labor power, reduced to units of time, in exchange for wages. At first glance, this labor-wage exchange appears equal. However, maximizing productivity within work hours, performing emotional labor for bosses and customers, the constant risk of dismissal for irregular workers, and job insecurity mean that it is not just a simple sale of labor power. It is a relationship of subordination. Employees may seem to ‘freely’ sell their labor, but in reality, ‘free will’ does not exist.\n\nI want to try an experiment: an experiment in which employees sell their labor power entirely on their own terms. I will work in the laboratory at the Seogyo Art Experiment Center from 12 p.m. to 6 p.m. Anyone can freely visit the lab and purchase my labor power by the hour. As long as it is not illegal, inhumane, or beyond my abilities, anything is possible—such as having a meal together, asking me to design a logo, making me perform simple repetitive labor, or playing chess with me. A contract I provide must be signed, and the hourly wage is 6,030 KRW. However, the final decision on whether or not to perform the task always remains with the employee.\n\nThe process will be documented and will become a work of art that goes beyond a single experiment or transaction. The employers will keep the result of the labor, and I will incorporate their actions into my work.",
+    "description_ko":"자본주의 사회 안에서 피고용인은 시간으로 환원되는 자신의 노동력을 팔고 임금을 받는다. 언뜻 보아서 이 노동력-임금 교환은 평등해 보인다. 하지만 노동시간 내에 최대 생산량, 직장 상사 및 고객에 대한 감정노동, 비정규 노동의 상시적인 해고 위험, 일자리 난 등으로 단순히 노동력을 파는 것에 그치지 않는다. 종속관계가 되는 것이다. 피고용인은 ‘자유롭게’ 자신의 노동력을 파는 것 같지만 실은 ‘자유의지’는 존재하지 않는다.\n\n하나의 실험을 해보려 한다. 이는 피고용인의 마음대로 노동력을 파는 실험이다. 나는 12시부터 18시까지 서교예술실험센터의 실험실에서 근무할 것이다. 누구나 자유롭게 이 실험실에 와서 나의 노동력을 1시간 단위로 사고자 할 수 있다. 그것이 불법적/반인륜적/내 능력 밖의 일이 아니라면 무엇이든 가능하다. 가령 같이 밥을 먹는다던가, 로고 디자인을 부탁한다던가, 단순 반복 노동을 시킨다던가, 같이 체스를 두던가 하는 일이 있다. 내가 제시한 근로계약서를 쓰게 될 것이고 시급은 6,030원이다. 하지만 최종적으로 그 일을 할지 말지 선택하는 권리는 피고용인 본인에게 달려 있다.\n\n이 과정은 기록되며 하나의 실험, 하나의 교환을 넘어서 나의 작품이 된다. 그렇게 고용인들은 노동의 결과물을 가지게 되고 나는 고용인들의 행위를 작품의 일부로 만든다.",
+    "images": [
+      "/images/equal-relationship_1.jpg",
+      "/images/equal-relationship_2.jpg",
+      "/images/equal-relationship_3.jpg",
+      "/images/equal-relationship_4.jpg",
+      "/images/equal-relationship_5.jpg",
+      "/images/equal-relationship_6.jpg"
+    ],
     "media": [
       "performance", "installation", "audience participation"
     ]

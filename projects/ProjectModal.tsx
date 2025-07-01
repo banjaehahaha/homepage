@@ -217,8 +217,8 @@ export default function ProjectModal({ id }: { id: string }) {
       style={{
         width: "90vw",
         maxWidth: "90vw",
-        maxHeight: "80vh", // 전체 제한
-        minHeight: "80vh", // 최소 높이
+        maxHeight: "85vh", // 전체 제한
+        minHeight: "85vh", // 최소 높이
         minWidth: "90vw",
         background: "#222",
         borderRadius: 5,
@@ -231,8 +231,8 @@ export default function ProjectModal({ id }: { id: string }) {
       }}
     >
     {works.map((work, idx) => (
+    <React.Fragment key={idx}>
     <div
-      key={idx}
       style={{
         display: "flex",
         flexDirection: "row", // 가로로 텍스트/이미지 배치
@@ -477,6 +477,18 @@ export default function ProjectModal({ id }: { id: string }) {
       >×</button>
       </div>
     </div>
+    {idx < works.length - 1 && (
+      <hr
+        style={{
+          border: 0,
+          borderTop: "0.5px solid #555",
+          margin: "32px auto", 
+          width: "95%",
+        }}
+      />
+    )}
+    </React.Fragment>
+    
   ))}
 
 
