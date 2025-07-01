@@ -186,7 +186,7 @@ export default function CanvasImageGrid() {
               style={{ left, top, transform: 'translate(-50%, -100%)' }}
               onClick={() => setModalSrc(pin.video)}
             >
-              <NextImage src="/images/pin.png" alt="pin" width={40} height={40} />
+              <NextImage src="/images/pin.png" alt="pin" width={40} height={40} className="twinkle" />
             </div>
           );
         })}

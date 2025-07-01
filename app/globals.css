@@ -78,7 +78,21 @@ canvas {
     opacity: 0;
     transform: scale(0.95);
   }
+
 }
+
+@keyframes twinkle {
+  0%, 100% { filter: brightness(1.2) drop-shadow(0 0 4px #fffbe6); }
+  20% { filter: brightness(1.5) drop-shadow(0 0 16px #fff8d0); }
+  40% { filter: brightness(1) drop-shadow(0 0 2px #fffbe6); }
+  60% { filter: brightness(1.4) drop-shadow(0 0 10px #fffbe6); }
+  80% { filter: brightness(1) drop-shadow(0 0 0 #fffbe6);}
+}
+
+.twinkle {
+  animation: twinkle 1.5s infinite ease-in-out;
+}
+
 
 .animate-fadeIn {
   animation: fadeIn 0.3s ease-out forwards;

@@ -20,6 +20,7 @@ type WorkType = {
   videos?: string[];
   youtube?: string[] | string;
   images?: string[];
+  sounds?: string[]; 
 };
 
 type ProjectData = {
@@ -151,6 +152,7 @@ export default function ProjectModal({ id }: { id: string }) {
       .then(res => res.json())
       .then((list: ProjectData[]) => {
         const project = list.find((p) => p.id === id);
+        console.log('Loaded project data:', project);
         setData(project || null);
       });
   }, [id]);
@@ -225,7 +227,7 @@ export default function ProjectModal({ id }: { id: string }) {
         flexDirection: "column",   // 반드시 column!
         overflow: "auto",
         padding: "0",  // (원하는 여백 필요시 조절)
-        overflowY: "hidden", 
+        overflowY: "auto", 
       }}
     >
     {works.map((work, idx) => (
@@ -333,6 +335,14 @@ export default function ProjectModal({ id }: { id: string }) {
 
         }}
       >
+          {Array.isArray(work.sounds) && work.sounds.map((src, sIdx) => (
+            <audio
+              key={sIdx}
+              src={src.startsWith("/") ? src : `/audio/${src}`}
+              controls
+              style={{ width: "100%", margin: "8px 0" }}
+            />
+          ))}
         {Array.isArray(work.videos) && work.videos.map((src, vIdx) => {
         // Vimeo
         if (/vimeo\.com/.test(src)) {
