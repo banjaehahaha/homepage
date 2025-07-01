@@ -1,6 +1,7 @@
 import ProjectModal from "@/projects/ProjectModal";
 
 
-export default function ProjectPage({ params }: any) {
-  return <ProjectModal id={params.id} />;
+export default async function ProjectPage({ params }: any) {
+  const resolvedParams = await params;
+  return <ProjectModal id={resolvedParams.id} />;
 }
