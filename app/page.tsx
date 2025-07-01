@@ -12,10 +12,10 @@ type Pin = {
 };
 
 const pins: Pin[] = [
-  { id: 'pin1', xRatio: 0.3, yRatio: 0.38, video: '/videos/video1.mp4' },
-  { id: 'pin2', xRatio: 0.65, yRatio: 0.25, video: '/videos/video2.mp4' },
-  { id: 'pin3', xRatio: 0.75, yRatio: 0.7, video: '/videos/video3.mp4' },
-  { id: 'pin4', xRatio: 0.14, yRatio: 0.83, video: '/videos/video4.mp4' },
+  { id: 'pin1', xRatio: 0.3, yRatio: 0.38, video: '/videos/dandong.mp4' },
+  { id: 'pin2', xRatio: 0.65, yRatio: 0.25, video: '/videos/paju.mp4' },
+  { id: 'pin3', xRatio: 0.75, yRatio: 0.7, video: '/videos/gold.mp4' },
+  { id: 'pin4', xRatio: 0.14, yRatio: 0.83, video: '/videos/tumen.mp4' },
 ];
 
 export default function CanvasImageGrid() {
@@ -133,7 +133,7 @@ export default function CanvasImageGrid() {
 
     const draw = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-      ctx.fillStyle = 'rgba(0, 0, 0, 0.9)';
+      ctx.fillStyle = 'rgba(0, 0, 0, 0.8)';
       ctx.fillRect(0, 0, canvas.width, canvas.height);
     
       // 🔽 페더 효과 추가
