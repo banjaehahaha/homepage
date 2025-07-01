@@ -4,6 +4,8 @@ import Link from 'next/link'
 import React, { useEffect, useState, useMemo, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { useRouter, usePathname } from 'next/navigation';
+import ArchivePanel from "@/components/ArchivePanel";
+import { AnimatePresence } from "framer-motion";
 
 
 
@@ -223,6 +225,8 @@ const TITLE_EXTRA_W = 80; // 제목 박스 넓이 여유분
 export default function MediaDiagram() {
   const router = useRouter();
   const pathname = usePathname();
+
+  const [showArchive, setShowArchive] = useState(false);
 
   const [nodes, setNodes] = useState<Node[]>([]);
   const [links, setLinks] = useState<Link[]>([]);
@@ -564,17 +568,25 @@ export default function MediaDiagram() {
 
             <div className="mt-6 ml-4 flex flex-col items-left space-y-4">
 
-            <Link href="/cv">
-              <span className="text-white text-2xl font-bold hover:underline">
-                Texts →
-              </span>
-            </Link>
+            <span
+              className="text-white text-2xl font-bold hover:underline cursor-pointer"
+              onClick={() => setShowArchive(true)}
+            >
+              Archive →
+            </span>
+            <AnimatePresence>
+            {showArchive && (
+              <ArchivePanel onClose={() => setShowArchive(false)} />
+            )}
+            </AnimatePresence>
+
 
             <Link href="/cv">
               <span className="text-white text-2xl font-bold hover:underline">
                 CV →
               </span>
             </Link>
+
 
             <a
             href="http://instagram.com/ban_jaeha/"
@@ -712,7 +724,7 @@ export default function MediaDiagram() {
           <h2 style={{ background: "#92F90E", color: "#222", display: "inline-block", padding: "0px 4px" }}><b><i>JPSMK―KRPUS―KRINC―CNDGD(working title)</i></b></h2><br />
           <h2 style={{ background: "#92F90E", color: "#222", display: "inline-block", padding: "0px 4px" }}><b>JPSMK―KRPUS―KRINC―CNDGD(가제)</b></h2><br /><br />
             This project explores the reality of South Korea, where direct connection with North Korea is structurally blocked by division and sanctions, by tracing the detoured routes of logistics. Visitors are invited to place real orders for North Korean goods and experience the process as those goods travel through unofficial distribution networks to arrive at the exhibition space. Through the movement of goods and the time delays involved, the work reveals how national borders and sanction systems can be flexibly bypassed by capital. It is an attempt to reconfigure the present condition of division by making the "time of detour" perceptible.<br />
-            이 프로젝트는 분단과 제재라는 구조 속에서 북한과 직접적으로 연결될 수 없는 남한의 현실을, 물류의 우회 경로를 통해 감각하려는 시도다. 관객은 북한산 물건을 실제로 주문하고, 그 물건이 비공식적인 유통망을 따라 전시장에 도착하는 과정을 함께 경험하게 된다. 이 작업은 물건의 이동과 지연된 시간을 통해 국가의 경계와 제재 체계가 상품에 의해 얼마나 유연하게 무력화되는지를 드러내며, ‘우회의 시간’을 감각하는 방식으로 분단의 현재를 재구성하는 작업이다.
+            이 프로젝트는 분단과 제재라는 구조 속에서 북한과 직접적으로 연결될 수 없는 남한의 현실을, 물류의 우회 경로를 통해 감각하려는 시도다. 관객은 북한산 물건을 실제로 주문하고, 그 물건이 비공식적인 유통망을 따라 전시장에 도착하는 과정을 함께 경험하게 된다. 이 작업은 물건의 이동과 지연된 시간을 통해 국가의 경계와 제재 체계가 상품에 의해 얼마나 유연하게 무력화되는지를 드러내며, ‘우회의 시간’을 감각하는 방식으로 분단의 현재를 재구성한다.
             <br /><br />
             <b>Exhibition:</b>  Early September, 2025, 챔버 CHAMBER <br />
             <b>Performance:</b> 30 October, 2025, Theater, Incheon Art Platform <br />
