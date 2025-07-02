@@ -23,7 +23,7 @@ export default function CustomMarkdown({
             return (
               <button
                 type="button"
-                className="underline text-lime-400 cursor-pointer"
+                className="text-lime-400 cursor-pointer hover:underline"
                 onClick={() => setModalProjectId(id)}
                 style={{ background: "none", border: "none", padding: 0 }}
               >
@@ -38,7 +38,7 @@ export default function CustomMarkdown({
                 href={href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="underline text-lime-400"
+                className="text-lime-400 cursor-pointer hover:underline"
                 {...props}
               >
                 {children}
