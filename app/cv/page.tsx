@@ -1,3 +1,6 @@
+"use client";
+import CVPanel from "@/components/CVPanel";
+
 export default function CVPage() {
-    return <main>…</main>
-  } 
+  return <CVPanel onClose={() => {}} />;
+}

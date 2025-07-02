@@ -65,7 +65,7 @@ export const archiveList = [
       },      
       {
         type: "external",
-        desc: "워크숍 기록",
+        desc: "공연 기록",
         label: "다원 '메이크 홈, 스위트 홈' 연습 스케치",
         url: "https://youtu.be/V8jI2eH5Ok0?si=IeX1Cx5i7HN17ycB",
         date: "2024",

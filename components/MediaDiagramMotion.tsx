@@ -5,6 +5,7 @@ import React, { useEffect, useState, useMemo, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { useRouter, usePathname } from 'next/navigation';
 import ArchivePanel from "@/components/ArchivePanel";
+import CVPanel from "@/components/CVPanel";
 import { AnimatePresence } from "framer-motion";
 
 
@@ -227,6 +228,7 @@ export default function MediaDiagram() {
   const pathname = usePathname();
 
   const [showArchive, setShowArchive] = useState(false);
+  const [showCV, setShowCV] = useState(false);
 
   const [nodes, setNodes] = useState<Node[]>([]);
   const [links, setLinks] = useState<Link[]>([]);
@@ -534,7 +536,7 @@ export default function MediaDiagram() {
         ))}
             <div className="pt-2 border-t border-white/20 w-max">
               <span className="text-sm font-medium whitespace-nowrap">
-                Time-Ordered View
+              Sort by Newest
               </span>
             </div>
             <div className="flex items-center pt-1">
@@ -580,13 +582,15 @@ export default function MediaDiagram() {
             )}
             </AnimatePresence>
 
-
-            <Link href="/cv">
-              <span className="text-white text-2xl font-bold hover:underline">
-                CV →
-              </span>
-            </Link>
-
+            <span
+              className="text-white text-2xl font-bold hover:underline cursor-pointer"
+              onClick={() => setShowCV(true)}
+            >
+              CV →
+            </span>
+            <AnimatePresence>
+            {showCV && <CVPanel onClose={() => setShowCV(false)} />}
+            </AnimatePresence>
 
             <a
             href="http://instagram.com/ban_jaeha/"

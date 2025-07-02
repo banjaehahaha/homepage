@@ -131,7 +131,13 @@ function DescriptionWithReadMore({
 }
 
 
-export default function ProjectModal({ id }: { id: string }) {
+export default function ProjectModal({
+      id,
+      onClose
+    }: {
+      id: string;
+      onClose: () => void;
+    }) {
   const overlayRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
@@ -157,30 +163,32 @@ export default function ProjectModal({ id }: { id: string }) {
       });
   }, [id]);
 
-    // 바깥 클릭시 닫기
-    useEffect(() => {
-      function onClick(e: MouseEvent) {
-        if (
-          overlayRef.current &&
-          contentRef.current &&
-          e.target instanceof Node &&
-          overlayRef.current === e.target // "검정 배경"만 클릭한 경우
-        ) {
-          router.back();
-        }
-      }
-      window.addEventListener("mousedown", onClick);
-      return () => window.removeEventListener("mousedown", onClick);
-    }, [router]);
+  useEffect(() => {
+    if (!onClose) return; // onClose 없으면 아무것도 안 함
   
-    // ESC로 닫기 (선택)
-    useEffect(() => {
-      function onKey(e: KeyboardEvent) {
-        if (e.key === "Escape") router.back();
+    function onClick(e: MouseEvent) {
+      if (
+        overlayRef.current &&
+        contentRef.current &&
+        e.target instanceof Node &&
+        overlayRef.current === e.target // "검정 배경"만 클릭한 경우
+      ) {
+        onClose();
       }
-      window.addEventListener("keydown", onKey);
-      return () => window.removeEventListener("keydown", onKey);
-    }, [router]);
+    }
+  
+    function onKey(e: KeyboardEvent) {
+      if (e.key === "Escape") onClose();
+    }
+  
+    window.addEventListener("mousedown", onClick);
+    window.addEventListener("keydown", onKey);
+    return () => {
+      window.removeEventListener("mousedown", onClick);
+      window.removeEventListener("keydown", onKey);
+    };
+  }, [onClose]);
+  
   
     if (!data) return (
       <div style={{ color: "#fff", textAlign: "center", padding: 80 }}>
@@ -230,6 +238,26 @@ export default function ProjectModal({ id }: { id: string }) {
         overflowY: "auto", 
       }}
     >
+      {onClose && (
+        <button
+          onClick={onClose}
+          style={{
+            position: "fixed",
+            top: 32,
+            right: 52,
+            fontSize: 48,
+            color: "#fff",
+            background: "none",
+            border: "none",
+            cursor: "pointer",
+            zIndex: 10000,
+            fontWeight: 200,
+            textShadow: "0 2px 8px #000",
+          }}
+          aria-label="닫기"
+        >×</button>
+      )}
+      
     {works.map((work, idx) => (
     <React.Fragment key={idx}>
     <div
