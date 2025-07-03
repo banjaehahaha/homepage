@@ -141,6 +141,12 @@ export default function ProjectModal({
   const overlayRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
+  const workRefs = useRef<Array<HTMLDivElement | null>>([]);
+
+  const setWorkRef = (idx: number) => (el: HTMLDivElement | null) => {
+    workRefs.current[idx] = el;
+  };
+
 
   const innerRef = useRef<HTMLDivElement>(null);
   const [data, setData] = useState<ProjectData | WorkType | null>(null);
@@ -257,10 +263,55 @@ export default function ProjectModal({
           aria-label="닫기"
         >×</button>
       )}
-      
+      {works.length > 1 && (
+           <div style={{
+            display: 'flex',
+            gap: 4,
+            position: 'sticky',
+            top: 0,
+            background: '#222',
+            zIndex: 10,
+            padding: '12px 36px 12px 36px',
+            overflowX: 'auto',
+            whiteSpace: 'nowrap',         // 이게 제일 중요!
+            width: '100%',                // 부모가 꽉 차게!
+            minHeight: 56,
+            boxSizing: 'border-box',
+            scrollbarWidth: 'thin',       // (선택) 파이어폭스 얇은 스크롤
+      }}>
+        {works.map((work, idx) => (
+          <button
+            key={idx}
+            style={{
+              padding: "5px 5px 0 10px",
+              borderRadius: 5,
+              fontWeight: 400,
+              background: "#333",
+              color: "#92F90E",
+              fontSize: 16,
+              border: "none",
+              cursor: "pointer",
+              minWidth: 50,
+              maxWidth: 200,
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+              whiteSpace: 'nowrap',
+            }}
+            onClick={() => {
+              workRefs.current[idx]?.scrollIntoView({ behavior: "smooth", block: "start" });
+            }}
+            title={work.title_en}
+          >
+            {work.title_en || `Work ${idx + 1}`}
+          </button>
+        ))}
+      </div>
+      )}
+
     {works.map((work, idx) => (
     <React.Fragment key={idx}>
     <div
+      ref={setWorkRef(idx)}
       style={{
         display: "flex",
         flexDirection: "row", // 가로로 텍스트/이미지 배치
@@ -268,6 +319,7 @@ export default function ProjectModal({
         alignItems: "flex-start",
         marginBottom: "32px", // 워크들 사이 간격
         width: "100%",
+        scrollMarginTop: 35,
       }}
     >
       {/* ----------- 좌: 텍스트 ----------- */}
