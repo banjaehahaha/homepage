@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import ReactMarkdown from "react-markdown";
 import CustomMarkdown from "@/components/CustomMarkdown";
@@ -7,7 +7,21 @@ import { soloList, groupList } from "@/components/cvList";
 import Link from "next/link";
 import ProjectModal from "@/projects/ProjectModal";
 
+function useIsMobile(breakpoint = 768) {
+    const [isMobile, setIsMobile] = useState(false);
+    useEffect(() => {
+      const check = () => setIsMobile(window.innerWidth < breakpoint);
+      check();
+      window.addEventListener("resize", check);
+      return () => window.removeEventListener("resize", check);
+    }, [breakpoint]);
+    return isMobile;
+  }
+
 export default function CVPanel({ onClose }: { onClose: () => void }) {
+  const isMobile = useIsMobile();
+  console.log("isMobile:", isMobile);
+
   const [lang, setLang] = useState<'en' | 'ko'>('en'); 
   const [modalProjectId, setModalProjectId] = useState<string | null>(null);
   const sortedSoloList = [...soloList].sort((a, b) => {
@@ -66,12 +80,15 @@ export default function CVPanel({ onClose }: { onClose: () => void }) {
         aria-label="Close CV panel"
       />
       <motion.div
-        initial={{ x: '100%' }}
+        initial={isMobile ? false : { x: '100%' }}
         animate={{ x: 0 }}
-        exit={{ x: '100%' }}
-        transition={{ duration: 0.5, ease: "easeInOut" }}
-        className="fixed top-0 right-0 h-full w-full md:w-[70vw] max-w-5xl bg-[#222] z-50 shadow-2xl overflow-y-auto"
-        style={{ willChange: "transform" }}
+        exit={isMobile ? undefined : { x: '100%' }}
+        transition={isMobile ? { duration: 0 } : { duration: 0.5, ease: "easeInOut" }}
+        className="fixed top-0 right-0 w-full md:w-[70vw] max-w-5xl bg-[#222] z-50 shadow-2xl overflow-y-auto pb-20 md:pb-0 [height:calc(100vh-40px)] md:h-full [bottom:40px] md:bottom-0 rounded-t-xl"
+        style={{
+            willChange: "transform"
+        }}
+        onClick={e => e.stopPropagation()}
       >
         <button
           className="absolute top-6 right-6 text-3xl"

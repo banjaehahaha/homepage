@@ -355,15 +355,8 @@ export default function ProjectModal({
     <div
       ref={setWorkRef(idx)}
       data-idx={idx}
-      style={{
-        display: "flex",
-        flexDirection: "row", // 가로로 텍스트/이미지 배치
-        gap: "32px",
-        alignItems: "flex-start",
-        marginBottom: "32px", // 워크들 사이 간격
-        width: "100%",
-        scrollMarginTop: 35,
-      }}
+      className="flex flex-col md:flex-row gap-8 items-start mb-8 w-full"
+      style={{ scrollMarginTop: 35 }}
     >
       {/* ----------- 좌: 텍스트 ----------- */}
       <div

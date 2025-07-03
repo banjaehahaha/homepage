@@ -496,11 +496,24 @@ export default function MediaDiagram() {
     setIsYearGrid(prev => !prev);
   };
 
-  const isMobile = useMediaQuery("(max-width: 768px)");
+const isMobile = useMediaQuery("(max-width: 768px)");
 
-  if (isMobile) {
-    return <MobilePortfolio nodes={nodes} links={links} />;
-  }
+useEffect(() => {
+  if (isMobile) return;
+  document.body.style.overflow = "hidden";
+  document.documentElement.style.overflow = "hidden";
+  const nextEl = document.getElementById("__next");
+  if (nextEl) nextEl.style.overflow = "hidden";
+  return () => {
+    document.body.style.overflow = "";
+    document.documentElement.style.overflow = "";
+    if (nextEl) nextEl.style.overflow = "";
+  };
+}, [isMobile]);
+
+if (isMobile) {
+  return <MobilePortfolio nodes={nodes} links={links} />;
+}
 
   return (
     <div
@@ -883,7 +896,7 @@ const filteredNodes = useMemo(() => {
         {filteredNodes.map(node => (
           <div
             key={node.id}
-            onClick={() => window.location.href = `/projects/${node.id}`}
+            onClick={() => window.location.href = `/diagram/modal/projects/${node.id}`}
             className="bg-zinc-900 rounded-xl overflow-hidden shadow-lg cursor-pointer"
           >
             <img
@@ -910,26 +923,6 @@ const filteredNodes = useMemo(() => {
       <div className="mt-6 text-center text-gray-400 text-xs">
         전체 다이어그램은 PC에서 더 편하게 보실 수 있습니다
       </div>
-
-          {/* 하단 네비게이션 바 */}
-          <div className="fixed bottom-0 left-0 w-full bg-black flex justify-around py-2 z-50 border-t border-zinc-800">
-            <a href="/diagram" className="text-white text-lg flex flex-col items-center">
-              Works
-              </a>
-            <a href="/cv" className="text-white text-lg flex flex-col items-center">
-              CV
-            </a>
-            <a href="/texts" className="text-white text-lg flex flex-col items-center">
-              Texts
-            </a>
-            <a
-              href="https://instagram.com/ban_jaeha"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-white text-lg flex flex-col items-center"
-            >Instagram
-            </a>
-          </div>
     </div>
   );
 }

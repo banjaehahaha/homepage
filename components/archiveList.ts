@@ -6,6 +6,7 @@ export const archiveList = [
         url: "https://costep.open-ed.hokudai.ac.jp/en/news/31492",
         date: "2024",
         source: "CoSTEP, Hokkaido University",
+        "projectId": "imagine-home"
       },
     {
         type: "pdf",

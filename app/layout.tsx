@@ -28,6 +28,25 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         {children}
+        <div className="fixed bottom-0 left-0 w-full bg-black flex justify-around py-2 z-[9999] border-t border-zinc-800 md:hidden">
+          <a href="/diagram" className="text-white text-lg flex flex-col items-center">
+            Works
+          </a>
+          <a href="/cv" className="text-white text-lg flex flex-col items-center">
+            CV
+          </a>
+          <a href="/archive" className="text-white text-lg flex flex-col items-center">
+            Archive
+          </a>
+          <a
+            href="https://instagram.com/ban_jaeha"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-white text-lg flex flex-col items-center"
+          >
+            Instagram
+          </a>
+        </div>
       </body>
     </html>
   );
