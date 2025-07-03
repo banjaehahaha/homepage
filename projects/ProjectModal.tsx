@@ -141,6 +141,7 @@ export default function ProjectModal({
   const overlayRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
+  const [activeTab, setActiveTab] = useState(0);
   const workRefs = useRef<Array<HTMLDivElement | null>>([]);
 
   const setWorkRef = (idx: number) => (el: HTMLDivElement | null) => {
@@ -158,6 +159,45 @@ export default function ProjectModal({
     : isWorkType(data)
     ? [data]
     : [];
+
+
+    useEffect(() => {
+      // works 없으면 감지 안 함
+      if (!works.length) return;
+    
+      const handleObserve = (entries: IntersectionObserverEntry[]) => {
+        // entries는 화면에 보이는 순서로 정렬되지 않음. 제일 위에 보이는 section을 찾는다.
+        const visible = entries
+        .filter(entry => entry.isIntersecting)
+        .map(entry => {
+          const idx = Number((entry.target as HTMLElement).dataset.idx);
+          return {
+            idx,
+            top: entry.boundingClientRect.top
+          };
+        })
+        .sort((a, b) => a.top - b.top);
+    
+      if (visible.length > 0) {
+        setActiveTab(visible[0].idx);
+      }
+      };
+    
+      const observer = new window.IntersectionObserver(handleObserve, {
+        root: contentRef.current, 
+        rootMargin: '-60px 0px 0px 0px', // 탭 높이만큼 offset
+        threshold: 0.25, // 25% 이상 보이면 active로 취급
+      });
+    
+      workRefs.current.forEach((ref) => {
+        if (ref) observer.observe(ref);
+      });
+    
+      return () => {
+        observer.disconnect();
+      };
+    }, [works.length]);
+
 
   useEffect(() => {
     fetch("/data/projects.json")
@@ -285,9 +325,6 @@ export default function ProjectModal({
             style={{
               padding: "5px 5px 0 10px",
               borderRadius: 5,
-              fontWeight: 400,
-              background: "#333",
-              color: "#92F90E",
               fontSize: 16,
               border: "none",
               cursor: "pointer",
@@ -296,9 +333,14 @@ export default function ProjectModal({
               overflow: 'hidden',
               textOverflow: 'ellipsis',
               whiteSpace: 'nowrap',
+              background: activeTab === idx ? "#92F90E" : "#333",
+              color: activeTab === idx ? "#222" : "#92F90E",
+              fontWeight: activeTab === idx ? 700 : 400,
+              borderBottom: activeTab === idx ? "3px solid #92F90E" : "none",
             }}
             onClick={() => {
               workRefs.current[idx]?.scrollIntoView({ behavior: "smooth", block: "start" });
+              setActiveTab(idx);
             }}
             title={work.title_en}
           >
@@ -312,6 +354,7 @@ export default function ProjectModal({
     <React.Fragment key={idx}>
     <div
       ref={setWorkRef(idx)}
+      data-idx={idx}
       style={{
         display: "flex",
         flexDirection: "row", // 가로로 텍스트/이미지 배치
