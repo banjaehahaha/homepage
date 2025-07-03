@@ -8,7 +8,31 @@ import ArchivePanel from "@/components/ArchivePanel";
 import CVPanel from "@/components/CVPanel";
 import { AnimatePresence } from "framer-motion";
 
+type NodeType = {
+  id: string;
+  label: string;
+};
 
+function NodeImage({ node }: { node: NodeType }) {
+  const [srcIdx, setSrcIdx] = useState(0);
+  const candidates = [
+    `/images/${node.id}_1.jpg`,
+    `/images/${node.id}_1.png`,
+    `/images/${node.id}.jpg`,
+    `/images/${node.id}.png`,
+  ];
+
+  return (
+    <img
+      src={candidates[srcIdx]}
+      alt={node.label}
+      className="w-full aspect-square object-cover"
+      onError={() => {
+        if (srcIdx < candidates.length - 1) setSrcIdx(srcIdx + 1);
+      }}
+    />
+  );
+}
 
 function useMediaQuery(query: string) {
   const [matches, setMatches] = useState(false);
@@ -899,11 +923,7 @@ const filteredNodes = useMemo(() => {
             onClick={() => window.location.href = `/diagram/modal/projects/${node.id}`}
             className="bg-zinc-900 rounded-xl overflow-hidden shadow-lg cursor-pointer"
           >
-            <img
-              src={`/images/${node.id}_thumbnail.png`}
-              alt={node.label}
-              className="w-full aspect-square object-cover"
-            />
+        <NodeImage node={node} />   
             <div className="p-2 text-white text-base">{node.label}</div>
             <div className="flex flex-wrap gap-1 px-2 pb-2">
             {node.keywords && node.keywords.map(k => (

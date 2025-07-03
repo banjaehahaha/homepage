@@ -575,7 +575,7 @@ export default function ProjectModal({
               />
         )}
               <button
-        onClick={() => router.back()}
+        onClick={onClose}
         style={{
           position: "fixed",
           top: 32,

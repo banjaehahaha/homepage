@@ -1,9 +1,18 @@
 'use client';
-
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import CVPanel from "@/components/CVPanel";
 
 export default function CVPage() {
   const router = useRouter();
-  return <CVPanel onClose={() => router.back()} />;
+  const searchParams = useSearchParams();
+  const from = searchParams.get("from");
+
+  return (
+    <CVPanel
+      onClose={() => {
+        if (from) router.replace(from);
+        else router.back();
+      }}
+    />
+  );
 }

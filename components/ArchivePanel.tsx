@@ -3,12 +3,24 @@ import { motion } from "framer-motion";
 import React from "react";
 import { archiveList } from "@/components/archiveList";
 
-export default function ArchivePanel({ onClose }: { onClose: () => void }) {
+export default function ArchivePanel({
+    onClose,
+    zIndex = 50, // 기본값 50
+  }: {
+    onClose: () => void;
+    zIndex?: number;
+  }) {
     const sortedList = [...archiveList].sort((a, b) => b.date.localeCompare(a.date));
   return (
     <>
       <div
-        className="fixed inset-0 bg-black/70 z-40"
+        style={{ zIndex }}
+        className="fixed     
+        left-0 
+        top-0
+        w-full
+        h-[calc(100vh-40px)]  
+        bg-black/70"
         onClick={onClose}
         aria-label="Close archive panel"
       />
@@ -17,12 +29,19 @@ export default function ArchivePanel({ onClose }: { onClose: () => void }) {
         animate={{ x: 0 }}
         exit={{ x: '100%' }}
         transition={{ duration: 0.5, ease: "easeInOut" }}
-        className="fixed top-0 right-0 h-full w-full md:w-[70vw] max-w-5xl bg-[#222] z-50 shadow-2xl overflow-y-auto"
-        style={{ willChange: "transform" }}
+        className="fixed top-0 right-0
+        w-full md:w-[70vw] max-w-5xl
+        bg-[#222] z-50 shadow-2xl overflow-y-auto
+        pb-20 md:pb-0
+        [height:calc(100vh-40px)] md:h-full
+        [bottom:40px] md:bottom-0
+        rounded-t-xl"
+        style={{ zIndex, willChange: "transform" }}
       >
         <button
           className="absolute top-6 right-6 text-3xl"
           onClick={onClose}
+          style={{cursor: "pointer"}}
           aria-label="Close"
         >
           ×
@@ -32,9 +51,9 @@ export default function ArchivePanel({ onClose }: { onClose: () => void }) {
           <ul>
             {sortedList.map((item, idx) => (
                 <li key={idx} className="mb-4 flex flex-col">
-                <div className="flex items-center space-x-2">
+                <div className="flex flex-col md:flex-row md:items-center md:space-x-2">
                 {/* 설명글: 작고 회색, 링크 바깥! */}
-                <span className="text-sm text-gray-400 mr-2">
+                <span className="text-sm text-lime-400 md:mr-2">
                     {item.desc}
                 </span>
                 {/* 제목: 굵고 흰색 링크 */}
@@ -58,10 +77,10 @@ export default function ArchivePanel({ onClose }: { onClose: () => void }) {
                     </a>
                 )}
                 {/* 아이콘 */}
-                <span>
+                <span className="hidden md:inline">
                     {item.type === "pdf" ? "📄" : "🔗"}
-                </span>
-                <div className="text-sm text-gray-400 mt-1">
+                    </span>
+                <div className="text-sm text-gray-400 md:mt-0 mt-1">
                     {item.source}
                 </div>
                 </div>

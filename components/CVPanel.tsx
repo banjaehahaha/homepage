@@ -18,10 +18,14 @@ function useIsMobile(breakpoint = 768) {
     return isMobile;
   }
 
-export default function CVPanel({ onClose }: { onClose: () => void }) {
+export default function CVPanel({
+    onClose,
+    zIndex = 50, // 기본값 50
+  }: {
+    onClose: () => void;
+    zIndex?: number;
+  }) {
   const isMobile = useIsMobile();
-  console.log("isMobile:", isMobile);
-
   const [lang, setLang] = useState<'en' | 'ko'>('en'); 
   const [modalProjectId, setModalProjectId] = useState<string | null>(null);
   const sortedSoloList = [...soloList].sort((a, b) => {
@@ -75,23 +79,34 @@ export default function CVPanel({ onClose }: { onClose: () => void }) {
   return (
     <>
       <div
-        className="fixed inset-0 bg-black/70 z-40"
+        style={{ zIndex }}
+        className="fixed     
+        left-0 
+        top-0
+        w-full
+        h-[calc(100vh-40px)]  
+        bg-black/70"
         onClick={onClose}
         aria-label="Close CV panel"
       />
       <motion.div
-        initial={isMobile ? false : { x: '100%' }}
+        initial={{ x: '100%' }}
         animate={{ x: 0 }}
-        exit={isMobile ? undefined : { x: '100%' }}
+        exit={{ x: '100%' }}
         transition={isMobile ? { duration: 0 } : { duration: 0.5, ease: "easeInOut" }}
-        className="fixed top-0 right-0 w-full md:w-[70vw] max-w-5xl bg-[#222] z-50 shadow-2xl overflow-y-auto pb-20 md:pb-0 [height:calc(100vh-40px)] md:h-full [bottom:40px] md:bottom-0 rounded-t-xl"
-        style={{
-            willChange: "transform"
-        }}
-        onClick={e => e.stopPropagation()}
+        className="    fixed top-0 right-0
+            w-full md:w-[70vw] max-w-5xl
+            bg-[#222] z-50 shadow-2xl overflow-y-auto
+            pb-20 md:pb-0
+            [height:calc(100vh-40px)] md:h-full
+            [bottom:40px] md:bottom-0
+            rounded-t-xl"
+            style={{ zIndex, willChange: "transform" }}
+        onClick={e => e.stopPropagation()} 
       >
         <button
           className="absolute top-6 right-6 text-3xl"
+          style={{cursor: "pointer"}}
           onClick={onClose}
           aria-label="Close"
         >
@@ -133,11 +148,11 @@ export default function CVPanel({ onClose }: { onClose: () => void }) {
           </div>
           {/* Solo Shows & Projects */}
           <h2 className="text-lime-400 font-bold mt-8 mb-2 text-lg">Solo Shows & Projects</h2>
-          <table className="w-full text-white text-sm mb-8">
+          <table className="w-full text-white text-sm mb-8 hidden md:table">
           <TableColGroup />
             <tbody>
                 {sortedSoloList.map(item => (
-                <tr key={item.title_en + item.year}>
+                <tr key={item.title_en + item.year} className="md:table-row">
                     <td className="pr-1 py-1.5 align-top leading-tight">{item.year}</td>
                     <td className="pr-1 py-1.5 text-gray-400 font-normal align-top leading-tight">
                             {(lang === "en" ? item.category_en : item.category_ko) || ""}
@@ -215,13 +230,84 @@ export default function CVPanel({ onClose }: { onClose: () => void }) {
                 ))}
             </tbody>
             </table>
+
+            <div className="md:hidden space-y-6">
+            {sortedSoloList.map(item => (
+                <div key={item.title_en + item.year} className="border-b border-gray-700 pb-4">
+                <div className="flex items-baseline gap-2 text-sm text-gray-400">
+                    <span>{item.year}</span>
+                    <span>{lang === "en" ? item.category_en : item.category_ko}</span>
+                </div>
+                <div className="font-bold text-base mt-1 mb-1">
+                {lang === 'ko'
+                            ? (
+                            item.externalUrl ? (
+                                <a
+                                href={item.externalUrl}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="hover:underline"
+                                >
+                                {item.type === "exhibition"
+                                    ? <span>《{item.title_ko}》</span>
+                                    : <span>〈{item.title_ko}〉</span>
+                                }
+                                </a>
+                            ) : item.slug ? (
+                                <Link href={item.slug} className="hover:underline">
+                                {item.type === "exhibition"
+                                    ? <span>《{item.title_ko}》</span>
+                                    : <span>〈{item.title_ko}〉</span>
+                                }
+                                </Link>
+                            ) : (
+                                item.type === "exhibition"
+                                ? <span>《{item.title_ko}》</span>
+                                : <span>〈{item.title_ko}〉</span>
+                            )
+                            )
+                            : (
+                            item.externalUrl ? (
+                                <a
+                                href={item.externalUrl}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="hover:underline"
+                                >
+                                <i>{item.title_en}</i>
+                                </a>
+                            ) : item.slug ? (
+                                <Link href={item.slug} className="hover:underline">
+                                <i>{item.title_en}</i>
+                                </Link>
+                            ) : (
+                                <i>{item.title_en}</i>
+                            )
+                            )
+                        }
+                </div>
+                <div className="flex flex-wrap gap-2 text-sm text-gray-300">
+                    <span>
+                    {item.placeUrl ? (
+                        <a href={item.placeUrl} target="_blank" rel="noopener noreferrer" className="hover:underline">
+                        {lang === 'en' ? item.place_en : item.place_ko}
+                        </a>
+                    ) : lang === 'en' ? item.place_en : item.place_ko}
+                    </span>
+                    <span>{lang === 'en' ? item.city_en : item.city_ko}</span>
+                    <span>{lang === 'en' ? item.country_en : item.country_ko}</span>
+                </div>
+                </div>
+            ))}
+            </div>
+
           {/* Group Shows & Projects */}
           <h2 className="text-lime-400 font-bold mt-8 mb-2 text-lg">Selected Group Shows & Projects</h2>
-          <table className="w-full text-white text-sm">
+          <table className="w-full text-white text-sm mb-8 hidden md:table">
           <TableColGroup />
             <tbody>
                 {sortedGroupList.map(item => (
-                <tr key={item.title_en + item.year}>
+                <tr key={item.title_en + item.year}className="md:table-row">
                     <td className="pr-1 py-1.5 align-top leading-tight">{item.year}</td>
                     <td className="pr-1 py-1.5 text-gray-400 font-normal align-top leading-tight">
                         {(lang === "en" ? item.category_en : item.category_ko) || ""}
@@ -299,6 +385,76 @@ export default function CVPanel({ onClose }: { onClose: () => void }) {
                 ))}
             </tbody>
             </table>
+
+            <div className="md:hidden space-y-6">
+            {sortedGroupList.map(item => (
+                <div key={item.title_en + item.year} className="border-b border-gray-700 pb-4">
+                <div className="flex items-baseline gap-2 text-sm text-gray-400">
+                    <span>{item.year}</span>
+                    <span>{lang === "en" ? item.category_en : item.category_ko}</span>
+                </div>
+                <div className="font-bold text-base mt-1 mb-1">
+                {lang === 'ko'
+                            ? (
+                            item.externalUrl ? (
+                                <a
+                                href={item.externalUrl}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="hover:underline"
+                                >
+                                {item.type === "exhibition"
+                                    ? <span>《{item.title_ko}》</span>
+                                    : <span>〈{item.title_ko}〉</span>
+                                }
+                                </a>
+                            ) : item.slug ? (
+                                <Link href={item.slug} className="hover:underline">
+                                {item.type === "exhibition"
+                                    ? <span>《{item.title_ko}》</span>
+                                    : <span>〈{item.title_ko}〉</span>
+                                }
+                                </Link>
+                            ) : (
+                                item.type === "exhibition"
+                                ? <span>《{item.title_ko}》</span>
+                                : <span>〈{item.title_ko}〉</span>
+                            )
+                            )
+                            : (
+                            item.externalUrl ? (
+                                <a
+                                href={item.externalUrl}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="hover:underline"
+                                >
+                                <i>{item.title_en}</i>
+                                </a>
+                            ) : item.slug ? (
+                                <Link href={item.slug} className="hover:underline">
+                                <i>{item.title_en}</i>
+                                </Link>
+                            ) : (
+                                <i>{item.title_en}</i>
+                            )
+                            )
+                        }
+                </div>
+                <div className="flex flex-wrap gap-2 text-sm text-gray-300">
+                    <span>
+                    {item.placeUrl ? (
+                        <a href={item.placeUrl} target="_blank" rel="noopener noreferrer" className="hover:underline">
+                        {lang === 'en' ? item.place_en : item.place_ko}
+                        </a>
+                    ) : lang === 'en' ? item.place_en : item.place_ko}
+                    </span>
+                    <span>{lang === 'en' ? item.city_en : item.city_ko}</span>
+                    <span>{lang === 'en' ? item.country_en : item.country_ko}</span>
+                </div>
+                </div>
+            ))}
+            </div>
         </div>
       </motion.div>
       {modalProjectId && (
