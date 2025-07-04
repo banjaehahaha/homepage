@@ -4,6 +4,11 @@ import { useEffect, useRef, useState } from 'react';
 import NextImage from 'next/image';
 import { useRouter } from 'next/navigation';
 
+function isMobile() {
+  return typeof window !== "undefined" && /Mobi|Android|iPhone/i.test(navigator.userAgent);
+}
+
+
 type Pin = {
   id: string;
   xRatio: number;
@@ -95,6 +100,10 @@ export default function CanvasImageGrid() {
       setDrawState({ offsetX, offsetY, drawWidth, drawHeight });
     };
   };
+  const [isMobileDevice, setIsMobileDevice] = useState(false);
+  useEffect(() => {
+    setIsMobileDevice(isMobile());
+  }, []);
 
   useEffect(() => {
     const setVh = () => {
@@ -111,8 +120,10 @@ export default function CanvasImageGrid() {
     return () => window.removeEventListener('resize', drawCanvas);
   }, []);
 
+  
   // 마스크 마우스 추적 및 휠 반경 조절
   useEffect(() => {
+    if (isMobileDevice) return;
     const canvas = maskCanvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
@@ -169,7 +180,7 @@ export default function CanvasImageGrid() {
       window.removeEventListener('mousemove', handleMouseMove);
       window.removeEventListener('wheel', handleWheel);
     };
-  }, [mouse, radius]);
+  }, [mouse, radius, isMobileDevice]);
 
   const closeModal = () => {
     setIsClosing(true);
@@ -226,8 +237,14 @@ export default function CanvasImageGrid() {
         })()}
       </div>
 
-      <canvas ref={maskCanvasRef} className="fixed top-0 left-0 w-full h-full z-50 pointer-events-none" />
+      {!isMobileDevice && (
+        <canvas
+          ref={maskCanvasRef}
+          className="fixed top-0 left-0 w-full h-full z-50 pointer-events-none"
+        />
+      )}
 
+      
       {modalSrc && (
         <div
           className={`fixed inset-0 z-50 flex justify-center items-center 
