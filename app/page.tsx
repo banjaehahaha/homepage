@@ -209,7 +209,7 @@ export default function CanvasImageGrid() {
               : 0;
           const { offsetX, offsetY, drawWidth, drawHeight } = drawState;
           const left = offsetX + pin.xRatio * drawWidth;
-          const top = offsetY + pin.yRatio * drawHeight - (isMobile() ? toolbarHeight : 0);
+          const top = offsetY + pin.yRatio * drawHeight - (isMobile() ? toolbarHeight * 0.8 : 0);
           return (
             <div
               key={pin.id}
@@ -231,7 +231,7 @@ export default function CanvasImageGrid() {
           const cellWidth = drawWidth / 8;
           const cellHeight = drawHeight / 5;
           const left = offsetX + 3 * cellWidth;
-          const top = offsetY + 2 * cellHeight - (isMobile() ? toolbarHeight : 0);
+          const top = offsetY + 2 * cellHeight - (isMobile() ? toolbarHeight * 0.8 : 0);
 
           return (
             <div
