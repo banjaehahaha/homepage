@@ -109,3 +109,7 @@ canvas {
 .animate-scaleOut {
   animation: scaleOut 0.3s ease-out forwards;
 }
+
+.my-fullscreen {
+  height: calc(var(--vh, 1vh) * 100);
+}
