@@ -199,7 +199,7 @@ export default function CanvasImageGrid() {
 
     {/* 모바일일 때 전체 배경색 덮기 */}
     {isMobileDevice && (
-      <div className="fixed top-0 left-0 w-full h-full z-0" style={{ background: '#92F90E' }} />
+      <div className="fixed top-0 left-0 w-full h-full z-8" style={{ background: '#92F90E' }} />
     )}
 
       <canvas ref={canvasRef} className="fixed top-0 left-0 w-full h-full z-0" />
