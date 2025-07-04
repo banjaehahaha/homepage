@@ -50,8 +50,12 @@ export default function CanvasImageGrid() {
     const image = new Image();
     image.src = '/images/home-map.png';
     image.onload = () => {
-      const vw = window.innerWidth;
-      const vh = window.innerHeight;
+      let vw = window.innerWidth;
+      let vh = window.innerHeight;
+      // 👇 모바일에서만 vh를 주소창 포함 전체로 고정
+      if (isMobile() && window.screen.height > vh) {
+        vh = window.screen.height;  // vh를 툴바포함 전체로!
+      }
       canvas.width = vw;
       canvas.height = vh;
 
@@ -244,7 +248,7 @@ export default function CanvasImageGrid() {
         />
       )}
 
-      
+
       {modalSrc && (
         <div
           className={`fixed inset-0 z-50 flex justify-center items-center 
