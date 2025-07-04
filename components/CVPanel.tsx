@@ -97,7 +97,7 @@ export default function CVPanel({
         className="    fixed top-0 right-0
             w-full md:w-[70vw] max-w-5xl
             bg-[#222] z-50 shadow-2xl overflow-y-auto
-            pb-20 md:pb-0
+            p-3 sm:p-3 md:p-8 lg:p-8
             [height:calc(100vh-40px)] md:h-full
             [bottom:40px] md:bottom-0
             rounded-t-xl"
@@ -112,7 +112,7 @@ export default function CVPanel({
         >
           ×
         </button>
-        <div className="max-w-5xl mx-auto py-16 px-14">
+        <div className="max-w-5xl mx-auto">
           {/* 탭 버튼 */}
           <div className="mb-4 flex gap-2">
             <button

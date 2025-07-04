@@ -268,6 +268,7 @@ export default function ProjectModal({
   >
     <div
       ref={contentRef}
+      className="p-2 sm:p-2 md:p-4 lg:p-4"
       style={{
         width: "90vw",
         maxWidth: "90vw",
@@ -279,8 +280,7 @@ export default function ProjectModal({
         boxShadow: "0 4px 32px #000a",
         display: "flex",
         flexDirection: "column",   // 반드시 column!
-        overflow: "auto",
-        padding: "0",  // (원하는 여백 필요시 조절)
+        boxSizing: "border-box",
         overflowY: "auto", 
       }}
     >
@@ -312,7 +312,6 @@ export default function ProjectModal({
             background: '#222',
             zIndex: 10,
             padding: '12px 36px 12px 36px',
-            overflowX: 'auto',
             whiteSpace: 'nowrap',         // 이게 제일 중요!
             width: '100%',                // 부모가 꽉 차게!
             minHeight: 56,
@@ -355,25 +354,26 @@ export default function ProjectModal({
     <div
       ref={setWorkRef(idx)}
       data-idx={idx}
-      className="flex flex-col md:flex-row gap-8 items-start mb-8 w-full"
-      style={{ scrollMarginTop: 35 }}
+      className="flex flex-col md:flex-row gap-8 items-start mb-8"
+      style={{       
+        padding: '12px',
+        boxSizing: "border-box", }}
     >
       {/* ----------- 좌: 텍스트 ----------- */}
       <div
         style={{
           flex: 1,
           minWidth: 0,
-          minHeight: 0, // 스크롤 활성화
-          maxHeight: "80vh", // 부모와 똑같이!
-          overflowY: "auto",
-          padding: 36,
-          whiteSpace: "pre-line",
+          width: "auto",
           boxSizing: "border-box",
+          objectFit: "contain",
         }}
       >
         <h2 style={{ fontWeight: 700, fontSize: 28 }}>{work.title_en || ""}</h2>
         <h2 style={{ fontWeight: 700, fontSize: 28 }}>{work.title_ko || ""}</h2>
-        <h4>{work.year || ""}</h4>
+        <h4
+        style={{ color: "#aaa", fontSize: 16, margin: "12px 0" }}
+          dangerouslySetInnerHTML={{ __html: work.year || ""}}></h4>
         <p 
           style={{ color: "#aaa", fontSize: 18, margin: "12px 0" }}
           dangerouslySetInnerHTML={{ __html: work.caption || "" }}
@@ -438,15 +438,11 @@ export default function ProjectModal({
         style={{
           flex: 1.5,
           minWidth: 0,
-          minHeight: 0, // 스크롤 활성화
-          maxHeight: "80vh", // 부모와 똑같이!
-          overflowY: "auto",
-          padding: 36,
+          width: "auto",
           boxSizing: "border-box",
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
-          justifyContent: "flex-start",
           gap: 24,
 
         }}
@@ -476,12 +472,12 @@ export default function ProjectModal({
               style={{
                 borderRadius: 5,
                 background: "#111",
-                width: "100%",
                 maxWidth: "100%",
                 aspectRatio: "16/9",
-                margin: "0 auto 24px auto",
                 display: "block",
                 boxSizing: "border-box",
+                height: "auto",
+                width: "auto",
               }}
             />
           );
@@ -507,12 +503,12 @@ export default function ProjectModal({
               style={{
                 borderRadius: 5,
                 background: "#111",
-                width: "100%",
                 maxWidth: "100%",
                 aspectRatio: "16/9",
-                margin: "0 auto 24px auto",
                 display: "block",
                 boxSizing: "border-box",
+                height: "auto",
+                width: "auto",
               }}
             />
           );
@@ -525,11 +521,12 @@ export default function ProjectModal({
               src={src.startsWith("/") ? src : `/videos/${src}`}
               controls
               style={{
-                width: "100%",
                 maxWidth: "100%",
                 borderRadius: 5,
                 background: "#111",
                 boxSizing: "border-box",
+                height: "auto",
+                width: "auto",
               }}
             />
           );
@@ -548,13 +545,13 @@ export default function ProjectModal({
               src={src.startsWith("/") ? src : `/images/${src}`}
               alt={`${work.title_en} - ${iIdx + 1}`}
               style={{
-                width: "100%",
                 maxWidth: "100%",
                 height: "auto",
                 borderRadius: 5,
                 objectFit: "contain",
                 cursor: "zoom-in",
-                boxSizing: "border-box", 
+                boxSizing: "border-box",
+                width: "auto", 
               }}
               onClick={() => setZoomTarget({ workIdx: idx, imgIdx: iIdx })}
             />
@@ -564,13 +561,13 @@ export default function ProjectModal({
                 src={work.images?.[0]}
                 alt={work.title_en}
                 style={{
-                  width: "100%",
                   maxWidth: 480,
                   height: "auto",
                   borderRadius: 5,
                   objectFit: "contain",
                   background: "#111",
                   boxSizing: "border-box",
+                  width: "auto",
                 }}
               />
         )}
