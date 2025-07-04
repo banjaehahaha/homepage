@@ -24,10 +24,10 @@ const pins: Pin[] = [
 ];
 
 const pinsMobile: Pin[] = [
-  { id: 'pin1', xRatio: 0.2, yRatio: 0.15, video: '/videos/dandong.mp4' },  // 화면 상단 중앙
-  { id: 'pin2', xRatio: 0.65, yRatio: 0.35, video: '/videos/paju.mp4' },    // 중간 윗부분 중앙
-  { id: 'pin3', xRatio: 0.4, yRatio: 0.75, video: '/videos/gold.mp4' },    // 중간 아래 중앙
-  { id: 'pin4', xRatio: 0.8, yRatio: 0.75, video: '/videos/tumen.mp4' },   // 하단 중앙
+  { id: 'pin1', xRatio: 0.35, yRatio: 0.25, video: '/videos/dandong.mp4' },
+  { id: 'pin2', xRatio: 0.65, yRatio: 0.35, video: '/videos/paju.mp4' },
+  { id: 'pin3', xRatio: 0.4, yRatio: 0.82, video: '/videos/gold.mp4' }, 
+  { id: 'pin4', xRatio: 0.58, yRatio: 0.9, video: '/videos/tumen.mp4' },
 ];
 
 
