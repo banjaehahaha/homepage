@@ -15,6 +15,9 @@ export default function NavbarWrapper() {
 
     const showCVPanel = topPanel === "cv";
     const showArchivePanel = topPanel === "archive";
+
+    if (pathname === "/") return null;
+    
   return (
     <>
         <div className="fixed bottom-0 left-0 w-full bg-black flex justify-around py-2 z-[9999] border-t border-zinc-800 md:hidden">
