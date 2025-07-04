@@ -4,15 +4,6 @@ import { useEffect, useRef, useState } from 'react';
 import NextImage from 'next/image';
 import { useRouter } from 'next/navigation';
 
-useEffect(() => {
-  const setVh = () => {
-    document.documentElement.style.setProperty('--vh', `${window.innerHeight * 0.01}px`);
-  };
-  setVh();
-  window.addEventListener('resize', setVh);
-  return () => window.removeEventListener('resize', setVh);
-}, []);
-
 type Pin = {
   id: string;
   xRatio: number;
@@ -104,6 +95,15 @@ export default function CanvasImageGrid() {
       setDrawState({ offsetX, offsetY, drawWidth, drawHeight });
     };
   };
+
+  useEffect(() => {
+    const setVh = () => {
+      document.documentElement.style.setProperty('--vh', `${window.innerHeight * 0.01}px`);
+    };
+    setVh();
+    window.addEventListener('resize', setVh);
+    return () => window.removeEventListener('resize', setVh);
+  }, []);
 
   useEffect(() => {
     drawCanvas();
