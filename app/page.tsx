@@ -29,14 +29,10 @@ export default function CanvasImageGrid() {
   const containerRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
 
-  const mobile = isMobile();
-
-
   const [modalSrc, setModalSrc] = useState<string | null>(null);
   const [isClosing, setIsClosing] = useState(false);
   const [mouse, setMouse] = useState({ x: -9999, y: -9999 });
   const [radius, setRadius] = useState(400); // 초기 반경
-  
 
   const [drawState, setDrawState] = useState({
     offsetX: 0,
@@ -54,12 +50,8 @@ export default function CanvasImageGrid() {
     const image = new Image();
     image.src = '/images/home-map.png';
     image.onload = () => {
-      let vw = window.innerWidth;
-      let vh = window.innerHeight;
-      // 👇 모바일에서만 vh를 주소창 포함 전체로 고정
-      if (isMobile() && window.screen.height > vh) {
-        vh = window.screen.height;  // vh를 툴바포함 전체로!
-      }
+      const vw = window.innerWidth;
+      const vh = window.innerHeight;
       canvas.width = vw;
       canvas.height = vh;
 
@@ -204,12 +196,9 @@ export default function CanvasImageGrid() {
 
       <div ref={containerRef} className="fixed top-0 left-0 w-full h-full z-10 pointer-events-none">
         {pins.map((pin) => {
-          const toolbarHeight = typeof window !== "undefined" && isMobile()
-              ? (window.screen.height - window.innerHeight)
-              : 0;
           const { offsetX, offsetY, drawWidth, drawHeight } = drawState;
           const left = offsetX + pin.xRatio * drawWidth;
-          const top = offsetY + pin.yRatio * drawHeight - (isMobile() ? toolbarHeight * 0.35 : 0);
+          const top = offsetY + pin.yRatio * drawHeight;
           return (
             <div
               key={pin.id}
@@ -224,14 +213,11 @@ export default function CanvasImageGrid() {
 
         {/* WORKS 버튼 */}
         {(() => {
-          const toolbarHeight = typeof window !== "undefined" && isMobile()
-              ? (window.screen.height - window.innerHeight)
-              : 0;
           const { offsetX, offsetY, drawWidth, drawHeight } = drawState;
           const cellWidth = drawWidth / 8;
           const cellHeight = drawHeight / 5;
           const left = offsetX + 3 * cellWidth;
-          const top = offsetY + 2 * cellHeight - (isMobile() ? toolbarHeight * 0.35 : 0);
+          const top = offsetY + 2 * cellHeight;
 
           return (
             <div
@@ -241,7 +227,7 @@ export default function CanvasImageGrid() {
                 left,
                 top,
                 width: cellWidth * 2,
-                height: cellHeight * 1,
+                height: isMobile() ? cellHeight * 2 : cellHeight * 1,
               }}
               onClick={() => router.push('/diagram')}
             >
@@ -251,13 +237,12 @@ export default function CanvasImageGrid() {
         })()}
       </div>
 
-      {!isMobileDevice && (
+          {!isMobileDevice && (
         <canvas
           ref={maskCanvasRef}
           className="fixed top-0 left-0 w-full h-full z-50 pointer-events-none"
         />
       )}
-
 
       {modalSrc && (
         <div
