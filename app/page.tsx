@@ -23,11 +23,22 @@ const pins: Pin[] = [
   { id: 'pin4', xRatio: 0.14, yRatio: 0.83, video: '/videos/tumen.mp4' },
 ];
 
+const pinsMobile: Pin[] = [
+  { id: 'pin1', xRatio: 0.2, yRatio: 0.15, video: '/videos/dandong.mp4' },  // 화면 상단 중앙
+  { id: 'pin2', xRatio: 0.65, yRatio: 0.35, video: '/videos/paju.mp4' },    // 중간 윗부분 중앙
+  { id: 'pin3', xRatio: 0.4, yRatio: 0.75, video: '/videos/gold.mp4' },    // 중간 아래 중앙
+  { id: 'pin4', xRatio: 0.8, yRatio: 0.75, video: '/videos/tumen.mp4' },   // 하단 중앙
+];
+
+
 export default function CanvasImageGrid() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const maskCanvasRef = useRef<HTMLCanvasElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
+
+  const mobile = isMobile();
+  const pinsToUse = mobile ? pinsMobile : pins;
 
   const [modalSrc, setModalSrc] = useState<string | null>(null);
   const [isClosing, setIsClosing] = useState(false);
@@ -205,7 +216,7 @@ export default function CanvasImageGrid() {
       <canvas ref={canvasRef} className="fixed top-0 left-0 w-full h-full z-0" />
 
       <div ref={containerRef} className="fixed top-0 left-0 w-full h-full z-10 pointer-events-none">
-        {pins.map((pin) => {
+        {pinsToUse.map((pin) => {
           const { offsetX, offsetY, drawWidth, drawHeight } = drawState;
           const left = offsetX + pin.xRatio * drawWidth;
           const top = offsetY + pin.yRatio * drawHeight;
