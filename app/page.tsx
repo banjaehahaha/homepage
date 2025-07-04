@@ -227,7 +227,7 @@ export default function CanvasImageGrid() {
                 left,
                 top,
                 width: cellWidth * 2,
-                height: isMobile() ? cellHeight * 2 : cellHeight * 1,
+                height: isMobile() ? cellHeight * 1.5 : cellHeight * 1,
               }}
               onClick={() => router.push('/diagram')}
             >
