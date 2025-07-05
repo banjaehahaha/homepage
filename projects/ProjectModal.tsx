@@ -286,7 +286,6 @@ export default function ProjectModal({
   >
     <div
       ref={contentRef}
-      className="p-2 sm:p-2 md:p-4 lg:p-4"
       style={{
         width: "90vw",
         maxWidth: "90vw",
@@ -302,25 +301,6 @@ export default function ProjectModal({
         overflowY: "auto", 
       }}
     >
-      {onClose && (
-        <button
-          onClick={onClose}
-          style={{
-            position: "fixed",
-            top: 32,
-            right: 52,
-            fontSize: 48,
-            color: "#fff",
-            background: "none",
-            border: "none",
-            cursor: "pointer",
-            zIndex: 10000,
-            fontWeight: 200,
-            textShadow: "0 2px 8px #000",
-          }}
-          aria-label="닫기"
-        >×</button>
-      )}
       {works.length > 1 && (
            <div style={{
             display: 'flex',
@@ -367,6 +347,26 @@ export default function ProjectModal({
       </div>
       )}
 
+      {onClose && (
+        <button
+          onClick={onClose}
+          style={{
+            position: "fixed",
+            top: 32,
+            right: 52,
+            fontSize: 48,
+            color: "#fff",
+            background: "none",
+            border: "none",
+            cursor: "pointer",
+            zIndex: 10000,
+            fontWeight: 200,
+            textShadow: "0 2px 8px #000",
+          }}
+          aria-label="닫기"
+        >×</button>
+      )}
+
     {works.map((work, idx) => (
     <React.Fragment key={idx}>
     <div
@@ -379,6 +379,7 @@ export default function ProjectModal({
     >
       {/* ----------- 좌: 텍스트 ----------- */}
       <div
+        className="p-2 sm:p-2 md:p-4 lg:p-4"
         style={{
           flex: 1,
           minWidth: 0,
@@ -453,6 +454,7 @@ export default function ProjectModal({
 
       {/* ----------- 우: 이미지/영상 ----------- */}
       <div
+        className="p-2 sm:p-2 md:p-4 lg:p-4"
         style={{
           flex: 1.5,
           minWidth: 0,
