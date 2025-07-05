@@ -477,7 +477,7 @@ export default function ProjectModal({
                 display: "block",
                 boxSizing: "border-box",
                 height: "auto",
-                width: "auto",
+                width: "100%",
               }}
             />
           );
@@ -508,7 +508,7 @@ export default function ProjectModal({
                 display: "block",
                 boxSizing: "border-box",
                 height: "auto",
-                width: "auto",
+                width: "100%",
               }}
             />
           );
@@ -526,7 +526,7 @@ export default function ProjectModal({
                 background: "#111",
                 boxSizing: "border-box",
                 height: "auto",
-                width: "auto",
+                width: "100%",
               }}
             />
           );
