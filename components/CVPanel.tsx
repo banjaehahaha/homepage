@@ -454,6 +454,9 @@ export default function CVPanel({
                 </div>
                 </div>
             ))}
+            <div className="mt-6 text-center text-gray-400 text-m">
+                👀
+            </div>
             </div>
         </div>
       </motion.div>

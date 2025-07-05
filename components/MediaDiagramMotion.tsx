@@ -940,8 +940,8 @@ const filteredNodes = useMemo(() => {
         ))}
       </div>
       {/* 안내문구 */}
-      <div className="mt-6 text-center text-gray-400 text-xs">
-        전체 다이어그램은 PC에서 더 편하게 보실 수 있습니다
+      <div className="mt-6 text-center text-gray-400 text-m">
+        👀
       </div>
     </div>
   );

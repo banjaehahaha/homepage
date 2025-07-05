@@ -88,6 +88,9 @@ export default function ArchivePanel({
                 </li>
             ))}
             </ul>
+            <div className="mt-6 text-center text-gray-400 text-m">
+                👀
+            </div>
 
         </div>
       </motion.div>
