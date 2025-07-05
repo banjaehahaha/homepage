@@ -155,6 +155,7 @@ export default function ProjectModal({
     workRefs.current[idx] = el;
   };
 
+  const titleRefs = useRef<(HTMLHeadingElement | null)[]>([]);
 
   const innerRef = useRef<HTMLDivElement>(null);
   const [data, setData] = useState<ProjectData | WorkType | null>(null);
@@ -169,41 +170,42 @@ export default function ProjectModal({
 
 
     useEffect(() => {
-      // works 없으면 감지 안 함
-      if (!works.length) return;
+      const container = contentRef.current;
+      if (!container) return;
     
-      const handleObserve = (entries: IntersectionObserverEntry[]) => {
-        // entries는 화면에 보이는 순서로 정렬되지 않음. 제일 위에 보이는 section을 찾는다.
-        const visible = entries
-        .filter(entry => entry.isIntersecting)
-        .map(entry => {
-          const idx = Number((entry.target as HTMLElement).dataset.idx);
-          return {
-            idx,
-            top: entry.boundingClientRect.top
-          };
-        })
-        .sort((a, b) => a.top - b.top);
-    
-      if (visible.length > 0) {
-        setActiveTab(visible[0].idx);
-      }
+      const handleScroll = () => {
+        const container = contentRef.current;
+        if (!container) return;
+        const containerRect = container.getBoundingClientRect();
+        let lastVisibleIdx = 0;
+
+        if (container.scrollTop === 0) {
+          setActiveTab(0);
+          return;
+        }
+
+        titleRefs.current.forEach((el, idx) => {
+          if (!el) return;
+          const titleRect = el.getBoundingClientRect();
+          // 타이틀이 컨테이너 상단 이하(=위에 있지 않은 것)일 때만
+          if (titleRect.top < containerRect.bottom) {
+            lastVisibleIdx = idx;
+          }
+        });
+        setActiveTab(lastVisibleIdx);
       };
     
-      const observer = new window.IntersectionObserver(handleObserve, {
-        root: contentRef.current, 
-        rootMargin: '-60px 0px 0px 0px', // 탭 높이만큼 offset
-        threshold: 0.25, // 25% 이상 보이면 active로 취급
-      });
-    
-      workRefs.current.forEach((ref) => {
-        if (ref) observer.observe(ref);
-      });
+      container.addEventListener("scroll", handleScroll);
+      window.addEventListener("resize", handleScroll);
+      handleScroll();
     
       return () => {
-        observer.disconnect();
+        container.removeEventListener("scroll", handleScroll);
+        window.removeEventListener("resize", handleScroll);
       };
     }, [works.length]);
+    
+    
 
 
   useEffect(() => {
@@ -211,7 +213,6 @@ export default function ProjectModal({
       .then(res => res.json())
       .then((list: ProjectData[]) => {
         const project = list.find((p) => p.id === id);
-        console.log('Loaded project data:', project);
         setData(project || null);
       });
   }, [id]);
@@ -222,10 +223,8 @@ export default function ProjectModal({
   };
 
   useEffect(() => {
-    return () => {
-      console.log('ProjectModal이 언마운트됨(사라짐)');
-    };
-  }, []);
+    console.log('works:', works.length, 'workRefs:', workRefs.current);
+  }, [works]);
 
   useEffect(() => {
     if (!handleClose) return; // handleClose 없으면 아무것도 안 함
@@ -295,57 +294,13 @@ export default function ProjectModal({
         background: "#222",
         borderRadius: 5,
         boxShadow: "0 4px 32px #000a",
-        display: "flex",
+        display: "block",
         flexDirection: "column",   // 반드시 column!
         boxSizing: "border-box",
         overflowY: "auto", 
+        position: "relative"
       }}
     >
-      {works.length > 1 && (
-           <div style={{
-            display: 'flex',
-            gap: 4,
-            position: 'sticky',
-            top: 0,
-            background: '#222',
-            zIndex: 10,
-            padding: '12px 36px 12px 36px',
-            whiteSpace: 'nowrap',         // 이게 제일 중요!
-            width: '100%',                // 부모가 꽉 차게!
-            minHeight: 56,
-            boxSizing: 'border-box',
-            scrollbarWidth: 'thin',       // (선택) 파이어폭스 얇은 스크롤
-      }}>
-        {works.map((work, idx) => (
-          <button
-            key={idx}
-            style={{
-              padding: "5px 5px 0 10px",
-              borderRadius: 5,
-              fontSize: 16,
-              border: "none",
-              cursor: "pointer",
-              minWidth: 50,
-              maxWidth: 200,
-              overflow: 'hidden',
-              textOverflow: 'ellipsis',
-              whiteSpace: 'nowrap',
-              background: activeTab === idx ? "#92F90E" : "#333",
-              color: activeTab === idx ? "#222" : "#92F90E",
-              fontWeight: activeTab === idx ? 700 : 400,
-              borderBottom: activeTab === idx ? "3px solid #92F90E" : "none",
-            }}
-            onClick={() => {
-              workRefs.current[idx]?.scrollIntoView({ behavior: "smooth", block: "start" });
-              setActiveTab(idx);
-            }}
-            title={work.title_en}
-          >
-            {work.title_en || `Work ${idx + 1}`}
-          </button>
-        ))}
-      </div>
-      )}
 
       {onClose && (
         <button
@@ -388,7 +343,9 @@ export default function ProjectModal({
           objectFit: "contain",
         }}
       >
-        <h2 style={{ fontWeight: 700, fontSize: 28 }}>{work.title_en || ""}</h2>
+        <h2 
+          ref={el => { titleRefs.current[idx] = el }}
+          style={{ fontWeight: 700, fontSize: 28 }}>{work.title_en || ""}</h2>
         <h2 style={{ fontWeight: 700, fontSize: 28 }}>{work.title_ko || ""}</h2>
         <h4
         style={{ color: "#aaa", fontSize: 16, margin: "12px 0" }}
@@ -622,8 +579,54 @@ export default function ProjectModal({
     )}
     </React.Fragment>
     
+    
   ))}
 
+{works.length > 1 && (
+           <div style={{
+            display: 'flex',
+            gap: 4,
+            position: 'sticky',
+            bottom: 0,
+            background: '#222',
+            zIndex: 10,
+            padding: '12px 36px 12px 36px',
+            whiteSpace: 'nowrap',         // 이게 제일 중요!
+            width: '100%',                // 부모가 꽉 차게!
+            minHeight: 56,
+            boxSizing: 'border-box',
+            scrollbarWidth: 'thin',       // (선택) 파이어폭스 얇은 스크롤
+      }}>
+        {works.map((work, idx) => (
+          <button
+            key={idx}
+            style={{
+              padding: "5px 5px 0 10px",
+              borderRadius: 5,
+              fontSize: 16,
+              border: "none",
+              cursor: "pointer",
+              minWidth: 50,
+              maxWidth: 200,
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+              whiteSpace: 'nowrap',
+              background: activeTab === idx ? "#92F90E" : "#333",
+              color: activeTab === idx ? "#222" : "#92F90E",
+              fontWeight: activeTab === idx ? 700 : 400,
+              borderBottom: activeTab === idx ? "3px solid #92F90E" : "none",
+            }}
+            onClick={() => {
+              workRefs.current[idx]?.scrollIntoView({ behavior: "smooth", block: "start" });
+              setActiveTab(idx);
+            }}
+            title={work.title_en}
+          >
+            {work.title_en || `Work ${idx + 1}`}
+          </button>
+        ))}
+      </div>
+      )}
 
     {/* ---- 이미지 클릭 시 확대 모달 ---- */}
     {zoomTarget !== null &&

@@ -40,6 +40,8 @@ html, body, #__next {
   height: 100%;
   width: 100%;
   overflow-y: auto;
+  scrollbar-color: #444 #222; /* thumb, track */
+  scrollbar-width: thin;
 }
 
 canvas {
@@ -112,4 +114,19 @@ canvas {
 
 .my-fullscreen {
   height: calc(var(--vh, 1vh) * 100);
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  background: #222;    /* 트랙(바탕) */
+}
+::-webkit-scrollbar-thumb {
+  background: #444;    /* 손잡이(스크롤 부분) */
+  border-radius: 6px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #666;    /* 호버 시 더 밝게 */
+}
+::-webkit-scrollbar-corner {
+  background: #222;
 }
