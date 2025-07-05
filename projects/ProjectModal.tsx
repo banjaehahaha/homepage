@@ -2,6 +2,12 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useRouter } from 'next/navigation';
 
+interface ProjectModalProps {
+  id: string;
+  onClose: () => void;
+  directEntry?: boolean; // optional로 두면 편함
+}
+
 type ReviewPdf = {
   title: string;
   pdfUrl: string;
@@ -132,12 +138,13 @@ function DescriptionWithReadMore({
 
 
 export default function ProjectModal({
-      id,
-      onClose
-    }: {
-      id: string;
-      onClose: () => void;
-    }) {
+  id,
+  onClose,
+  directEntry = false
+}: ProjectModalProps) {
+
+      console.log('ProjectModal 렌더링', id);
+      
   const overlayRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
@@ -209,8 +216,19 @@ export default function ProjectModal({
       });
   }, [id]);
 
+
+  const handleClose = () => {
+    onClose();
+  };
+
   useEffect(() => {
-    if (!onClose) return; // onClose 없으면 아무것도 안 함
+    return () => {
+      console.log('ProjectModal이 언마운트됨(사라짐)');
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!handleClose) return; // handleClose 없으면 아무것도 안 함
   
     function onClick(e: MouseEvent) {
       if (
@@ -219,12 +237,12 @@ export default function ProjectModal({
         e.target instanceof Node &&
         overlayRef.current === e.target // "검정 배경"만 클릭한 경우
       ) {
-        onClose();
+        handleClose();
       }
     }
   
     function onKey(e: KeyboardEvent) {
-      if (e.key === "Escape") onClose();
+      if (e.key === "Escape") handleClose();
     }
   
     window.addEventListener("mousedown", onClick);
@@ -233,7 +251,7 @@ export default function ProjectModal({
       window.removeEventListener("mousedown", onClick);
       window.removeEventListener("keydown", onKey);
     };
-  }, [onClose]);
+  }, [handleClose]);
   
   
     if (!data) return (

@@ -8,8 +8,9 @@ export default function ProjectPage() {
   if (!params?.id) return null;
   return (
     <ProjectModal
-      id={typeof params.id === "string" ? params.id : params.id[0]}
-      onClose={() => router.back()} // <-- router.back() 전달
+      id={params.id as string}
+      onClose={() => router.push('/diagram')}
+      directEntry={true}
     />
   );
 }
