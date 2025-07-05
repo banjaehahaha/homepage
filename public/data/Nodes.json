@@ -185,7 +185,7 @@
     "id": "performance",
     "type": "media",
     "label": "Performance",
-    "px": 0.45, "py": 0.10,
+    "px": 0.45, "py": 0.075,
     "years": [], 
     "keywords": []
   },
@@ -201,7 +201,7 @@
     "id": "video",
     "type": "media",
     "label": "Video",
-    "px": 0.20, "py": 0.3,
+    "px": 0.15, "py": 0.3,
     "years": [], 
     "keywords": []
   },
@@ -209,7 +209,7 @@
     "id": "game",
     "type": "media",
     "label": "Game",
-    "px": 0.85, "py": 0.2,
+    "px": 0.9, "py": 0.2,
     "years": [], 
     "keywords": []
   },

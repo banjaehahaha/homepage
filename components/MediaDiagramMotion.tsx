@@ -609,6 +609,16 @@ if (isMobile) {
 
             <span
               className="text-white text-2xl font-bold hover:underline cursor-pointer"
+              onClick={() => setShowCV(true)}
+            >
+              CV →
+            </span>
+            <AnimatePresence>
+            {showCV && <CVPanel onClose={() => setShowCV(false)} />}
+            </AnimatePresence>
+
+            <span
+              className="text-white text-2xl font-bold hover:underline cursor-pointer"
               onClick={() => setShowArchive(true)}
             >
               Archive →
@@ -617,16 +627,6 @@ if (isMobile) {
             {showArchive && (
               <ArchivePanel onClose={() => setShowArchive(false)} />
             )}
-            </AnimatePresence>
-
-            <span
-              className="text-white text-2xl font-bold hover:underline cursor-pointer"
-              onClick={() => setShowCV(true)}
-            >
-              CV →
-            </span>
-            <AnimatePresence>
-            {showCV && <CVPanel onClose={() => setShowCV(false)} />}
             </AnimatePresence>
 
             <a
