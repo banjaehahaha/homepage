@@ -764,8 +764,8 @@ if (isMobile) {
           <li>
           <h2 style={{ background: "#92F90E", color: "#222", display: "inline-block", padding: "0px 4px" }}><b><i>JPSMK―KRPUS―KRINC―CNDGD(working title)</i></b></h2><br />
           <h2 style={{ background: "#92F90E", color: "#222", display: "inline-block", padding: "0px 4px" }}><b>JPSMK―KRPUS―KRINC―CNDGD(가제)</b></h2><br /><br />
-            In this project, Jaeha Ban explores the reality of South Korea, where direct connection with North Korea is structurally blocked by division and sanctions, by tracing the detoured routes of logistics. Visitors are invited to place real orders for North Korean goods and experience the process as those goods travel through unofficial distribution networks to arrive at the exhibition space. Through the movement of goods and the time delays involved, the work reveals how national borders and sanction systems can be flexibly bypassed by capital. It is an attempt to reconfigure the present condition of division by making the "time of detour" perceptible.<br />
-            이 프로젝트에서 반재하는 분단과 제재라는 구조 속에서 북한과 직접적으로 연결될 수 없는 남한의 현실을, 물류의 우회 경로를 통해 감각하려는 시도다. 관객은 북한산 물건을 실제로 주문하고, 그 물건이 비공식적인 유통망을 따라 전시장에 도착하는 과정을 함께 경험하게 된다. 이 작업은 물건의 이동과 지연된 시간을 통해 국가의 경계와 제재 체계가 상품에 의해 얼마나 유연하게 무력화되는지를 드러내며, ‘우회의 시간’을 감각하는 방식으로 분단의 현재를 재구성한다.
+            Within this project, Ban Jaeha’s work examines the reality of South Korea, which is unable to connect directly with North Korea due to the structures of division and sanctions, by exploring alternative logistics routes. Ban Jaeha actually orders North Korean goods and structures the work around the process of these items arriving at the exhibition space via unofficial distribution networks. Through the movement of goods and the delays in their arrival, the work reveals how national borders and sanctions regimes can be subtly circumvented by commodities, and reimagines the present condition of division by making the “time of detour” palpable.<br />
+            이 프로젝트에서 반재하는 분단과 제재라는 구조 속에서 북한과 직접적으로 연결될 수 없는 남한의 현실을, 물류의 우회 경로를 통해 탐구한다. 반재하는 북한산 물건을 실제로 주문하고, 그 물건이 비공식적인 유통망을 따라 전시장에 도착하는 과정을 함께 경험하게 된다. 이 작업은 물건의 이동과 지연된 시간을 통해 국가의 경계와 제재 체계가 상품에 의해 얼마나 유연하게 무력화되는지를 드러내며, ‘우회의 시간’을 감각하는 방식으로 분단의 현재를 재구성한다.
             <br /><br />
             <b>Exhibition:</b>  Early September, 2025, 챔버 CHAMBER <br />
             <b>Performance:</b> 30 October, 2025, Theater, Incheon Art Platform <br />
@@ -775,10 +775,10 @@ if (isMobile) {
           <li className="mt-3">
           <h2 style={{ background: "#92F90E", color: "#222", display: "inline-block", padding: "0px 4px" }}><b><i>People Buying Land in the DMZ(working title)</i></b></h2><br />
             <h2 style={{ background: "#92F90E", color: "#222", display: "inline-block", padding: "0px 4px" }}><b>DMZ에 땅을 사는 사람들(가제)</b></h2><br /><br />
-            In the DMZ project, Jaeha Ban explores how land ownership within the Demilitarized Zone reveals the contradictions between individual desires, national sovereignty, and historical division. Through real interviews and site-specific research, the project examines how the future remains inaccessible, the present is suspended, and the past continues to shape both.<br />
+            Within this project, Ban Jaeha’s work explores how individual aspirations, state control, and historical division collide through land ownership within the DMZ. Based on interviews and on-site research, the work reveals the entanglement of an inaccessible future, a suspended present, and a persistently operative past.<br />
             이 프로젝트에서 반재하는 DMZ 내 토지 소유를 통해 개인의 기대, 국가의 통제, 역사적 분단이 어떻게 충돌하는지를 탐구한다. 실제 인터뷰와 현장 리서치를 바탕으로, 접근할 수 없는 미래와 정지된 현재, 여전히 작동하는 과거가 어떻게 얽혀 있는지를 드러낸다.
             <br /><br />
-            <b>Symposium:</b> 27 August, 2025, Project Room, 서울예술인지원센터 Seoul Artists Support Center<br />
+            <b>Symposium:</b> 27 September, 2025, Project Room, 서울예술인지원센터 Seoul Artists Support Center<br />
             <b>Exhibition:</b> Scheduled for the second half of 2025 <br />
             <b>Documentary:</b> In production <br />
             <b>Publication:</b> Expected in 2nd half of 2025<br />
