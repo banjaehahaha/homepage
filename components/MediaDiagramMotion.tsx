@@ -762,13 +762,13 @@ if (isMobile) {
           <h2 className="text-2xl font-bold mb-4">Upcoming Events</h2>
           <ul className="mb-4">
           <li>
-          <h2 style={{ background: "#92F90E", color: "#222", display: "inline-block", padding: "0px 4px" }}><b><i>JPSMK―KRPUS―KRINC―CNDGD(working title)</i></b></h2><br />
-          <h2 style={{ background: "#92F90E", color: "#222", display: "inline-block", padding: "0px 4px" }}><b>JPSMK―KRPUS―KRINC―CNDGD(가제)</b></h2><br /><br />
+          <h2 style={{ background: "#92F90E", color: "#222", display: "inline-block", padding: "0px 4px" }}><b><i>From Recent Rumors and Old Traces</i></b></h2><br />
+          <h2 style={{ background: "#92F90E", color: "#222", display: "inline-block", padding: "0px 4px" }}><b>방금 전의 소문과 오래된 증거로부터</b></h2><br /><br />
             Within this project, Ban Jaeha’s work examines the reality of South Korea, which is unable to connect directly with North Korea due to the structures of division and sanctions, by exploring alternative logistics routes. Ban Jaeha actually orders North Korean goods and structures the work around the process of these items arriving at the exhibition space via unofficial distribution networks. Through the movement of goods and the delays in their arrival, the work reveals how national borders and sanctions regimes can be subtly circumvented by commodities, and reimagines the present condition of division by making the “time of detour” palpable.<br />
             이 프로젝트에서 반재하는 분단과 제재라는 구조 속에서 북한과 직접적으로 연결될 수 없는 남한의 현실을, 물류의 우회 경로를 통해 탐구한다. 반재하는 북한산 물건을 실제로 주문하고, 그 물건이 비공식적인 유통망을 따라 전시장에 도착하는 과정을 함께 경험하게 된다. 이 작업은 물건의 이동과 지연된 시간을 통해 국가의 경계와 제재 체계가 상품에 의해 얼마나 유연하게 무력화되는지를 드러내며, ‘우회의 시간’을 감각하는 방식으로 분단의 현재를 재구성한다.
             <br /><br />
-            <b>Exhibition:</b>  Early September, 2025, 챔버 CHAMBER <br />
-            <b>Performance:</b> 30 October, 2025, Theater, Incheon Art Platform <br />
+            <b>Exhibition:</b>  <i>From Recent Rumors and Old Traces</i>, 2025.8.29. Fri - 9.14. Sun, 챔버 CHAMBER <br />
+            <b>Performance:</b> <i>Unexpected Interpolation and Nearest Neighbor Search</i>, 30 October, 2025, Theater, Incheon Art Platform <br />
             <b>Publication:</b> Ongoing in the second half of 2025<br /><br />
             
           </li>
