@@ -86,7 +86,7 @@ export const archiveList = [
         label: "[In/Out 인터뷰] '분단'을 재감각하는 밀레니얼 세대 시각예술가들",
         url: "https://www.news1.kr/nk/culture-sports/4605609",
         date: "2022",
-        source: "양은하, 뉴스원1"
+        source: "양은하, 뉴스1"
       },
       {
         type: "external",

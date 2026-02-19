@@ -16,7 +16,7 @@
     "img": "chromakeys_thumbnail.png",
     "years": [2024], 
     "order": 4,    
-    "keywords": ["Korean division", "Diaspora", "Technology"],
+    "keywords": ["Korean division", "Diaspora", "Technology", "Game"],
     "px": 0.55, "py": 0.75
   },
   {
@@ -36,7 +36,7 @@
     "img": "baton-touch_thumbnail.png",
     "years": [2024], 
     "order": 2,   
-    "keywords": ["Korean division", "AI"],
+    "keywords": ["Korean division", "AI", "Game"],
     "px": 0.63, "py": 0.42
   },
   {
