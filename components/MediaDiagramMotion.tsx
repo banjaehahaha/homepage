@@ -915,6 +915,18 @@ function MobilePortfolio({ nodes, links }: { nodes: Node[]; links: Link[] }) {
     setTimeout(() => setPulsedId(null), 900);
   };
 
+  // 스티키 헤더 높이를 고려한 스크롤
+  const scrollToCard = (nodeId: string) => {
+    const el = cardRefs.current[nodeId];
+    if (!el) return;
+    const rect = el.getBoundingClientRect();
+    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    const stickyOffset = 100; // sticky 헤더 + 여유
+    const targetY = scrollTop + rect.top - stickyOffset;
+    window.scrollTo({ top: targetY, behavior: 'smooth' });
+    triggerPulse(nodeId);
+  };
+
   // 키워드 토글
   const handleKeywordTap = (keyword: string) => {
     if (activeKeyword === keyword) {
@@ -925,13 +937,7 @@ function MobilePortfolio({ nodes, links }: { nodes: Node[]; links: Link[] }) {
       setJumpIndex(0);
       const firstMatch = projectNodes.find(n => n.keywords?.includes(keyword));
       if (firstMatch) {
-        setTimeout(() => {
-          cardRefs.current[firstMatch.id]?.scrollIntoView({
-            behavior: 'smooth',
-            block: 'center',
-          });
-          triggerPulse(firstMatch.id);
-        }, 150);
+        setTimeout(() => scrollToCard(firstMatch.id), 150);
       }
     }
   };
@@ -945,10 +951,7 @@ function MobilePortfolio({ nodes, links }: { nodes: Node[]; links: Link[] }) {
         : Math.max(jumpIndex - 1, 0);
     setJumpIndex(next);
     const nodeId = matchedNodes[next]?.id;
-    if (nodeId) {
-      cardRefs.current[nodeId]?.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      triggerPulse(nodeId);
-    }
+    if (nodeId) scrollToCard(nodeId);
   };
 
   // 연도로 점프
