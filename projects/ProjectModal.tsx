@@ -82,7 +82,22 @@ function DescriptionWithReadMore({
       </button>
     </div>
   ) : null;
-  const shortHTML = plain.slice(0, maxLength) + "...";
+  // 축약본: HTML 태그를 유지한 채로 plain text 기준 maxLength만큼 자르기
+  const truncateHTML = (html: string, max: number) => {
+    let count = 0;
+    let result = '';
+    let inTag = false;
+    for (let i = 0; i < html.length; i++) {
+      if (html[i] === '<') { inTag = true; result += html[i]; continue; }
+      if (html[i] === '>') { inTag = false; result += html[i]; continue; }
+      if (inTag) { result += html[i]; continue; }
+      if (count >= max) break;
+      result += html[i];
+      count++;
+    }
+    return result + '...';
+  };
+  const shortHTML = truncateHTML(desc ?? '', maxLength);
   return (
     <div style={{ fontSize: 16, margin: "20px 0" }}>
       <div style={{ marginBottom: 10, display: 'flex', gap: 16 }}>
@@ -111,7 +126,7 @@ function DescriptionWithReadMore({
       </div>
       {!expanded && isLong ? (
         <>
-          <div style={{ whiteSpace: 'pre-line' }}>{shortHTML}</div>
+          <div style={{ whiteSpace: 'pre-line' }} dangerouslySetInnerHTML={{ __html: shortHTML }} />
           <button
             onClick={() => setExpanded(true)}
             style={{
@@ -161,6 +176,8 @@ export default function ProjectModal({
   const [data, setData] = useState<ProjectData | WorkType | null>(null);
   const [zoomIdx, setZoomIdx] = useState<number | null>(null);
   const [zoomTarget, setZoomTarget] = useState<{workIdx: number, imgIdx: number} | null>(null);
+  const [slideDir, setSlideDir] = useState<'left'|'right'|null>(null);
+  const [slideKey, setSlideKey] = useState(0);
   const works: WorkType[] =
   isProjectData(data) && data.works && data.works.length > 0
     ? data.works
@@ -332,7 +349,7 @@ export default function ProjectModal({
         padding: '12px',
         boxSizing: "border-box", }}
     >
-      {/* ----------- 좌: 텍스트 ----------- */}
+      {/* ----------- 좌: 텍스트 (sticky) ----------- */}
       <div
         className="p-2 sm:p-2 md:p-4 lg:p-4"
         style={{
@@ -340,7 +357,11 @@ export default function ProjectModal({
           minWidth: 0,
           width: "auto",
           boxSizing: "border-box",
-          objectFit: "contain",
+          position: "sticky",
+          top: 0,
+          alignSelf: "flex-start",
+          maxHeight: "85vh",
+          overflowY: "auto",
         }}
       >
         <h2 
@@ -436,8 +457,12 @@ export default function ProjectModal({
         // Vimeo
         if (/vimeo\.com/.test(src)) {
           // Vimeo 임베드 URL로 자동 변환
-          const id = src.match(/vimeo\.com\/(\d+)/)?.[1];
-          const embedUrl = id ? `https://player.vimeo.com/video/${id}` : src;
+          const vimeoMatch = src.match(/vimeo\.com\/(\d+)(?:\/([a-zA-Z0-9]+))?/);
+          const id = vimeoMatch?.[1];
+          const hash = vimeoMatch?.[2];
+          const embedUrl = id
+            ? `https://player.vimeo.com/video/${id}${hash ? `?h=${hash}` : ''}`
+            : src;
           return (
             <iframe
               key={`vimeo-${vIdx}`}
@@ -628,9 +653,27 @@ export default function ProjectModal({
       </div>
       )}
 
-    {/* ---- 이미지 클릭 시 확대 모달 ---- */}
+    {/* ---- 이미지 클릭 시 확대 모달 (좌우 내비게이션) ---- */}
     {zoomTarget !== null &&
-    works?.[zoomTarget.workIdx]?.images?.[zoomTarget.imgIdx] && (
+    works?.[zoomTarget.workIdx]?.images?.[zoomTarget.imgIdx] && (() => {
+      const imgs = works[zoomTarget.workIdx].images!;
+      const total = imgs.length;
+      const goNext = (e?: React.MouseEvent) => {
+        e?.stopPropagation();
+        setSlideDir('left');
+        setSlideKey(k => k + 1);
+        setZoomTarget({ workIdx: zoomTarget.workIdx, imgIdx: (zoomTarget.imgIdx + 1) % total });
+      };
+      const goPrev = (e?: React.MouseEvent) => {
+        e?.stopPropagation();
+        setSlideDir('right');
+        setSlideKey(k => k + 1);
+        setZoomTarget({ workIdx: zoomTarget.workIdx, imgIdx: (zoomTarget.imgIdx - 1 + total) % total });
+      };
+      const curSrc = imgs[zoomTarget.imgIdx];
+      const imgUrl = curSrc.startsWith("/") ? curSrc : `/images/${curSrc}`;
+
+      return (
       <div
         style={{
           position: "fixed",
@@ -645,26 +688,82 @@ export default function ProjectModal({
           justifyContent: "center",
         }}
         onClick={() => setZoomTarget(null)}
+        onKeyDown={(e) => {
+          if (e.key === "ArrowRight") goNext();
+          else if (e.key === "ArrowLeft") goPrev();
+          else if (e.key === "Escape") setZoomTarget(null);
+        }}
+        tabIndex={0}
+        ref={(el) => el?.focus()}
       >
+        {/* 왼쪽 화살표 */}
+        <button
+          onClick={goPrev}
+          style={{
+            position: "absolute", left: 16, top: "50%", transform: "translateY(-50%)",
+            background: "rgba(255,255,255,0.15)", border: "none", borderRadius: "50%",
+            width: 48, height: 48, cursor: "pointer", display: "flex",
+            alignItems: "center", justifyContent: "center", zIndex: 10001,
+          }}
+          aria-label="Previous"
+        >
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <path d="M15 19l-7-7 7-7" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+          </svg>
+        </button>
+
         <img
-          src={
-            works?.[zoomTarget.workIdx]?.images?.[zoomTarget.imgIdx]?.startsWith("/")
-              ? works?.[zoomTarget.workIdx]?.images?.[zoomTarget.imgIdx]
-              : `/images/${works?.[zoomTarget.workIdx]?.images?.[zoomTarget.imgIdx]}`
-          }
+          key={slideKey}
+          src={imgUrl}
           alt=""
           style={{
-            maxWidth: "90vw",
+            maxWidth: "80vw",
             maxHeight: "90vh",
             borderRadius: 14,
             boxShadow: "0 4px 48px #000b",
             background: "#111",
             objectFit: "contain",
+            animation: slideDir ? `slide-in-${slideDir} 0.3s ease` : undefined,
           }}
-          //onClick={e => e.stopPropagation()}
+          onClick={e => e.stopPropagation()}
         />
+        <style>{`
+          @keyframes slide-in-left {
+            from { opacity: 0; transform: translateX(60px); }
+            to   { opacity: 1; transform: translateX(0); }
+          }
+          @keyframes slide-in-right {
+            from { opacity: 0; transform: translateX(-60px); }
+            to   { opacity: 1; transform: translateX(0); }
+          }
+        `}</style>
+
+        {/* 오른쪽 화살표 */}
+        <button
+          onClick={goNext}
+          style={{
+            position: "absolute", right: 16, top: "50%", transform: "translateY(-50%)",
+            background: "rgba(255,255,255,0.15)", border: "none", borderRadius: "50%",
+            width: 48, height: 48, cursor: "pointer", display: "flex",
+            alignItems: "center", justifyContent: "center", zIndex: 10001,
+          }}
+          aria-label="Next"
+        >
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <path d="M9 5l7 7-7 7" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+          </svg>
+        </button>
+
+        {/* 이미지 카운터 */}
+        <div style={{
+          position: "absolute", bottom: 24, left: "50%", transform: "translateX(-50%)",
+          color: "#aaa", fontSize: 14,
+        }}>
+          {zoomTarget.imgIdx + 1} / {total}
+        </div>
       </div>
-  )}
+      );
+    })()}
 
 
 </div>

@@ -5,7 +5,7 @@ import { archiveList } from "@/components/archiveList";
 
 export default function ArchivePanel({
     onClose,
-    zIndex = 50, // 기본값 50
+    zIndex = 50,
   }: {
     onClose: () => void;
     zIndex?: number;
@@ -15,11 +15,11 @@ export default function ArchivePanel({
     <>
       <div
         style={{ zIndex }}
-        className="fixed     
-        left-0 
+        className="fixed
+        left-0
         top-0
         w-full
-        h-[calc(100vh-40px)]  
+        h-[calc(100vh-40px)]
         bg-black/70"
         onClick={onClose}
         aria-label="Close archive panel"
@@ -52,11 +52,9 @@ export default function ArchivePanel({
             {sortedList.map((item, idx) => (
                 <li key={idx} className="mb-4 flex flex-col">
                 <div className="flex flex-col md:flex-row md:items-center md:space-x-2">
-                {/* 설명글: 작고 회색, 링크 바깥! */}
                 <span className="text-sm text-lime-400 md:mr-2">
-                    {item.desc}
+                    {item.desc_en}
                 </span>
-                {/* 제목: 굵고 흰색 링크 */}
                 {item.type === "pdf" ? (
                     <a
                     href={`/pdfs/${item.filename}`}
@@ -76,7 +74,6 @@ export default function ArchivePanel({
                     {item.label}
                     </a>
                 )}
-                {/* 아이콘 */}
                 <span className="hidden md:inline">
                     {item.type === "pdf" ? "📄" : "🔗"}
                     </span>
@@ -84,7 +81,7 @@ export default function ArchivePanel({
                     {item.source}
                 </div>
                 </div>
-                
+
                 </li>
             ))}
             </ul>

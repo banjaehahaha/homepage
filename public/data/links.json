@@ -1,4 +1,9 @@
 [
+  { "source": "if-absent", "target": "installation" },
+  { "source": "if-absent", "target": "audience participation" },
+  { "source": "unexpected-interpolation", "target": "performance" },
+  { "source": "market-settlement", "target": "installation" },
+  { "source": "market-settlement", "target": "audience participation" },
   { "source": "imagine-home", "target": "performance" },
   { "source": "imagine-home", "target": "audience participation" },
   { "source": "make-home", "target": "performance" },

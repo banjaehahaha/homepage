@@ -1,16 +1,14 @@
 "use client";
-import ProjectModal from "@/projects/ProjectModal";
 import { useParams, useRouter } from "next/navigation";
+import { useEffect } from "react";
 
-export default function ProjectPage() {
+export default function LegacyProjectRedirect() {
   const params = useParams();
   const router = useRouter();
-  if (!params?.id) return null;
-  return (
-    <ProjectModal
-      id={params.id as string}
-      onClose={() => router.push('/diagram')}
-      directEntry={true}
-    />
-  );
+  useEffect(() => {
+    if (params?.id) {
+      router.replace(`/projects/${params.id}`);
+    }
+  }, [params, router]);
+  return null;
 }

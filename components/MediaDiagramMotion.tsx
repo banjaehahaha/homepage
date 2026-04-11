@@ -62,6 +62,7 @@ function DiagramNode({
   THUMB_H,
   TITLE_GAP,
   TITLE_EXTRA_W,
+  leftMargin,
 }: {
   node: any;
   dims: { width: number; height: number };
@@ -78,8 +79,9 @@ function DiagramNode({
   THUMB_H: number;
   TITLE_GAP: number;
   TITLE_EXTRA_W: number;
+  leftMargin: number;
 }) {
-  const cx = node.px * dims.width;
+  const cx = leftMargin + node.px * (dims.width - leftMargin);
   const cy = node.py * dims.height;
   const isOn = !hovered || connected.has(node.id);
   const visible = isVisible(node);
@@ -236,15 +238,16 @@ interface Node {
   type: 'media' | 'project'| 'upcoming';
   label: string;
   px: number; py: number;
-  years: number[]; 
+  years: number[];
   keywords: string[];
-  media?: string[]; 
+  media?: string[];
+  order?: number;
 }
 interface Link { source: string; target: string; }
 
-const THUMB_H = 112;
-const TITLE_GAP = 6;      // 이미지 아래 간격
-const TITLE_EXTRA_W = 80; // 제목 박스 넓이 여유분
+const BASE_THUMB_H = 134;
+const BASE_TITLE_GAP = 7;
+const BASE_TITLE_EXTRA_W = 96;
 
 
 export default function MediaDiagram() {
@@ -260,6 +263,12 @@ export default function MediaDiagram() {
   const [modalNode, setModalNode] = useState<string|null>(null)
 
   const [dims, setDims] = useState({ width: 0, height: 0 });
+
+  const scale = useMemo(() => Math.max(0.6, Math.min(1, dims.width / 1440)), [dims.width]);
+  const THUMB_H = useMemo(() => Math.round(BASE_THUMB_H * scale), [scale]);
+  const TITLE_GAP = useMemo(() => Math.round(BASE_TITLE_GAP * scale), [scale]);
+  const TITLE_EXTRA_W = useMemo(() => Math.round(BASE_TITLE_EXTRA_W * scale), [scale]);
+
   const [hovered, setHovered] = useState<string | null>(null);
   const [maxZ, setMaxZ] = useState(1);
   const [zIndexMap, setZIndexMap] = useState<Record<string, number>>({});
@@ -283,6 +292,8 @@ export default function MediaDiagram() {
   const [isYearGrid, setIsYearGrid] = useState(false);
 
   const containerRef = useRef<HTMLDivElement>(null);
+  const panelRef     = useRef<HTMLDivElement>(null);
+  const [leftMargin, setLeftMargin] = useState(0);
   const dragState    = useRef<{ id:string; offsetX:number; offsetY:number; moved: boolean; }|null>(null);
   const wrapperRefs  = useRef<Record<string,HTMLDivElement|null>>({});
   const imageRefs    = useRef<Record<string,HTMLImageElement|null>>({});
@@ -305,7 +316,7 @@ export default function MediaDiagram() {
     const sortedByYear = useMemo(() => {
         return [...nodes]
         .map(n => ({ ...n, year: Math.max(...n.years) }))
-        .sort((a, b) => b.year - a.year);
+        .sort((a, b) => b.year - a.year || (b.order ?? 0) - (a.order ?? 0));
     }, [nodes]);
     
     // 2) 그리드 크기 (행/열) 결정
@@ -374,7 +385,7 @@ export default function MediaDiagram() {
       }, []);
 
   
-  // 컨테이너 측정
+  // 컨테이너 & 패널 측정
   useEffect(() => {
     const upd = () => {
       if (!containerRef.current) return;
@@ -382,6 +393,9 @@ export default function MediaDiagram() {
         width: containerRef.current.clientWidth,
         height: containerRef.current.clientHeight,
       });
+      if (panelRef.current) {
+        setLeftMargin(panelRef.current.offsetWidth + 24);
+      }
     };
     upd(); window.addEventListener('resize',upd);
     return ()=>window.removeEventListener('resize',upd);
@@ -437,7 +451,7 @@ export default function MediaDiagram() {
       const { id } = dragState.current;
       const node = nodes.find(n => n.id === id);
       const rect = containerRef.current.getBoundingClientRect();
-      const startX = node!.px * dims.width + rect.left;
+      const startX = leftMargin + node!.px * (dims.width - leftMargin) + rect.left;
       const startY = node!.py * dims.height + rect.top;
       const dx = e.clientX - startX;
       const dy = e.clientY - startY;
@@ -449,10 +463,11 @@ export default function MediaDiagram() {
     const r = containerRef.current.getBoundingClientRect();
     const newCx = e.clientX - r.left - offsetX;
     const newCy = e.clientY - r.top - offsetY;
+    const usableW = dims.width - leftMargin;
     setNodes(ns =>
       ns.map(n =>
         n.id === id
-          ? { ...n, px: newCx / dims.width, py: newCy / dims.height }
+          ? { ...n, px: (newCx - leftMargin) / usableW, py: newCy / dims.height }
           : n
       )
     );
@@ -463,7 +478,7 @@ export default function MediaDiagram() {
       const node = nodes.find(n => n.id === dragState.current!.id);
       if (!node) return;
       if (node.type === 'project') {
-        router.push(`/diagram/modal/projects/${node.id}`);
+        router.push(`/projects/${node.id}`);
       } else if (node.type === 'upcoming') {
         setModalNode(node.id);
       }
@@ -488,7 +503,7 @@ export default function MediaDiagram() {
       });
       
       const rect = containerRef.current!.getBoundingClientRect();
-      const cx = node.px * dims.width;
+      const cx = leftMargin + node.px * (dims.width - leftMargin);
       const cy = node.py * dims.height;
       dragState.current = {
         id: node.id,
@@ -552,7 +567,7 @@ if (isMobile) {
       }}
     >
           {/* ─── 필터+CV outer wrapper ─────────────────────────── */}
-    <div className="absolute top-4 left-4">
+    <div ref={panelRef} className="absolute top-4 left-4">
       {/* ─── 실제 필터 박스 ─────────────────────────── */}
       <div className="bg-black/50 p-3 rounded text-white space-y-3 w-max">
         <h4 className="mb-2 font-semibold">Keywords</h4>
@@ -666,8 +681,8 @@ if (isMobile) {
           } else {
             const A = nodes.find(n=>n.id===l.source)!;
             const B = nodes.find(n=>n.id===l.target)!;
-            x1=A.px*dims.width; y1=A.py*dims.height;
-            x2=B.px*dims.width; y2=B.py*dims.height;
+            x1=leftMargin+A.px*(dims.width-leftMargin); y1=A.py*dims.height;
+            x2=leftMargin+B.px*(dims.width-leftMargin); y2=B.py*dims.height;
           }
           const hilite = hovered===l.source||hovered===l.target;
           return (
@@ -710,6 +725,7 @@ if (isMobile) {
           THUMB_H={THUMB_H}
           TITLE_GAP={TITLE_GAP}
           TITLE_EXTRA_W={TITLE_EXTRA_W}
+          leftMargin={leftMargin}
         />
       ))}
 
@@ -759,31 +775,22 @@ if (isMobile) {
           </button>
 
           {/* --- 모달 내용 --- */}
-          <h2 className="text-2xl font-bold mb-4">Upcoming Events</h2>
-          <ul className="mb-4">
-          <li>
-          <h2 style={{ background: "#92F90E", color: "#222", display: "inline-block", padding: "0px 4px" }}><b><i>From Recent Rumors and Old Traces</i></b></h2><br />
-          <h2 style={{ background: "#92F90E", color: "#222", display: "inline-block", padding: "0px 4px" }}><b>방금 전의 소문과 오래된 증거로부터</b></h2><br /><br />
-            Within this project, Ban Jaeha’s work examines the reality of South Korea, which is unable to connect directly with North Korea due to the structures of division and sanctions, by exploring alternative logistics routes. Ban Jaeha actually orders North Korean goods and structures the work around the process of these items arriving at the exhibition space via unofficial distribution networks. Through the movement of goods and the delays in their arrival, the work reveals how national borders and sanctions regimes can be subtly circumvented by commodities, and reimagines the present condition of division by making the “time of detour” palpable.<br />
-            이 프로젝트에서 반재하는 분단과 제재라는 구조 속에서 북한과 직접적으로 연결될 수 없는 남한의 현실을, 물류의 우회 경로를 통해 탐구한다. 반재하는 북한산 물건을 실제로 주문하고, 그 물건이 비공식적인 유통망을 따라 전시장에 도착하는 과정을 함께 경험하게 된다. 이 작업은 물건의 이동과 지연된 시간을 통해 국가의 경계와 제재 체계가 상품에 의해 얼마나 유연하게 무력화되는지를 드러내며, ‘우회의 시간’을 감각하는 방식으로 분단의 현재를 재구성한다.
-            <br /><br />
-            <b>Exhibition:</b>  <i>From Recent Rumors and Old Traces</i>, 2025.8.29. Fri - 9.14. Sun, 챔버 CHAMBER <br />
-            <b>Performance:</b> <i>Unexpected Interpolation and Nearest Neighbor Search</i>, 30 October, 2025, Theater, Incheon Art Platform <br />
-            <b>Publication:</b> Ongoing in the second half of 2025<br /><br />
-            
-          </li>
-          <li className="mt-3">
-          <h2 style={{ background: "#92F90E", color: "#222", display: "inline-block", padding: "0px 4px" }}><b><i>People Buying Land in the DMZ(working title)</i></b></h2><br />
-            <h2 style={{ background: "#92F90E", color: "#222", display: "inline-block", padding: "0px 4px" }}><b>DMZ에 땅을 사는 사람들(가제)</b></h2><br /><br />
-            Within this project, Ban Jaeha’s work explores how individual aspirations, state control, and historical division collide through land ownership within the DMZ. Based on interviews and on-site research, the work reveals the entanglement of an inaccessible future, a suspended present, and a persistently operative past.<br />
-            이 프로젝트에서 반재하는 DMZ 내 토지 소유를 통해 개인의 기대, 국가의 통제, 역사적 분단이 어떻게 충돌하는지를 탐구한다. 실제 인터뷰와 현장 리서치를 바탕으로, 접근할 수 없는 미래와 정지된 현재, 여전히 작동하는 과거가 어떻게 얽혀 있는지를 드러낸다.
-            <br /><br />
-            <b>Symposium:</b> 27 September, 2025, Project Room, 서울예술인지원센터 Seoul Artists Support Center<br />
-            <b>Exhibition:</b> Scheduled for the second half of 2025 <br />
-            <b>Documentary:</b> In production <br />
-            <b>Publication:</b> Expected in 2nd half of 2025<br />
-          </li>
-        </ul>
+          <h2 className="text-2xl font-bold mb-6">Upcoming</h2>
+          <div className="mb-4">
+            <h2 style={{ background: "#92F90E", color: "#222", display: "inline-block", padding: "2px 6px" }}><b><i>Calculated Malfunction (working title)</i></b></h2><br />
+            <h2 style={{ background: "#92F90E", color: "#222", display: "inline-block", padding: "2px 6px", marginTop: "4px" }}><b>계산된 오작동 (가제)</b></h2>
+            <p className="text-gray-400 text-sm mt-4">Solo Exhibition</p>
+            <p className="mt-2">2026.6.19. — 7.12.</p>
+            <p className="text-gray-300 mt-1">Studio White, NC Cultural Foundation 2F</p>
+            <p className="text-gray-500 text-sm mt-1">100 Ihwajang-gil, Jongno-gu, Seoul</p>
+            <p className="text-gray-300 text-sm mt-4 leading-relaxed">An exhibition exploring how images, goods, and information surrounding North Korea are produced and transformed within the structures of division and distribution.</p>
+            <p className="text-gray-400 text-sm mt-3">Supported by Seoul Museum of Art (SeMA)</p>
+            <hr className="border-gray-600 my-4" />
+            <p className="text-gray-300 mt-1">스튜디오 화이트, NC문화재단 2층</p>
+            <p className="text-gray-500 text-sm mt-1">서울시 종로구 이화장길 100</p>
+            <p className="text-gray-300 text-sm mt-4 leading-relaxed">분단과 유통의 구조 속에서 북한을 둘러싼 이미지, 물건, 정보가 어떻게 생성되고 변형되는지를 다루는 전시.</p>
+            <p className="text-gray-400 text-sm mt-3">서울시립미술관 신진미술인 전시지원 프로그램</p>
+          </div>
         </div>
 
         </div>
@@ -800,149 +807,396 @@ if (isMobile) {
 
 
 function MobilePortfolio({ nodes, links }: { nodes: Node[]; links: Link[] }) {
- // 미디어 아이디-라벨 매핑
- const mediaIdLabelMap = useMemo(() => {
-  const map: { [key: string]: string } = {};
-  nodes.filter(n => n.type === "media").forEach(n => { map[n.id] = n.label; });
-  return map;
-}, [nodes]);
+  const [activeKeyword, setActiveKeyword] = useState<string | null>(null);
+  const [jumpIndex, setJumpIndex] = useState(0);
+  const [pulsedId, setPulsedId] = useState<string | null>(null);
+  const [activeYear, setActiveYear] = useState<number | null>(null);
+  const [showYearBar, setShowYearBar] = useState(true);
 
-// 매체 리스트 (중복제거, All 포함)
-const mediaList = useMemo(() => {
-  const medias = nodes.filter(n => n.type === "project").flatMap(n => n.media || []);
-  return ["All", ...Array.from(new Set(medias))];
-}, [nodes]);
+  const cardRefs = useRef<Record<string, HTMLDivElement | null>>({});
+  const yearRefs = useRef<Record<number, HTMLDivElement | null>>({});
+  const yearPillRefs = useRef<Record<number, HTMLButtonElement | null>>({});
+  const lastScrollY = useRef(0);
 
-// 필터 관련 상태
-const [selectedMedia, setSelectedMedia] = useState<string>('All');
-const [selectedKeywords, setSelectedKeywords] = useState<Set<string>>(new Set());
-const tabRef = useRef<HTMLDivElement>(null);
-const [canScrollLeft, setCanScrollLeft] = useState(false);
-const [canScrollRight, setCanScrollRight] = useState(false);
-
-// 스크롤 체크
-const updateScroll = () => {
-  if (!tabRef.current) return;
-  setCanScrollLeft(tabRef.current.scrollLeft > 2);
-  setCanScrollRight(
-    tabRef.current.scrollLeft + tabRef.current.offsetWidth <
-      tabRef.current.scrollWidth - 2
+  // project 노드만 최신연도 기준 내림차순
+  const projectNodes = useMemo(
+    () =>
+      nodes
+        .filter(n => n.type === 'project')
+        .sort((a, b) => Math.max(...b.years) - Math.max(...a.years)),
+    [nodes],
   );
-};
 
-useEffect(() => {
-  updateScroll();
-  const el = tabRef.current;
-  if (!el) return;
-  el.addEventListener("scroll", updateScroll);
-  window.addEventListener("resize", updateScroll);
-  return () => {
-    el.removeEventListener("scroll", updateScroll);
-    window.removeEventListener("resize", updateScroll);
+  // 전체 키워드
+  const allKeywords = useMemo(() => {
+    const s = new Set<string>();
+    projectNodes.forEach(n => n.keywords?.forEach(k => s.add(k)));
+    return Array.from(s).sort();
+  }, [projectNodes]);
+
+  // 연도별 그룹
+  const yearGroups = useMemo(() => {
+    const groups: Record<number, Node[]> = {};
+    projectNodes.forEach(n => {
+      const year = Math.max(...n.years);
+      if (!groups[year]) groups[year] = [];
+      groups[year].push(n);
+    });
+    return Object.entries(groups)
+      .sort(([a], [b]) => Number(b) - Number(a))
+      .map(([year, items]) => ({ year: Number(year), items }));
+  }, [projectNodes]);
+
+  // links → 매체 라벨 매핑
+  const nodeMediaLabels = useMemo(() => {
+    const mediaMap: Record<string, string> = {};
+    nodes.filter(n => n.type === 'media').forEach(n => { mediaMap[n.id] = n.label; });
+    const result: Record<string, string[]> = {};
+    links.forEach(l => {
+      if (!result[l.source]) result[l.source] = [];
+      if (mediaMap[l.target]) result[l.source].push(mediaMap[l.target]);
+    });
+    return result;
+  }, [nodes, links]);
+
+  // 활성 키워드에 매칭되는 노드 id 셋
+  const matchedIds = useMemo(() => {
+    if (!activeKeyword) return new Set(projectNodes.map(n => n.id));
+    return new Set(
+      projectNodes.filter(n => n.keywords?.includes(activeKeyword)).map(n => n.id),
+    );
+  }, [projectNodes, activeKeyword]);
+
+  // 점프 내비게이션용 매칭 노드 배열
+  const matchedNodes = useMemo(() => {
+    if (!activeKeyword) return [];
+    return projectNodes.filter(n => n.keywords?.includes(activeKeyword));
+  }, [projectNodes, activeKeyword]);
+
+  // 1. 스크롤 연동 연도 표시 (IntersectionObserver)
+  useEffect(() => {
+    if (yearGroups.length === 0) return;
+    const observers: IntersectionObserver[] = [];
+    yearGroups.forEach(({ year }) => {
+      const el = yearRefs.current[year];
+      if (!el) return;
+      const obs = new IntersectionObserver(
+        ([entry]) => { if (entry.isIntersecting) setActiveYear(year); },
+        { threshold: 0, rootMargin: '-10% 0px -80% 0px' },
+      );
+      obs.observe(el);
+      observers.push(obs);
+    });
+    return () => observers.forEach(o => o.disconnect());
+  }, [yearGroups]);
+
+  // 활성 연도 pill 자동 스크롤
+  useEffect(() => {
+    if (activeYear === null) return;
+    yearPillRefs.current[activeYear]?.scrollIntoView({
+      behavior: 'smooth', inline: 'center', block: 'nearest',
+    });
+  }, [activeYear]);
+
+  // 2. 스크롤 방향에 따라 연도 바 숨기기/보이기
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentY = document.body.scrollTop || document.documentElement.scrollTop;
+      setShowYearBar(currentY < 80 || currentY < lastScrollY.current);
+      lastScrollY.current = currentY;
+    };
+    document.body.addEventListener('scroll', handleScroll, { passive: true });
+    return () => document.body.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  // 3. 점프 시 pulse 효과
+  const triggerPulse = (nodeId: string) => {
+    setPulsedId(nodeId);
+    setTimeout(() => setPulsedId(null), 900);
   };
-}, []);
 
-useEffect(() => {
-  if (mediaList.length > 0 && !selectedMedia) {
-    setSelectedMedia(mediaList[0]);
-  }
-}, [mediaList, selectedMedia]);
+  // 키워드 토글
+  const handleKeywordTap = (keyword: string) => {
+    if (activeKeyword === keyword) {
+      setActiveKeyword(null);
+      setJumpIndex(0);
+    } else {
+      setActiveKeyword(keyword);
+      setJumpIndex(0);
+      const firstMatch = projectNodes.find(n => n.keywords?.includes(keyword));
+      if (firstMatch) {
+        setTimeout(() => {
+          cardRefs.current[firstMatch.id]?.scrollIntoView({
+            behavior: 'smooth',
+            block: 'center',
+          });
+          triggerPulse(firstMatch.id);
+        }, 150);
+      }
+    }
+  };
 
-// 키워드 리스트 (선택된 매체로 필터)
-const keywordList = useMemo(() => {
-  return Array.from(new Set(
-    nodes
-      .filter(n =>
-        n.type === 'project' &&
-        (
-          selectedMedia === 'All' ||
-          (n.media && Array.isArray(n.media) && n.media.includes(selectedMedia))
-        )
-      )
-      .flatMap(n => n.keywords || [])
-  )).sort();
-}, [nodes, selectedMedia]);
+  // 이전/다음 매칭 작품으로 점프
+  const jumpTo = (direction: 'next' | 'prev') => {
+    if (matchedNodes.length === 0) return;
+    const next =
+      direction === 'next'
+        ? Math.min(jumpIndex + 1, matchedNodes.length - 1)
+        : Math.max(jumpIndex - 1, 0);
+    setJumpIndex(next);
+    const nodeId = matchedNodes[next]?.id;
+    if (nodeId) {
+      cardRefs.current[nodeId]?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      triggerPulse(nodeId);
+    }
+  };
 
-// 필터된 노드
-const filteredNodes = useMemo(() => {
-  return nodes.filter(n =>
-    n.type === 'project' &&
-    (
-      selectedMedia === 'All' ||
-      (
-        n.media && Array.isArray(n.media) &&
-        n.media.includes(selectedMedia)
-      )
-    ) &&
-    (
-      selectedKeywords.size === 0 ||
-      Array.from(selectedKeywords).every(k => n.keywords?.includes(k))
-    )
-  ).sort((a, b) => Math.min(...b.years) - Math.min(...a.years));
-}, [nodes, selectedMedia, selectedKeywords]);
+  // 연도로 점프
+  const jumpToYear = (year: number) => {
+    yearRefs.current[year]?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  };
 
-
-  return (
-      <div className="p-4 w-full min-h-screen overflow-y-auto">
-      <div className="relative w-full">
-        {canScrollLeft && (
-          <span className="absolute left-0 top-1/2 -translate-y-1/2 z-10 text-2xl font-black text-white-400 select-none pointer-events-none">〈</span>
-        )}
-        {canScrollRight && (
-          <span className="absolute right-0 top-1/2 -translate-y-1/2 z-10 text-2xl font-black text-white-400 select-none pointer-events-none">〉</span>
-        )}
-        <div
-          ref={tabRef}
-          className="flex gap-2 overflow-x-auto pt-2 pb-6 scrollbar-hide"
-          style={{ scrollbarWidth: "none" }}
-        >
-          {mediaList.map(mediaId => (
-            <button
-              key={mediaId}
-              onClick={() => {
-                setSelectedMedia(mediaId);
-                setSelectedKeywords(new Set());
-              }}
-              className={`px-4 py-2 rounded border
-                ${selectedMedia === mediaId
-                  ? 'bg-[#92F90E] text-black font-bold border-[#92F90E]'
-                  : 'bg-zinc-800 text-white border-zinc-700'}
-              `}
-            >
-            {mediaId === 'All' ? 'All' : (mediaIdLabelMap[mediaId] || mediaId)}
-            </button>
-          ))}
-        </div>
-      </div>
-
-      {/* 카드 리스트 */}
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
-        {filteredNodes.map(node => (
-          <div
-            key={node.id}
-            onClick={() => window.location.href = `/diagram/modal/projects/${node.id}`}
-            className="bg-zinc-900 rounded-xl overflow-hidden shadow-lg cursor-pointer"
-          >
-        <NodeImage node={node} />   
-            <div className="p-2 text-white text-base">{node.label}</div>
-            <div className="flex flex-wrap gap-1 px-2 pb-2">
-            {node.keywords && node.keywords.map(k => (
-              <span
-                key={k}
-                className="inline-block bg-[#92F90E] text-black text-xs px-2 py-0.5 rounded-full font-medium"
-              >
-                {k}
-              </span>
+  // 4. 스켈레톤 로딩
+  if (projectNodes.length === 0) {
+    return (
+      <div className="min-h-screen bg-[#1a1a1a] p-6">
+        {[...Array(4)].map((_, i) => (
+          <div key={i} className="mb-6">
+            <div className="h-5 w-12 bg-white/10 rounded mb-3 animate-pulse" />
+            {[...Array(i === 0 ? 2 : 1)].map((_, j) => (
+              <div key={j} className="flex gap-3 p-3 rounded-xl bg-zinc-900/60 mb-3 animate-pulse">
+                <div className="w-[72px] h-[72px] shrink-0 rounded-lg bg-white/10" />
+                <div className="flex-1 space-y-2 py-1">
+                  <div className="h-4 bg-white/10 rounded w-3/4" />
+                  <div className="h-3 bg-white/5 rounded w-1/2" />
+                  <div className="flex gap-1 mt-2">
+                    <div className="h-5 w-16 bg-white/10 rounded-full" />
+                    <div className="h-5 w-12 bg-white/10 rounded-full" />
+                  </div>
+                </div>
+              </div>
             ))}
-          </div>
-            <div className="px-2 pb-2 text-xs text-gray-400">{[...node.years].sort().join(', ')}</div>
           </div>
         ))}
       </div>
-      {/* 안내문구 */}
-      <div className="mt-6 text-center text-gray-400 text-m">
-        👀
+    );
+  }
+
+  return (
+    <div className="min-h-screen bg-[#1a1a1a]">
+      {/* ── Sticky 바 ────────────────────────── */}
+      <div className="sticky top-0 z-30 bg-[#1a1a1a]/95 backdrop-blur-sm border-b border-white/10">
+        {/* 키워드 row — 5. 우측 페이드 힌트 */}
+        <div className="px-4 pt-3 pb-2 relative">
+          <div className="flex gap-2 overflow-x-auto pb-1" style={{ scrollbarWidth: 'none' }}>
+            {activeKeyword && (
+              <button
+                onClick={() => { setActiveKeyword(null); setJumpIndex(0); }}
+                className="shrink-0 px-3 py-1.5 rounded-full text-xs border border-white/20 text-white/50"
+              >
+                ✕ Clear
+              </button>
+            )}
+            {allKeywords.map(k => {
+              const count = projectNodes.filter(n => n.keywords?.includes(k)).length;
+              return (
+                <button
+                  key={k}
+                  onClick={() => handleKeywordTap(k)}
+                  className={`shrink-0 px-3 py-1.5 rounded-full text-xs whitespace-nowrap transition-all ${
+                    activeKeyword === k
+                      ? 'bg-[#92F90E] text-black font-bold shadow-lg shadow-[#92F90E]/20'
+                      : 'bg-white/10 text-white/60 border border-white/10'
+                  }`}
+                >
+                  {k} <span className="opacity-50">({count})</span>
+                </button>
+              );
+            })}
+          </div>
+          <div className="absolute right-0 top-0 bottom-0 w-8 pointer-events-none bg-gradient-to-l from-[#1a1a1a]/95 to-transparent" />
+        </div>
+
+        {/* 2. 연도 바 — 스크롤 내릴 때 숨김 */}
+        <div
+          style={{
+            maxHeight: showYearBar ? '32px' : '0px',
+            opacity: showYearBar ? 1 : 0,
+            overflow: 'hidden',
+            transition: 'max-height 0.25s ease, opacity 0.25s ease',
+          }}
+        >
+          <div className="flex gap-1.5 px-4 pb-2 overflow-x-auto" style={{ scrollbarWidth: 'none' }}>
+            {yearGroups.map(({ year }) => (
+              <button
+                key={year}
+                ref={el => { yearPillRefs.current[year] = el; }}
+                onClick={() => jumpToYear(year)}
+                className={`shrink-0 text-[10px] px-2.5 py-0.5 rounded transition-all duration-300 ${
+                  activeYear === year
+                    ? 'bg-[#92F90E]/20 text-[#92F90E] font-bold'
+                    : 'bg-white/5 text-white/40'
+                }`}
+              >
+                {year}
+              </button>
+            ))}
+          </div>
+        </div>
       </div>
+
+      {/* ── 타임라인 ────────────────────────────── */}
+      <div className="relative pl-6 pr-4 pb-20 pt-2">
+        <div className="absolute left-[22px] top-0 bottom-0 w-px bg-gradient-to-b from-white/20 via-white/10 to-transparent" />
+
+        {yearGroups.map(({ year, items }) => (
+          <div key={year} ref={el => { yearRefs.current[year] = el; }}>
+            {/* 연도 라벨 — 1. activeYear 강조 */}
+            <div className="relative flex items-center gap-3 pt-6 pb-3">
+              <div className={`absolute left-[-7.5px] w-3 h-3 rounded-full transition-all duration-500 bg-[#92F90E] ${
+                activeYear === year
+                  ? 'shadow-[0_0_14px_rgba(146,249,14,0.7)] scale-125'
+                  : 'shadow-[0_0_8px_rgba(146,249,14,0.4)]'
+              }`} />
+              <div className={`ml-4 text-lg font-bold tracking-wide transition-colors duration-300 ${
+                activeYear === year ? 'text-white' : 'text-white/70'
+              }`}>
+                {year}
+              </div>
+              <div className="flex-1 h-px bg-white/5" />
+            </div>
+
+            {/* 프로젝트 카드 */}
+            <div className="ml-4 space-y-3 pb-2">
+              {items.map(node => {
+                const highlighted = matchedIds.has(node.id);
+                const mediaLabels = nodeMediaLabels[node.id] || [];
+                const isPulsed = pulsedId === node.id;
+
+                return (
+                  <div
+                    key={node.id}
+                    ref={el => { cardRefs.current[node.id] = el; }}
+                    className="relative"
+                  >
+                    <div className="absolute -left-4 top-1/2 -translate-y-1/2 w-3 h-px bg-white/15" />
+                    <div className="absolute -left-[20.5px] top-1/2 -translate-y-1/2 w-1.5 h-1.5 rounded-full bg-white/25" />
+
+                    <motion.div
+                      initial={{ opacity: 0, y: 12 }}
+                      animate={{
+                        opacity: highlighted ? 1 : 0.15,
+                        y: 0,
+                        scale: highlighted ? 1 : 0.97,
+                      }}
+                      transition={{ duration: 0.3, ease: 'easeOut' }}
+                      onClick={() => {
+                        if (highlighted)
+                          window.location.href = `/projects/${node.id}`;
+                      }}
+                      className={`rounded-xl transition-all duration-300 ${
+                        isPulsed
+                          ? 'shadow-[0_0_20px_rgba(146,249,14,0.15)] cursor-pointer'
+                          : highlighted
+                            ? 'cursor-pointer active:scale-[0.98]'
+                            : ''
+                      }`}
+                    >
+                      <div className="flex gap-3 py-2 items-center">
+                        {/* 누끼 썸네일 */}
+                        <div className="w-[72px] h-[72px] shrink-0 flex items-center justify-center">
+                          <img
+                            src={`/images/${node.id}_thumbnail.png`}
+                            alt={node.label}
+                            className="max-w-full max-h-full object-contain"
+                            draggable={false}
+                          />
+                        </div>
+
+                        {/* 정보 */}
+                        <div className="flex-1 min-w-0 flex flex-col justify-between py-0.5">
+                          <div>
+                            <h3 className="text-white text-sm font-medium leading-snug">
+                              {node.label}
+                            </h3>
+                            {mediaLabels.length > 0 && (
+                              <p className="text-[11px] text-white/30 mt-0.5 truncate">
+                                {mediaLabels.join(' · ')}
+                              </p>
+                            )}
+                          </div>
+                          <div className="flex flex-wrap gap-1 mt-1.5">
+                            {node.keywords?.map(k => (
+                              <button
+                                key={k}
+                                onClick={e => { e.stopPropagation(); handleKeywordTap(k); }}
+                                className={`text-[11px] px-2.5 py-1 rounded-full transition-all ${
+                                  activeKeyword === k
+                                    ? 'bg-[#92F90E] text-black font-bold'
+                                    : 'bg-white/10 text-white/50'
+                                }`}
+                              >
+                                {k}
+                              </button>
+                            ))}
+                          </div>
+                        </div>
+
+                        {/* 5. 탭 힌트 화살표 */}
+                        {highlighted && (
+                          <span className="text-white/40 text-lg pl-1 shrink-0 leading-none">›</span>
+                        )}
+                      </div>
+
+                      {node.years.length > 1 && (
+                        <div className="px-3 pb-2 -mt-1">
+                          <span className="text-[10px] text-white/25">
+                            {[...node.years].sort().join(' → ')}
+                          </span>
+                        </div>
+                      )}
+                    </motion.div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* ── 플로팅 점프 내비게이터 ─────────────── */}
+      <AnimatePresence>
+        {activeKeyword && matchedNodes.length > 0 && (
+          <motion.div
+            initial={{ y: 40, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            exit={{ y: 40, opacity: 0 }}
+            className="fixed bottom-16 left-1/2 -translate-x-1/2 z-40"
+          >
+            <div className="flex items-center gap-3 bg-black/85 backdrop-blur-md px-4 py-2.5 rounded-full border border-[#92F90E]/20 shadow-xl">
+              <button
+                onClick={() => jumpTo('prev')}
+                disabled={jumpIndex <= 0}
+                className="text-white/70 disabled:text-white/20 text-sm px-1"
+              >
+                ▲
+              </button>
+              <div className="text-center min-w-[60px]">
+                <span className="text-[#92F90E] text-sm font-bold">{jumpIndex + 1}</span>
+                <span className="text-white/40 text-sm"> / {matchedNodes.length}</span>
+                <div className="text-[10px] text-white/30 -mt-0.5">{activeKeyword}</div>
+              </div>
+              <button
+                onClick={() => jumpTo('next')}
+                disabled={jumpIndex >= matchedNodes.length - 1}
+                className="text-white/70 disabled:text-white/20 text-sm px-1"
+              >
+                ▼
+              </button>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

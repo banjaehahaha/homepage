@@ -8,12 +8,12 @@ const nextConfig: NextConfig = {
     return [
       {
         source: '/playhomesweethome',
-        destination: '/diagram/modal/projects/play-home',
+        destination: '/projects/play-home',
         permanent: true,
       },
       {
         source: '/makehomesweethome',
-        destination: '/diagram/modal/projects/make-home',
+        destination: '/projects/make-home',
         permanent: true,
       },
       // 다른 리다이렉트도 필요하면 여기 추가

@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import ReactMarkdown from "react-markdown";
 import CustomMarkdown from "@/components/CustomMarkdown";
-import { soloList, groupList } from "@/components/cvList";
+import { soloList, groupList, type CVSection, type CVItem } from "@/components/cvList";
 import Link from "next/link";
 import ProjectModal from "@/projects/ProjectModal";
 
@@ -28,18 +28,36 @@ export default function CVPanel({
   const isMobile = useIsMobile();
   const [lang, setLang] = useState<'en' | 'ko'>('en'); 
   const [modalProjectId, setModalProjectId] = useState<string | null>(null);
-  const sortedSoloList = [...soloList].sort((a, b) => {
-    if (b.year !== a.year) {
-      return b.year - a.year; // 연도 내림차순
-    }
-    return a.order - b.order; // 같은 연도면 order 오름차순(1이 위)
-  });
-  const sortedGroupList = [...groupList].sort((a, b) => {
-    if (b.year !== a.year) {
-      return b.year - a.year; // 연도 내림차순
-    }
-    return a.order - b.order; // 같은 연도면 order 오름차순(1이 위)
-  });
+
+  const SECTION_ORDER: CVSection[] = [
+    "solo",
+    "group_exhibitions",
+    "residencies_research",
+    "screenings_festivals",
+    "workshops_talks_symposiums",
+  ];
+  const SECTION_TITLES: Record<CVSection, string> = {
+    solo: "Solo Exhibitions & Performances",
+    group_exhibitions: "Selected Group Exhibitions",
+    screenings_festivals: "Screenings & Festivals",
+    residencies_research: "Residencies & Research",
+    workshops_talks_symposiums: "Workshops, Talks & Symposiums",
+  };
+
+  const sortItems = (a: CVItem, b: CVItem) => {
+    if (b.year !== a.year) return b.year - a.year;
+    return a.order - b.order;
+  };
+  const allItems = [...soloList, ...groupList].sort(sortItems);
+  const itemsBySection = SECTION_ORDER.reduce<Record<CVSection, CVItem[]>>(
+    (acc, section) => {
+      acc[section] = allItems.filter((item) => item.section === section).sort(sortItems);
+      return acc;
+    },
+    {} as Record<CVSection, CVItem[]>
+  );
+
+  const itemKey = (item: CVItem) => `${item.year}-${item.order}-${item.title_en}`;
   const TableColGroup = () => (
     <colgroup>
       <col style={{ width: "5%" }} /> 
@@ -150,13 +168,18 @@ export default function CVPanel({
             setModalProjectId={setModalProjectId}
             />
           </div>
-          {/* Solo Shows & Projects */}
-          <h2 className="text-lime-400 font-bold mt-8 mb-2 text-lg">Solo Shows & Projects</h2>
-          <table className="w-full text-white text-sm mb-8 hidden md:table">
-          <TableColGroup />
-            <tbody>
-                {sortedSoloList.map(item => (
-                <tr key={item.title_en + item.year} className="md:table-row">
+          {/* CV sections */}
+          {SECTION_ORDER.map((section) => {
+            const items = itemsBySection[section];
+            if (items.length === 0) return null;
+            return (
+              <div key={section}>
+                <h2 className="text-lime-400 font-bold mt-8 mb-2 text-lg">{SECTION_TITLES[section]}</h2>
+                <table className="w-full text-white text-sm mb-8 hidden md:table">
+                  <TableColGroup />
+                  <tbody>
+                    {items.map((item) => (
+                      <tr key={itemKey(item)} className="md:table-row">
                     <td className="pr-1 py-1.5 align-top leading-tight">{item.year}</td>
                     <td className="pr-1 py-1.5 text-gray-400 font-normal align-top leading-tight">
                             {(lang === "en" ? item.category_en : item.category_ko) || ""}
@@ -230,14 +253,13 @@ export default function CVPanel({
                     <td className="pr-1 py-1.5 align-top leading-tight">
                     {lang === 'en' ? item.country_en : item.country_ko}
                     </td>
-                </tr>
-                ))}
-            </tbody>
-            </table>
-
-            <div className="md:hidden space-y-6">
-            {sortedSoloList.map(item => (
-                <div key={item.title_en + item.year} className="border-b border-gray-700 pb-4">
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+                <div className="md:hidden space-y-6">
+                  {items.map((item) => (
+                    <div key={itemKey(item)} className="border-b border-gray-700 pb-4">
                 <div className="flex items-baseline gap-2 text-sm text-gray-400">
                     <span>{item.year}</span>
                     <span>{lang === "en" ? item.category_en : item.category_ko}</span>
@@ -301,167 +323,15 @@ export default function CVPanel({
                     <span>{lang === 'en' ? item.city_en : item.city_ko}</span>
                     <span>{lang === 'en' ? item.country_en : item.country_ko}</span>
                 </div>
+                    </div>
+                  ))}
                 </div>
-            ))}
-            </div>
-
-          {/* Group Shows & Projects */}
-          <h2 className="text-lime-400 font-bold mt-8 mb-2 text-lg">Selected Group Shows & Projects</h2>
-          <table className="w-full text-white text-sm mb-8 hidden md:table">
-          <TableColGroup />
-            <tbody>
-                {sortedGroupList.map(item => (
-                <tr key={item.title_en + item.year}className="md:table-row">
-                    <td className="pr-1 py-1.5 align-top leading-tight">{item.year}</td>
-                    <td className="pr-1 py-1.5 text-gray-400 font-normal align-top leading-tight">
-                        {(lang === "en" ? item.category_en : item.category_ko) || ""}
-                    </td>
-                    <td className="font-bold pr-1 py-1.5 align-top leading-tight">
-                        {lang === 'ko'
-                            ? (
-                            item.externalUrl ? (
-                                <a
-                                href={item.externalUrl}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="hover:underline"
-                                >
-                                {item.type === "exhibition"
-                                    ? <span>《{item.title_ko}》</span>
-                                    : <span>〈{item.title_ko}〉</span>
-                                }
-                                </a>
-                            ) : item.slug ? (
-                                <Link href={item.slug} className="hover:underline">
-                                {item.type === "exhibition"
-                                    ? <span>《{item.title_ko}》</span>
-                                    : <span>〈{item.title_ko}〉</span>
-                                }
-                                </Link>
-                            ) : (
-                                item.type === "exhibition"
-                                ? <span>《{item.title_ko}》</span>
-                                : <span>〈{item.title_ko}〉</span>
-                            )
-                            )
-                            : (
-                            item.externalUrl ? (
-                                <a
-                                href={item.externalUrl}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="hover:underline"
-                                >
-                                <i>{item.title_en}</i>
-                                </a>
-                            ) : item.slug ? (
-                                <Link href={item.slug} className="hover:underline">
-                                <i>{item.title_en}</i>
-                                </Link>
-                            ) : (
-                                <i>{item.title_en}</i>
-                            )
-                            )
-                        }
-                        </td>
-
-                        <td className="pr-1 py-1.5 align-top leading-tight">
-                        {item.placeUrl ? (
-                            <a
-                            href={item.placeUrl}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="hover:underline"
-                            >
-                            {lang === 'en' ? item.place_en : item.place_ko}
-                            </a>
-                        ) : (
-                            lang === 'en' ? item.place_en : item.place_ko
-                        )}
-                        </td>
-                    <td className="pr-1 py-1.5 align-top leading-tight">
-                    {lang === 'en' ? item.city_en : item.city_ko}
-                    </td>
-                    <td className="pr-1 py-1.5 align-top leading-tight">
-                    {lang === 'en' ? item.country_en : item.country_ko}
-                    </td>
-                </tr>
-                ))}
-            </tbody>
-            </table>
-
-            <div className="md:hidden space-y-6">
-            {sortedGroupList.map(item => (
-                <div key={item.title_en + item.year} className="border-b border-gray-700 pb-4">
-                <div className="flex items-baseline gap-2 text-sm text-gray-400">
-                    <span>{item.year}</span>
-                    <span>{lang === "en" ? item.category_en : item.category_ko}</span>
-                </div>
-                <div className="font-bold text-base mt-1 mb-1">
-                {lang === 'ko'
-                            ? (
-                            item.externalUrl ? (
-                                <a
-                                href={item.externalUrl}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="hover:underline"
-                                >
-                                {item.type === "exhibition"
-                                    ? <span>《{item.title_ko}》</span>
-                                    : <span>〈{item.title_ko}〉</span>
-                                }
-                                </a>
-                            ) : item.slug ? (
-                                <Link href={item.slug} className="hover:underline">
-                                {item.type === "exhibition"
-                                    ? <span>《{item.title_ko}》</span>
-                                    : <span>〈{item.title_ko}〉</span>
-                                }
-                                </Link>
-                            ) : (
-                                item.type === "exhibition"
-                                ? <span>《{item.title_ko}》</span>
-                                : <span>〈{item.title_ko}〉</span>
-                            )
-                            )
-                            : (
-                            item.externalUrl ? (
-                                <a
-                                href={item.externalUrl}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="hover:underline"
-                                >
-                                <i>{item.title_en}</i>
-                                </a>
-                            ) : item.slug ? (
-                                <Link href={item.slug} className="hover:underline">
-                                <i>{item.title_en}</i>
-                                </Link>
-                            ) : (
-                                <i>{item.title_en}</i>
-                            )
-                            )
-                        }
-                </div>
-                <div className="flex flex-wrap gap-2 text-sm text-gray-300">
-                    <span>
-                    {item.placeUrl ? (
-                        <a href={item.placeUrl} target="_blank" rel="noopener noreferrer" className="hover:underline">
-                        {lang === 'en' ? item.place_en : item.place_ko}
-                        </a>
-                    ) : lang === 'en' ? item.place_en : item.place_ko}
-                    </span>
-                    <span>{lang === 'en' ? item.city_en : item.city_ko}</span>
-                    <span>{lang === 'en' ? item.country_en : item.country_ko}</span>
-                </div>
-                </div>
-            ))}
-            <div className="mt-6 text-center text-gray-400 text-m">
-                👀
-            </div>
-            </div>
+              </div>
+            );
+          })}
+          <div className="mt-6 text-center text-gray-400 text-m">
+            👀
+          </div>
         </div>
       </motion.div>
       {modalProjectId && (
