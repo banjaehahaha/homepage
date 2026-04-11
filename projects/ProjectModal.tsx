@@ -151,6 +151,39 @@ function DescriptionWithReadMore({
   );
 }
 
+function MobileCollapsible({ children }: { children: React.ReactNode }) {
+  const [open, setOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 768);
+    check();
+    window.addEventListener('resize', check);
+    return () => window.removeEventListener('resize', check);
+  }, []);
+
+  if (!isMobile) return <>{children}</>;
+
+  return (
+    <div>
+      {open && children}
+      <button
+        onClick={() => setOpen(!open)}
+        style={{
+          color: "#92F90E",
+          fontWeight: 600,
+          fontSize: 14,
+          background: "none",
+          border: "none",
+          cursor: "pointer",
+          padding: "8px 0",
+        }}
+      >
+        {open ? "Close ▲" : "More info ▼"}
+      </button>
+    </div>
+  );
+}
 
 export default function ProjectModal({
   id,
@@ -349,85 +382,83 @@ export default function ProjectModal({
         padding: '12px',
         boxSizing: "border-box", }}
     >
-      {/* ----------- 좌: 텍스트 (sticky) ----------- */}
+      {/* ----------- 좌: 텍스트 (sticky on desktop only) ----------- */}
       <div
-        className="p-2 sm:p-2 md:p-4 lg:p-4"
+        className="p-2 sm:p-2 md:p-4 lg:p-4 md:sticky md:top-0 md:self-start md:max-h-[85vh] md:overflow-y-auto"
         style={{
           flex: 1,
           minWidth: 0,
           width: "auto",
           boxSizing: "border-box",
-          position: "sticky",
-          top: 0,
-          alignSelf: "flex-start",
-          maxHeight: "85vh",
-          overflowY: "auto",
         }}
       >
-        <h2 
+        <h2
           ref={el => { titleRefs.current[idx] = el }}
           style={{ fontWeight: 700, fontSize: 28 }}>{work.title_en || ""}</h2>
         <h2 style={{ fontWeight: 700, fontSize: 28 }}>{work.title_ko || ""}</h2>
         <h4
         style={{ color: "#aaa", fontSize: 16, margin: "12px 0" }}
           dangerouslySetInnerHTML={{ __html: work.year || ""}}></h4>
-        <p 
+        <p
           style={{ color: "#aaa", fontSize: 18, margin: "12px 0" }}
           dangerouslySetInnerHTML={{ __html: work.caption || "" }}
           ></p>
-        <div
-          style={{ fontSize: 16, margin: "20px 0" }}
-          dangerouslySetInnerHTML={{ __html: work.description || "" }}
-        ></div>
-        <DescriptionWithReadMore
-          en={work.description_en || ""}
-          ko={work.description_ko || ""}
-          maxLength={800}
-        />
-        {Array.isArray(work.reviewPdfUrl) && work.reviewPdfUrl.length > 0 && (
-          <div style={{ marginTop: 24 }}>
-            {work.reviewPdfUrl.map((review, idx) => (
-              <a
-                key={idx}
-                href={review.pdfUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                style={{
-                  display: "block",
-                  color: "#92F90E",
-                  fontWeight: 400,
-                  fontSize: 16,
-                  marginBottom: 14,
-                  textDecoration: "none",
-                  transition: "text-decoration 0.15s",
-                }}
-                onMouseEnter={e => {
-                  e.currentTarget.style.background = "rgba(146, 249, 14, 0.13)";
-                }}
-                onMouseLeave={e => {
-                  e.currentTarget.style.background = "transparent";
-                }}
-              >
-                {review.title}
-                {review.author && (
-                  <span
-                    style={{
-                      fontWeight: 400,
-                      fontSize: 16,
-                      marginLeft: 7,
-                    }}
-                  >
-                    {" "}
-                    / {review.author}
+        {/* 모바일: 상세 텍스트 접힘 */}
+        <MobileCollapsible>
+          <div
+            style={{ fontSize: 16, margin: "20px 0" }}
+            dangerouslySetInnerHTML={{ __html: work.description || "" }}
+          ></div>
+          <DescriptionWithReadMore
+            en={work.description_en || ""}
+            ko={work.description_ko || ""}
+            maxLength={800}
+          />
+          {Array.isArray(work.reviewPdfUrl) && work.reviewPdfUrl.length > 0 && (
+            <div style={{ marginTop: 24 }}>
+              {work.reviewPdfUrl.map((review, rIdx) => (
+                <a
+                  key={rIdx}
+                  href={review.pdfUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{
+                    display: "block",
+                    color: "#92F90E",
+                    fontWeight: 400,
+                    fontSize: 16,
+                    marginBottom: 14,
+                    textDecoration: "none",
+                    transition: "text-decoration 0.15s",
+                  }}
+                  onMouseEnter={e => {
+                    e.currentTarget.style.background = "rgba(146, 249, 14, 0.13)";
+                  }}
+                  onMouseLeave={e => {
+                    e.currentTarget.style.background = "transparent";
+                  }}
+                >
+                  {review.title}
+                  {review.author && (
+                    <span
+                      style={{
+                        fontWeight: 400,
+                        fontSize: 16,
+                        marginLeft: 7,
+                      }}
+                    >
+                      {" "}
+                      / {review.author}
+                    </span>
+                  )}
+                  <span style={{ fontWeight: 400, fontSize: 16, marginLeft: 7 }}>
+                    →
                   </span>
-                )}
-                <span style={{ fontWeight: 400, fontSize: 16, marginLeft: 7 }}>
-                  →
-                </span>
-              </a>
-            ))}
-          </div>
-        )}
+                </a>
+              ))}
+            </div>
+          )}
+        </MobileCollapsible>
       </div>
 
       {/* ----------- 우: 이미지/영상 ----------- */}
