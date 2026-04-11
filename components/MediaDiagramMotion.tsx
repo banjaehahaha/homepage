@@ -919,11 +919,8 @@ function MobilePortfolio({ nodes, links }: { nodes: Node[]; links: Link[] }) {
   const scrollToCard = (nodeId: string) => {
     const el = cardRefs.current[nodeId];
     if (!el) return;
-    const rect = el.getBoundingClientRect();
-    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-    const stickyOffset = 100; // sticky 헤더 + 여유
-    const targetY = scrollTop + rect.top - stickyOffset;
-    window.scrollTo({ top: targetY, behavior: 'smooth' });
+    // scroll-margin-top이 CSS로 적용되므로 scrollIntoView가 오프셋을 자동 반영
+    el.scrollIntoView({ behavior: 'smooth', block: 'start' });
     triggerPulse(nodeId);
   };
 
@@ -1081,6 +1078,7 @@ function MobilePortfolio({ nodes, links }: { nodes: Node[]; links: Link[] }) {
                     key={node.id}
                     ref={el => { cardRefs.current[node.id] = el; }}
                     className="relative"
+                    style={{ scrollMarginTop: 100 }}
                   >
                     <div className="absolute -left-4 top-1/2 -translate-y-1/2 w-3 h-px bg-white/15" />
                     <div className="absolute -left-[20.5px] top-1/2 -translate-y-1/2 w-1.5 h-1.5 rounded-full bg-white/25" />
