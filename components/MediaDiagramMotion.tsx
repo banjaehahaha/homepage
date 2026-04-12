@@ -915,14 +915,20 @@ function MobilePortfolio({ nodes, links }: { nodes: Node[]; links: Link[] }) {
     setTimeout(() => setPulsedId(null), 900);
   };
 
-  // 스티키 헤더 높이를 고려한 스크롤
-  const scrollToCard = (nodeId: string) => {
-    const el = cardRefs.current[nodeId];
+  // 스크롤 대상 노드 id (state 변경 후 useEffect에서 스크롤)
+  const [scrollTarget, setScrollTarget] = useState<{ id: string; ts: number } | null>(null);
+
+  useEffect(() => {
+    if (!scrollTarget) return;
+    const el = cardRefs.current[scrollTarget.id];
     if (!el) return;
-    // scroll-margin-top이 CSS로 적용되므로 scrollIntoView가 오프셋을 자동 반영
-    el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    triggerPulse(nodeId);
-  };
+    const rect = el.getBoundingClientRect();
+    const currentScroll = document.body.scrollTop;
+    const stickyOffset = 100;
+    const targetY = currentScroll + rect.top - stickyOffset;
+    document.body.scrollTo({ top: Math.max(0, targetY), behavior: 'auto' });
+    triggerPulse(scrollTarget.id);
+  }, [scrollTarget]);
 
   // 키워드 토글
   const handleKeywordTap = (keyword: string) => {
@@ -934,7 +940,7 @@ function MobilePortfolio({ nodes, links }: { nodes: Node[]; links: Link[] }) {
       setJumpIndex(0);
       const firstMatch = projectNodes.find(n => n.keywords?.includes(keyword));
       if (firstMatch) {
-        setTimeout(() => scrollToCard(firstMatch.id), 150);
+        setScrollTarget({ id: firstMatch.id, ts: Date.now() });
       }
     }
   };
@@ -948,7 +954,7 @@ function MobilePortfolio({ nodes, links }: { nodes: Node[]; links: Link[] }) {
         : Math.max(jumpIndex - 1, 0);
     setJumpIndex(next);
     const nodeId = matchedNodes[next]?.id;
-    if (nodeId) scrollToCard(nodeId);
+    if (nodeId) setScrollTarget({ id: nodeId, ts: Date.now() });
   };
 
   // 연도로 점프
