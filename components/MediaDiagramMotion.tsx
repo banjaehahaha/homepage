@@ -915,20 +915,40 @@ function MobilePortfolio({ nodes, links }: { nodes: Node[]; links: Link[] }) {
     setTimeout(() => setPulsedId(null), 900);
   };
 
-  // 스크롤 대상 노드 id (state 변경 후 useEffect에서 스크롤)
-  const [scrollTarget, setScrollTarget] = useState<{ id: string; ts: number } | null>(null);
+  // 스크롤 실행 함수 (직접 호출, useEffect 불필요)
+  const scrollToNode = (nodeId: string) => {
+    // 다음 프레임에서 실행하여 DOM 업데이트 완료 보장
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        const el = cardRefs.current[nodeId];
+        if (!el) return;
+        const rect = el.getBoundingClientRect();
+        const currentScroll = document.body.scrollTop;
+        const stickyOffset = 110;
+        const targetY = currentScroll + rect.top - stickyOffset;
+        document.body.scrollTo({ top: Math.max(0, targetY), behavior: 'smooth' });
+        triggerPulse(nodeId);
+      });
+    });
+  };
 
-  useEffect(() => {
-    if (!scrollTarget) return;
-    const el = cardRefs.current[scrollTarget.id];
-    if (!el) return;
-    const rect = el.getBoundingClientRect();
-    const currentScroll = document.body.scrollTop;
-    const stickyOffset = 100;
-    const targetY = currentScroll + rect.top - stickyOffset;
-    document.body.scrollTo({ top: Math.max(0, targetY), behavior: 'smooth' });
-    triggerPulse(scrollTarget.id);
-  }, [scrollTarget]);
+  // 현재 화면 위치를 기준으로 가장 가까운 매칭 노드의 인덱스를 찾기
+  const findCurrentMatchIndex = (nodes: Node[]): number => {
+    const stickyOffset = 110;
+    let bestIdx = 0;
+    let bestDist = Infinity;
+    nodes.forEach((node, idx) => {
+      const el = cardRefs.current[node.id];
+      if (!el) return;
+      const rect = el.getBoundingClientRect();
+      const dist = Math.abs(rect.top - stickyOffset);
+      if (dist < bestDist) {
+        bestDist = dist;
+        bestIdx = idx;
+      }
+    });
+    return bestIdx;
+  };
 
   // 키워드 토글
   const handleKeywordTap = (keyword: string) => {
@@ -937,24 +957,24 @@ function MobilePortfolio({ nodes, links }: { nodes: Node[]; links: Link[] }) {
       setJumpIndex(0);
     } else {
       setActiveKeyword(keyword);
+      const matched = projectNodes.filter(n => n.keywords?.includes(keyword));
       setJumpIndex(0);
-      const firstMatch = projectNodes.find(n => n.keywords?.includes(keyword));
-      if (firstMatch) {
-        setScrollTarget({ id: firstMatch.id, ts: Date.now() });
+      if (matched.length > 0) {
+        scrollToNode(matched[0].id);
       }
     }
   };
 
-  // 이전/다음 매칭 작품으로 점프
+  // 이전/다음 매칭 작품으로 점프 — 화면 위치 기반
   const jumpTo = (direction: 'next' | 'prev') => {
     if (matchedNodes.length === 0) return;
-    const next =
-      direction === 'next'
-        ? Math.min(jumpIndex + 1, matchedNodes.length - 1)
-        : Math.max(jumpIndex - 1, 0);
+    // 현재 화면에서 가장 가까운 매칭 노드 찾기
+    const currentIdx = findCurrentMatchIndex(matchedNodes);
+    const next = direction === 'next'
+      ? Math.min(currentIdx + 1, matchedNodes.length - 1)
+      : Math.max(currentIdx - 1, 0);
     setJumpIndex(next);
-    const nodeId = matchedNodes[next]?.id;
-    if (nodeId) setScrollTarget({ id: nodeId, ts: Date.now() });
+    scrollToNode(matchedNodes[next].id);
   };
 
   // 연도로 점프
