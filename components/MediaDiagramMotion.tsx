@@ -915,9 +915,8 @@ function MobilePortfolio({ nodes, links }: { nodes: Node[]; links: Link[] }) {
     setTimeout(() => setPulsedId(null), 900);
   };
 
-  // 스크롤 실행 함수 (직접 호출, useEffect 불필요)
+  // 스크롤 실행 함수
   const scrollToNode = (nodeId: string) => {
-    // 다음 프레임에서 실행하여 DOM 업데이트 완료 보장
     requestAnimationFrame(() => {
       requestAnimationFrame(() => {
         const el = cardRefs.current[nodeId];
@@ -932,47 +931,34 @@ function MobilePortfolio({ nodes, links }: { nodes: Node[]; links: Link[] }) {
     });
   };
 
-  // 현재 화면 위치를 기준으로 가장 가까운 매칭 노드의 인덱스를 찾기
-  const findCurrentMatchIndex = (nodes: Node[]): number => {
-    const stickyOffset = 110;
-    let bestIdx = 0;
-    let bestDist = Infinity;
-    nodes.forEach((node, idx) => {
-      const el = cardRefs.current[node.id];
-      if (!el) return;
-      const rect = el.getBoundingClientRect();
-      const dist = Math.abs(rect.top - stickyOffset);
-      if (dist < bestDist) {
-        bestDist = dist;
-        bestIdx = idx;
-      }
-    });
-    return bestIdx;
-  };
+  // jumpIndex를 ref로도 유지 (state는 카운터 표시용, ref는 즉시 읽기용)
+  const jumpIndexRef = useRef(0);
 
   // 키워드 토글
   const handleKeywordTap = (keyword: string) => {
     if (activeKeyword === keyword) {
       setActiveKeyword(null);
       setJumpIndex(0);
+      jumpIndexRef.current = 0;
     } else {
       setActiveKeyword(keyword);
-      const matched = projectNodes.filter(n => n.keywords?.includes(keyword));
       setJumpIndex(0);
+      jumpIndexRef.current = 0;
+      const matched = projectNodes.filter(n => n.keywords?.includes(keyword));
       if (matched.length > 0) {
         scrollToNode(matched[0].id);
       }
     }
   };
 
-  // 이전/다음 매칭 작품으로 점프 — 화면 위치 기반
+  // 이전/다음 매칭 작품으로 점프 — ref 기반으로 즉시 정확한 index 사용
   const jumpTo = (direction: 'next' | 'prev') => {
     if (matchedNodes.length === 0) return;
-    // 현재 화면에서 가장 가까운 매칭 노드 찾기
-    const currentIdx = findCurrentMatchIndex(matchedNodes);
+    const current = jumpIndexRef.current;
     const next = direction === 'next'
-      ? Math.min(currentIdx + 1, matchedNodes.length - 1)
-      : Math.max(currentIdx - 1, 0);
+      ? Math.min(current + 1, matchedNodes.length - 1)
+      : Math.max(current - 1, 0);
+    jumpIndexRef.current = next;
     setJumpIndex(next);
     scrollToNode(matchedNodes[next].id);
   };
