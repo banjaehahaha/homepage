@@ -915,20 +915,49 @@ function MobilePortfolio({ nodes, links }: { nodes: Node[]; links: Link[] }) {
     setTimeout(() => setPulsedId(null), 900);
   };
 
-  // 스크롤 실행 함수
+  // --- 커스텀 smooth scroll (브라우저 smooth scroll 대신 직접 제어) ---
+  const scrollAnimRef = useRef<number | null>(null);
+
+  const getAbsoluteTop = (el: HTMLElement): number => {
+    let top = 0;
+    let current: HTMLElement | null = el;
+    while (current && current !== document.body) {
+      top += current.offsetTop;
+      current = current.offsetParent as HTMLElement | null;
+    }
+    return top;
+  };
+
+  const animateScrollTo = (targetY: number, duration = 350) => {
+    // 진행 중인 애니메이션 취소
+    if (scrollAnimRef.current) cancelAnimationFrame(scrollAnimRef.current);
+    const start = document.body.scrollTop;
+    const diff = targetY - start;
+    if (Math.abs(diff) < 2) return; // 이미 도착
+    const startTime = performance.now();
+    const step = (now: number) => {
+      const elapsed = now - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      const ease = progress < 0.5
+        ? 2 * progress * progress
+        : -1 + (4 - 2 * progress) * progress; // easeInOutQuad
+      document.body.scrollTop = start + diff * ease;
+      if (progress < 1) {
+        scrollAnimRef.current = requestAnimationFrame(step);
+      } else {
+        scrollAnimRef.current = null;
+      }
+    };
+    scrollAnimRef.current = requestAnimationFrame(step);
+  };
+
   const scrollToNode = (nodeId: string) => {
-    requestAnimationFrame(() => {
-      requestAnimationFrame(() => {
-        const el = cardRefs.current[nodeId];
-        if (!el) return;
-        const rect = el.getBoundingClientRect();
-        const currentScroll = document.body.scrollTop;
-        const stickyOffset = 110;
-        const targetY = currentScroll + rect.top - stickyOffset;
-        document.body.scrollTo({ top: Math.max(0, targetY), behavior: 'smooth' });
-        triggerPulse(nodeId);
-      });
-    });
+    const el = cardRefs.current[nodeId];
+    if (!el) return;
+    const stickyOffset = 110;
+    const absoluteTop = getAbsoluteTop(el);
+    animateScrollTo(Math.max(0, absoluteTop - stickyOffset));
+    triggerPulse(nodeId);
   };
 
   // jumpIndex를 ref로도 유지 (state는 카운터 표시용, ref는 즉시 읽기용)
@@ -946,12 +975,13 @@ function MobilePortfolio({ nodes, links }: { nodes: Node[]; links: Link[] }) {
       jumpIndexRef.current = 0;
       const matched = projectNodes.filter(n => n.keywords?.includes(keyword));
       if (matched.length > 0) {
-        scrollToNode(matched[0].id);
+        // DOM 업데이트 후 스크롤
+        requestAnimationFrame(() => scrollToNode(matched[0].id));
       }
     }
   };
 
-  // 이전/다음 매칭 작품으로 점프 — ref 기반으로 즉시 정확한 index 사용
+  // 이전/다음 매칭 작품으로 점프
   const jumpTo = (direction: 'next' | 'prev') => {
     if (matchedNodes.length === 0) return;
     const current = jumpIndexRef.current;
