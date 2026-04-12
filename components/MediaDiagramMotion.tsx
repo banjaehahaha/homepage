@@ -910,9 +910,15 @@ function MobilePortfolio({ nodes, links }: { nodes: Node[]; links: Link[] }) {
   }, []);
 
   // 3. 점프 시 pulse 효과
+  const pulseTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const triggerPulse = (nodeId: string) => {
-    setPulsedId(nodeId);
-    setTimeout(() => setPulsedId(null), 900);
+    // 이전 pulse 타이머 취소 후 리셋 → 새 pulse 보장
+    if (pulseTimerRef.current) clearTimeout(pulseTimerRef.current);
+    setPulsedId(null);
+    requestAnimationFrame(() => {
+      setPulsedId(nodeId);
+      pulseTimerRef.current = setTimeout(() => setPulsedId(null), 900);
+    });
   };
 
   // --- 커스텀 smooth scroll (브라우저 smooth scroll 대신 직접 제어) ---
