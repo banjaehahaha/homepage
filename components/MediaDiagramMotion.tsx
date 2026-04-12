@@ -926,7 +926,7 @@ function MobilePortfolio({ nodes, links }: { nodes: Node[]; links: Link[] }) {
     const currentScroll = document.body.scrollTop;
     const stickyOffset = 100;
     const targetY = currentScroll + rect.top - stickyOffset;
-    document.body.scrollTo({ top: Math.max(0, targetY), behavior: 'auto' });
+    document.body.scrollTo({ top: Math.max(0, targetY), behavior: 'smooth' });
     triggerPulse(scrollTarget.id);
   }, [scrollTarget]);
 
