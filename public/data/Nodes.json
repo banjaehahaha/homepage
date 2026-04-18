@@ -393,5 +393,95 @@
     "py": 0.1,
     "years": [],
     "keywords": []
+  },
+  {
+    "id": "res-china-border",
+    "type": "research",
+    "label": "China–DPRK Border Fieldwork 🇨🇳",
+    "px": 0.12,
+    "py": 0.45,
+    "years": [],
+    "keywords": []
+  },
+  {
+    "id": "res-sapporo",
+    "type": "research",
+    "label": "Sapporo Residency Research 🇯🇵",
+    "px": 0.88,
+    "py": 0.15,
+    "years": [],
+    "keywords": []
+  },
+  {
+    "id": "res-frankfurt",
+    "type": "research",
+    "label": "Frankfurt Research 🇩🇪",
+    "px": 0.15,
+    "py": 0.15,
+    "years": [],
+    "keywords": []
+  },
+  {
+    "id": "res-dmz-land",
+    "type": "research",
+    "label": "DMZ Land Market Research 🇰🇷",
+    "px": 0.85,
+    "py": 0.75,
+    "years": [],
+    "keywords": []
+  },
+  {
+    "id": "exh-chamber-2025",
+    "type": "exhibition",
+    "label": "From Recent Rumors and Old Traces",
+    "px": 0.12,
+    "py": 0.25,
+    "years": [],
+    "keywords": []
+  },
+  {
+    "id": "exh-ctm-2026",
+    "type": "exhibition",
+    "label": "Echoes of Tumult (CTM Festival)",
+    "px": 0.88,
+    "py": 0.12,
+    "years": [],
+    "keywords": []
+  },
+  {
+    "id": "exh-aoy-2025",
+    "type": "exhibition",
+    "label": "People Buying Land in the DMZ",
+    "px": 0.5,
+    "py": 0.92,
+    "years": [],
+    "keywords": []
+  },
+  {
+    "id": "exh-doosan-2024",
+    "type": "exhibition",
+    "label": "Doosan Art Lab 2024",
+    "px": 0.88,
+    "py": 0.55,
+    "years": [],
+    "keywords": []
+  },
+  {
+    "id": "exh-sema-2024",
+    "type": "exhibition",
+    "label": "The Radiant City, Dark Rapture (SeMA)",
+    "px": 0.15,
+    "py": 0.8,
+    "years": [],
+    "keywords": []
+  },
+  {
+    "id": "exh-scarts-2024",
+    "type": "exhibition",
+    "label": "IMAGINE HOME (SCARTS Sapporo)",
+    "px": 0.85,
+    "py": 0.35,
+    "years": [],
+    "keywords": []
   }
 ]

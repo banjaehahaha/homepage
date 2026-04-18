@@ -1,0 +1,50 @@
+[
+  {
+    "id": "res-china-border",
+    "title_en": "China–DPRK Border Fieldwork",
+    "title_ko": "중국-북한 접경 현지조사",
+    "year": "2025",
+    "location_en": "Tumen, Dandong, China",
+    "location_ko": "도문, 단동, 중국",
+    "description_en": "Field research along the China–North Korea border, investigating the circulation and availability of North Korean goods in border cities. The artist visited Tumen in May 2025 expecting to find North Korean products easily, but discovered none—revealing the gap between expectation and reality at the border.",
+    "description_ko": "중국-북한 접경 지역 현지 조사. 접경 도시에서의 북한 물건 유통과 입수 가능성을 조사했다. 2025년 5월 도문을 방문하여 북한 물건을 찾으려 했으나 하나도 발견하지 못했으며, 이는 접경에서의 기대와 현실 사이의 간극을 드러냈다.",
+    "relatedProjects": ["if-absent", "unexpected-interpolation"],
+    "images": []
+  },
+  {
+    "id": "res-sapporo",
+    "title_en": "Sapporo Residency Research",
+    "title_ko": "삿포로 레지던시 리서치",
+    "year": "2024",
+    "location_en": "Sapporo, Japan",
+    "location_ko": "삿포로, 일본",
+    "description_en": "Research conducted during a residency at Tenjinyama Art Studio and in collaboration with Hokkaido University CoSTEP. Explored how perceptions of North Korea are shaped in Sapporo—a city located on the flight path of North Korean missiles—through interviews and public engagement.",
+    "description_ko": "텐진야마 아트 스튜디오 레지던시와 홋카이도대학 CoSTEP 협력을 통한 리서치. 북한 미사일의 비행 경로에 위치한 삿포로에서 북한에 대한 인식이 어떻게 형성되는지를 인터뷰와 시민 참여를 통해 탐구했다.",
+    "relatedProjects": ["imagine-home"],
+    "images": []
+  },
+  {
+    "id": "res-frankfurt",
+    "title_en": "Frankfurt Research",
+    "title_ko": "프랑크푸르트 리서치",
+    "year": "2022",
+    "location_en": "Frankfurt am Main, Germany",
+    "location_ko": "프랑크푸르트, 독일",
+    "description_en": "Research at Hochschule für Bildende Künste–Städelschule, exploring diaspora and division through sound and performance within a European context.",
+    "description_ko": "슈테델슐레 순수미술아카데미에서의 리서치. 유럽적 맥락에서 디아스포라와 분단을 사운드와 퍼포먼스를 통해 탐구했다.",
+    "relatedProjects": ["publiced-stage", "bleached-stage"],
+    "images": []
+  },
+  {
+    "id": "res-dmz-land",
+    "title_en": "DMZ Land Market Research",
+    "title_ko": "DMZ 토지시장 리서치",
+    "year": "2025",
+    "location_en": "DMZ border areas, South Korea",
+    "location_ko": "DMZ 접경 지역, 대한민국",
+    "description_en": "Investigation into the paradox of DMZ land ownership: land that can be legally owned and traded but cannot be physically accessed or developed. Research involved collecting registry records, market data, and field interviews to reconstruct a dataset of DMZ land transactions.",
+    "description_ko": "DMZ 토지 소유의 역설에 대한 조사: 법적으로 소유하고 매매할 수 있지만 물리적으로 접근하거나 개발할 수 없는 토지. 등기 자료, 시장 데이터, 현장 인터뷰를 수집하여 DMZ 토지 거래 데이터셋을 재구성했다.",
+    "relatedProjects": ["market-settlement"],
+    "images": []
+  }
+]

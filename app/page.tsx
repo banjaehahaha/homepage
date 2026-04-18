@@ -59,7 +59,7 @@ export default function CanvasImageGrid() {
     if (!ctx) return;
 
     const image = new Image();
-    image.src = '/images/home-map.png';
+    image.src = '/images/home-map.webp';
     image.onload = () => {
       const vw = window.innerWidth;
       const vh = window.innerHeight;

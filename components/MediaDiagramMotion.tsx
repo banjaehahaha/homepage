@@ -6,7 +6,11 @@ import { motion } from 'framer-motion';
 import { useRouter, usePathname } from 'next/navigation';
 import ArchivePanel from "@/components/ArchivePanel";
 import CVPanel from "@/components/CVPanel";
+import ResearchPanel from "@/components/ResearchPanel";
+import ExhibitionPanel from "@/components/ExhibitionPanel";
 import { AnimatePresence } from "framer-motion";
+
+type DiagramView = 'media' | 'research' | 'exhibition';
 
 type NodeType = {
   id: string;
@@ -197,25 +201,27 @@ function DiagramNode({
   }
 
   // =============== MEDIA 노드 ===============
-  if (node.type === 'media') {
+  if (node.type === 'media' && visible) {
     const z = zIndexMap[node.id] ?? 0;
     return (
-      <div
+      <motion.div
         key={node.id}
         ref={el => { wrapperRefs.current[node.id] = el; }}
         onPointerDown={e => onPointerDown(e, node)}
         onMouseEnter={() => setHovered(node.id)}
         onMouseLeave={() => setHovered(null)}
         className="absolute z-10"
+        initial={{ opacity: 0 }}
+        animate={{
+          opacity: isOn ? 1 : 0.2,
+          filter: isOn ? 'none' : 'blur(1px)',
+        }}
+        exit={{ opacity: 0 }}
+        transition={{ duration: 0.4 }}
         style={{
           left: cx, top: cy,
           transform: 'translate(-50%,-50%)',
           cursor: 'grab',
-          opacity: isOn ? 1 : 0.2,
-          filter: isOn ? 'none' : 'blur(1px)',
-          transition: isGridAnimating
-            ? 'opacity 0.3s ease, filter 0.3s ease, left 1s ease, top 1s ease'
-            : 'opacity 0.3s ease, filter 0.3s ease',
           userSelect: 'none',
           zIndex: z,
         }}
@@ -223,7 +229,73 @@ function DiagramNode({
         <div className="bg-[#92F90E]/50 text-white px-2 py-1 shadow-lg text-xl select-none">
           [{node.label}]
         </div>
-      </div>
+      </motion.div>
+    );
+  }
+
+  // =============== RESEARCH 노드 ===============
+  if (node.type === 'research' && visible) {
+    const z = zIndexMap[node.id] ?? 0;
+    return (
+      <motion.div
+        key={node.id}
+        ref={el => { wrapperRefs.current[node.id] = el; }}
+        onPointerDown={e => onPointerDown(e, node)}
+        onMouseEnter={() => setHovered(node.id)}
+        onMouseLeave={() => setHovered(null)}
+        className="absolute z-10"
+        initial={{ opacity: 0 }}
+        animate={{
+          opacity: isOn ? 1 : 0.2,
+          filter: isOn ? 'none' : 'blur(1px)',
+        }}
+        exit={{ opacity: 0 }}
+        transition={{ duration: 0.4 }}
+        style={{
+          left: cx, top: cy,
+          transform: 'translate(-50%,-50%)',
+          cursor: 'pointer',
+          userSelect: 'none',
+          zIndex: z,
+        }}
+      >
+        <div className="bg-[#67C8FF]/50 text-white px-2 py-1 shadow-lg text-xl select-none">
+          [{node.label}]
+        </div>
+      </motion.div>
+    );
+  }
+
+  // =============== EXHIBITION 노드 ===============
+  if (node.type === 'exhibition' && visible) {
+    const z = zIndexMap[node.id] ?? 0;
+    return (
+      <motion.div
+        key={node.id}
+        ref={el => { wrapperRefs.current[node.id] = el; }}
+        onPointerDown={e => onPointerDown(e, node)}
+        onMouseEnter={() => setHovered(node.id)}
+        onMouseLeave={() => setHovered(null)}
+        className="absolute z-10"
+        initial={{ opacity: 0 }}
+        animate={{
+          opacity: isOn ? 1 : 0.2,
+          filter: isOn ? 'none' : 'blur(1px)',
+        }}
+        exit={{ opacity: 0 }}
+        transition={{ duration: 0.4 }}
+        style={{
+          left: cx, top: cy,
+          transform: 'translate(-50%,-50%)',
+          cursor: 'pointer',
+          userSelect: 'none',
+          zIndex: z,
+        }}
+      >
+        <div className="bg-[#C084FC]/50 text-white px-2 py-1 shadow-lg text-xl select-none">
+          [{node.label}]
+        </div>
+      </motion.div>
     );
   }
 
@@ -235,7 +307,7 @@ function DiagramNode({
 
 interface Node {
   id: string;
-  type: 'media' | 'project'| 'upcoming';
+  type: 'media' | 'project'| 'upcoming' | 'research' | 'exhibition';
   label: string;
   px: number; py: number;
   years: number[];
@@ -256,9 +328,23 @@ export default function MediaDiagram() {
 
   const [showArchive, setShowArchive] = useState(false);
   const [showCV, setShowCV] = useState(false);
+  const [showResearch, setShowResearch] = useState<string | null>(null);
+  const [showExhibition, setShowExhibition] = useState<string | null>(null);
+
+  const [activeView, setActiveView] = useState<DiagramView>('media');
 
   const [nodes, setNodes] = useState<Node[]>([]);
-  const [links, setLinks] = useState<Link[]>([]);
+  const [mediaLinks, setMediaLinks] = useState<Link[]>([]);
+  const [researchLinks, setResearchLinks] = useState<Link[]>([]);
+  const [exhibitionLinks, setExhibitionLinks] = useState<Link[]>([]);
+
+  const activeLinks = useMemo(() => {
+    switch (activeView) {
+      case 'media': return mediaLinks;
+      case 'research': return researchLinks;
+      case 'exhibition': return exhibitionLinks;
+    }
+  }, [activeView, mediaLinks, researchLinks, exhibitionLinks]);
 
   const [modalNode, setModalNode] = useState<string|null>(null)
 
@@ -304,12 +390,17 @@ export default function MediaDiagram() {
   }, [nodes]);
   const [selected, setSelected] = useState<Set<string>>(new Set());
   const isVisible = (n: Node) => {
-    if (n.type === 'media') return true;
-    if (selected.size === 0) return true;
-    return Array.from(selected).every(k =>
-        n.keywords?.includes(k)
-      );
+    // project + upcoming 노드: 키워드 필터 적용 (모든 뷰에서 동일)
+    if (n.type === 'project' || n.type === 'upcoming') {
+      if (selected.size === 0) return true;
+      return Array.from(selected).every(k => n.keywords?.includes(k));
+    }
+    // 주변 노드: 해당 뷰에서만 표시
+    const peripheralMap: Record<DiagramView, string> = {
+      media: 'media', research: 'research', exhibition: 'exhibition',
     };
+    return n.type === peripheralMap[activeView];
+  };
   
 
         // 1) year(가장 이른 연도) 뽑고 sort
@@ -406,9 +497,13 @@ export default function MediaDiagram() {
     Promise.all([
         fetch('/data/Nodes.json').then(r=>r.json()),
         fetch('/data/links.json').then(r=>r.json()),
+        fetch('/data/researchLinks.json').then(r=>r.json()),
+        fetch('/data/exhibitionLinks.json').then(r=>r.json()),
         fetch('/data/projects.json').then(r => r.json()),
-      ]).then(([N, L, P]) => {
-        setLinks(L);
+      ]).then(([N, ML, RL, EL, P]) => {
+        setMediaLinks(ML);
+        setResearchLinks(RL);
+        setExhibitionLinks(EL);
 
             // id로 매핑
           const projectMediaMap: Record<string, string[]> = {};
@@ -435,13 +530,13 @@ export default function MediaDiagram() {
     const s = new Set<string>();
     if (hovered) {
       s.add(hovered);
-      links.forEach(l=>{
+      activeLinks.forEach(l=>{
         if(l.source===hovered) s.add(l.target);
         if(l.target===hovered) s.add(l.source);
       });
     }
     return s;
-  },[hovered,links]);
+  },[hovered,activeLinks]);
 
   // 드래그 핸들러
   
@@ -481,6 +576,10 @@ export default function MediaDiagram() {
         router.push(`/projects/${node.id}`);
       } else if (node.type === 'upcoming') {
         setModalNode(node.id);
+      } else if (node.type === 'research') {
+        setShowResearch(node.id);
+      } else if (node.type === 'exhibition') {
+        setShowExhibition(node.id);
       }
       // (media 타입은 클릭 동작 없음)
     }
@@ -535,6 +634,18 @@ export default function MediaDiagram() {
     setIsYearGrid(prev => !prev);
   };
 
+  const switchView = (view: DiagramView) => {
+    if (view === activeView) return;
+    // year grid 리셋
+    if (isYearGrid) {
+      setIsGridAnimating(true);
+      resetToDefault();
+      setTimeout(() => setIsGridAnimating(false), 1000);
+      setIsYearGrid(false);
+    }
+    setActiveView(view);
+  };
+
 const isMobile = useMediaQuery("(max-width: 768px)");
 
 useEffect(() => {
@@ -551,7 +662,7 @@ useEffect(() => {
 }, [isMobile]);
 
 if (isMobile) {
-  return <MobilePortfolio nodes={nodes} links={links} />;
+  return <MobilePortfolio nodes={nodes} links={activeLinks} activeView={activeView} switchView={switchView} />;
 }
 
   return (
@@ -570,6 +681,27 @@ if (isMobile) {
     <div ref={panelRef} className="absolute top-4 left-4">
       {/* ─── 실제 필터 박스 ─────────────────────────── */}
       <div className="bg-black/50 p-3 rounded text-white space-y-3 w-max">
+        {/* ─── 뷰 전환 버튼 ─────────────────────────── */}
+        <div className="flex gap-1 mb-3">
+          {(['media', 'research', 'exhibition'] as DiagramView[]).map(v => (
+            <button
+              key={v}
+              onClick={() => switchView(v)}
+              className={`px-2 py-1 text-sm rounded transition-colors ${
+                activeView === v
+                  ? v === 'research' ? 'bg-[#67C8FF] text-black font-bold'
+                  : v === 'exhibition' ? 'bg-[#C084FC] text-black font-bold'
+                  : 'bg-[#92F90E] text-black font-bold'
+                  : 'bg-white/10 text-white/60 hover:bg-white/20'
+              }`}
+              style={{ cursor: 'pointer' }}
+            >
+              {v === 'media' ? 'Media' : v === 'research' ? 'Research' : 'Exhibition'}
+            </button>
+          ))}
+        </div>
+
+        {/* ─── 키워드 필터 ─────────── */}
         <h4 className="mb-2 font-semibold">Keywords</h4>
         {allKeywords.map(k => (
           <label key={k} className="flex items-center space-x-2">
@@ -661,7 +793,7 @@ if (isMobile) {
       {/* SVG 링크 */}
       <svg className="absolute inset-0 pointer-events-none"
            viewBox={`0 0 ${dims.width} ${dims.height}`}>
-        {links.map((l,i)=>{
+        {activeLinks.map((l,i)=>{
           const aEl = imageRefs.current[l.source];
           const bEl = imageRefs.current[l.target];
           const srcNode = nodes.find(n => n.id === l.source)!;
@@ -697,7 +829,9 @@ if (isMobile) {
                     duration: isGridAnimating ? 1 : 0,
                     ease: isGridAnimating ? 'easeOut' : 'linear',
                   }}
-                stroke={hilite ? '#92F90E' : '#888888'}
+                stroke={hilite
+                  ? (activeView === 'research' ? '#67C8FF' : activeView === 'exhibition' ? '#C084FC' : '#92F90E')
+                  : '#888888'}
                 strokeWidth={1}
                 strokeDasharray={hilite ? '' : '4 2'}
                 />
@@ -796,17 +930,32 @@ if (isMobile) {
         </div>
       )}
 
+      {/* Research 패널 */}
+      <AnimatePresence>
+        {showResearch && (
+          <ResearchPanel
+            id={showResearch}
+            onClose={() => setShowResearch(null)}
+          />
+        )}
+      </AnimatePresence>
 
-
+      {/* Exhibition 패널 */}
+      <AnimatePresence>
+        {showExhibition && (
+          <ExhibitionPanel
+            id={showExhibition}
+            onClose={() => setShowExhibition(null)}
+          />
+        )}
+      </AnimatePresence>
 
     </div>
   );
 }
 
 
-
-
-function MobilePortfolio({ nodes, links }: { nodes: Node[]; links: Link[] }) {
+function MobilePortfolio({ nodes, links, activeView, switchView }: { nodes: Node[]; links: Link[]; activeView: DiagramView; switchView: (v: DiagramView) => void }) {
   const [activeKeyword, setActiveKeyword] = useState<string | null>(null);
   const [jumpIndex, setJumpIndex] = useState(0);
   const [pulsedId, setPulsedId] = useState<string | null>(null);
@@ -847,14 +996,15 @@ function MobilePortfolio({ nodes, links }: { nodes: Node[]; links: Link[] }) {
       .map(([year, items]) => ({ year: Number(year), items }));
   }, [projectNodes]);
 
-  // links → 매체 라벨 매핑
+  // links → 라벨 매핑 (뷰별)
   const nodeMediaLabels = useMemo(() => {
-    const mediaMap: Record<string, string> = {};
-    nodes.filter(n => n.type === 'media').forEach(n => { mediaMap[n.id] = n.label; });
+    const peripheralTypes = ['media', 'research', 'exhibition'];
+    const labelMap: Record<string, string> = {};
+    nodes.filter(n => peripheralTypes.includes(n.type)).forEach(n => { labelMap[n.id] = n.label; });
     const result: Record<string, string[]> = {};
     links.forEach(l => {
       if (!result[l.source]) result[l.source] = [];
-      if (mediaMap[l.target]) result[l.source].push(mediaMap[l.target]);
+      if (labelMap[l.target]) result[l.source].push(labelMap[l.target]);
     });
     return result;
   }, [nodes, links]);
@@ -1034,8 +1184,26 @@ function MobilePortfolio({ nodes, links }: { nodes: Node[]; links: Link[] }) {
     <div className="min-h-screen bg-[#1a1a1a]">
       {/* ── Sticky 바 ────────────────────────── */}
       <div className="sticky top-0 z-30 bg-[#1a1a1a]/95 backdrop-blur-sm border-b border-white/10">
+        {/* 뷰 전환 버튼 */}
+        <div className="flex gap-1 px-4 pt-3 pb-1">
+          {(['media', 'research', 'exhibition'] as DiagramView[]).map(v => (
+            <button
+              key={v}
+              onClick={() => switchView(v)}
+              className={`px-3 py-1 text-xs rounded-full transition-colors ${
+                activeView === v
+                  ? v === 'research' ? 'bg-[#67C8FF] text-black font-bold'
+                  : v === 'exhibition' ? 'bg-[#C084FC] text-black font-bold'
+                  : 'bg-[#92F90E] text-black font-bold'
+                  : 'bg-white/10 text-white/60'
+              }`}
+            >
+              {v === 'media' ? 'Media' : v === 'research' ? 'Research' : 'Exhibition'}
+            </button>
+          ))}
+        </div>
         {/* 키워드 row — 5. 우측 페이드 힌트 */}
-        <div className="px-4 pt-3 pb-2 relative">
+        <div className="px-4 pt-1 pb-2 relative">
           <div className="flex gap-2 overflow-x-auto pb-1" style={{ scrollbarWidth: 'none' }}>
             {activeKeyword && (
               <button

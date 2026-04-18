@@ -1,0 +1,8 @@
+[
+  { "source": "if-absent", "target": "res-china-border" },
+  { "source": "unexpected-interpolation", "target": "res-china-border" },
+  { "source": "imagine-home", "target": "res-sapporo" },
+  { "source": "publiced-stage", "target": "res-frankfurt" },
+  { "source": "bleached-stage", "target": "res-frankfurt" },
+  { "source": "market-settlement", "target": "res-dmz-land" }
+]
