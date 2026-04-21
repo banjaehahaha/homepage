@@ -1,36 +1,39 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Jaeha Ban — Portfolio
 
-## Getting Started
+반재하의 포트폴리오 웹사이트. 퍼포먼스, 설치, 연구 작업을 소개하는 인터랙티브 아카이브.
 
-First, run the development server:
+## 기술 스택
+
+- Next.js 15 (App Router, Turbopack)
+- React 19, TypeScript
+- Tailwind CSS v4
+- Framer Motion
+- Vercel Analytics
+
+## 시작하기
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+yarn dev      # 개발 서버 (localhost:3000)
+yarn build    # 프로덕션 빌드
+yarn lint     # ESLint
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 주요 기능
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- **홈 캔버스** — 북한 접경 지역 지도 위 인터랙티브 핀 (영상 팝업)
+- **다이어그램 뷰** (`/diagram`) — 프로젝트·연구·전시를 노드로 연결한 네트워크 시각화
+- **CV / 아카이브** — 전시 이력, 보도자료, 인터뷰
+- **이중언어** — 전체 콘텐츠 한국어/영어 전환 지원
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 콘텐츠 수정
 
-## Learn More
+모든 콘텐츠는 `public/data/`의 JSON 파일로 관리됩니다.
 
-To learn more about Next.js, take a look at the following resources:
+| 파일 | 내용 |
+|---|---|
+| `projects.json` | 작업 상세 (제목, 설명, 미디어) |
+| `Nodes.json` | 다이어그램 노드 위치·연결 정보 |
+| `exhibitions.json` | 전시 정보 |
+| `research.json` | 연구 프로젝트 |
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+CV와 아카이브 목록은 `components/cvList.ts`, `components/archiveList.ts`에서 수정합니다.
