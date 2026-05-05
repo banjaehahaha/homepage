@@ -683,7 +683,7 @@ if (isMobile) {
       <div className="bg-black/50 p-3 rounded text-white space-y-3 w-max">
         {/* ─── 뷰 전환 버튼 ─────────────────────────── */}
         <div className="flex gap-1 mb-3">
-          {(['media', 'research', 'exhibition'] as DiagramView[]).map(v => (
+          {(['media'] as DiagramView[]).map(v => (
             <button
               key={v}
               onClick={() => switchView(v)}
@@ -1186,7 +1186,7 @@ function MobilePortfolio({ nodes, links, activeView, switchView }: { nodes: Node
       <div className="sticky top-0 z-30 bg-[#1a1a1a]/95 backdrop-blur-sm border-b border-white/10">
         {/* 뷰 전환 버튼 */}
         <div className="flex gap-1 px-4 pt-3 pb-1">
-          {(['media', 'research', 'exhibition'] as DiagramView[]).map(v => (
+          {(['media'] as DiagramView[]).map(v => (
             <button
               key={v}
               onClick={() => switchView(v)}
