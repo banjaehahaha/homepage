@@ -405,7 +405,8 @@ export default function MediaDiagram() {
 
         // 1) year(가장 이른 연도) 뽑고 sort
     const sortedByYear = useMemo(() => {
-        return [...nodes]
+        return nodes
+        .filter(n => n.type === 'project')
         .map(n => ({ ...n, year: Math.max(...n.years) }))
         .sort((a, b) => b.year - a.year || (b.order ?? 0) - (a.order ?? 0));
     }, [nodes]);
